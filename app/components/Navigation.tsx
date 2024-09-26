@@ -24,32 +24,34 @@ const Navigation: React.FC = () => {
             pathname == "/home" ? "font-extrabold mr-3" : "mr-3 hover:text-4xl"
           }
         >
-          <Link href="/">Home</Link>
+          <Link href="/home">Home</Link>
         </li>
         <li
           className={
-            pathname == "/about" ? "font-extrabold mr-3" : "mr-3 hover:text-4xl"
-          }
-        >
-          <Link href="/artists">Artists</Link>
-        </li>
-        <li
-          className={
-            pathname == "/contact"
+            pathname == "/home/artists"
               ? "font-extrabold mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
-          <Link href="/mersh">Mersh</Link>
+          <Link href="/home/artists">Artists</Link>
         </li>
         <li
           className={
-            pathname == "/contact"
+            pathname == "/home/mersh"
               ? "font-extrabold mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
-          <Link href="/contact">Contact</Link>
+          <Link href="/home/mersh">Mersh</Link>
+        </li>
+        <li
+          className={
+            pathname == "/home/contact"
+              ? "font-extrabold mr-3"
+              : "mr-3 hover:text-4xl"
+          }
+        >
+          <Link href="/home/contact">Contact</Link>
         </li>
       </ul>
     </nav>
