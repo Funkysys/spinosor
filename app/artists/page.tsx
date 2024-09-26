@@ -6,11 +6,11 @@ interface Artist {
   genre: string;
 }
 
-interface ArtistsPageProps {
-  artists: Artist[];
-}
+// interface ArtistsPageProps {
+//   artists: Artist[];
+// }
 
-const ArtistsPage: React.FC<ArtistsPageProps> = ({ artists }) => {
+const ArtistsPage = () => {
   return (
     <div>
       <Head>
@@ -18,11 +18,11 @@ const ArtistsPage: React.FC<ArtistsPageProps> = ({ artists }) => {
       </Head>
       <h1>Artists</h1>
       <ul>
-        {artists?.map((artist) => (
+        {/* {artists?.map((artist) => (
           <li key={artist.id}>
             {artist.name} - {artist.genre}
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
