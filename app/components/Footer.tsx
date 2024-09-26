@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
   console.log(pathname);
 
   return (
-    <footer className="fixed bottom-0 px-4 py-5 w-[100vw] bg-black border-t-2 border-t-red-800">
+    <footer className="fixed bottom-0 px-4 py-5 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
