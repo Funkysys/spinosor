@@ -8,20 +8,22 @@ const Navigation: React.FC = () => {
   console.log(pathname);
 
   return (
-    <nav className="w-full flex justify-center items-center border-b-2 py-4 border-b-red-800">
+    <nav className="w-full flex justify-center items-center border-b-2 py-4 border-b-red-800 mb-10">
       <div className="pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
         <Image
           src="/assets/images/logo.svg"
           alt="Spinosor Records logo"
           onClick={() => router.push("/")}
-          width={125}
-          height={125}
+          width={135}
+          height={135}
         />
       </div>
       <ul className="flex px-4 text-3xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
         <li
           className={
-            pathname == "/home" ? "font-extrabold mr-3" : "mr-3 hover:text-4xl"
+            pathname == "/home"
+              ? "font-extrabold hover:text-4xl mr-3"
+              : "mr-3 hover:text-4xl"
           }
         >
           <Link href="/home">Home</Link>
@@ -29,7 +31,7 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/artists"
-              ? "font-extrabold mr-3"
+              ? "font-extrabold hover:text-4xl mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
@@ -38,16 +40,16 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/events"
-              ? "font-extrabold mr-3"
+              ? "font-extrabold hover:text-4xl mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
-          <Link href="/home/artists">Events</Link>
+          <Link href="/home/events">Events</Link>
         </li>
         <li
           className={
             pathname == "/home/mersh"
-              ? "font-extrabold mr-3"
+              ? "font-extrabold hover:text-4xl mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
@@ -56,7 +58,7 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/contact"
-              ? "font-extrabold mr-3"
+              ? "font-extrabold hover:text-4xl mr-3"
               : "mr-3 hover:text-4xl"
           }
         >
