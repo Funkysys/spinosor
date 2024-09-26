@@ -8,7 +8,7 @@ const Navigation: React.FC = () => {
   console.log(pathname);
 
   return (
-    <nav className="w-full flex justify-center items-center border-b-2 py-4 border-b-red-800 mb-10">
+    <nav className="w-full flex justify-center items-center border-b-2 py-4 border-b-red-800  bg-black text-slate-50">
       <div className="pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
         <Image
           src="/assets/images/logo.svg"

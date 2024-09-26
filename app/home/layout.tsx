@@ -8,10 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="bg-black text-slate-50 min-h-[100vh] w-[100vw]">
+    <>
       <Navigation />
-      <>{children}</>
+      <main className="bg-black text-slate-50 min-h-[100vh] w-[100vw] pt-10 px-[10vw]">
+        {children}
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

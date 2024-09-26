@@ -12,7 +12,7 @@ interface Artist {
 
 const ArtistsPage = () => {
   return (
-    <section className="w-[80vw] m-auto mb-[11vh]">
+    <section className="w-[80vw] mb-[11vh]">
       <Head>
         <title>Artists</title>
       </Head>
