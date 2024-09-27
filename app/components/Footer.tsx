@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
   console.log(pathname);
 
   return (
-    <footer className="fixed bottom-0 px-4 py-5 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
+    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
@@ -17,52 +17,49 @@ const Footer: React.FC = () => {
               src="/assets/images/logo.svg"
               alt="Spinosor Records logo"
               onClick={() => router.push("/")}
-              width={135}
-              height={135}
+              width={80}
+              height={80}
             />
           </div>
-          <ul className="flex flex-col px-4 animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
+          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
             <li
-              className={
-                pathname == "/home"
-                  ? "font-extrabold hover:text-xl mr-3"
-                  : "mr-3 hover:text-xl"
-              }
+              className={pathname == "/home" ? "font-extrabold  mr-3" : "mr-3 "}
             >
               <Link href="/home">Home</Link>
             </li>
             <li
               className={
-                pathname == "/home/artists"
-                  ? "font-extrabold hover:text-xl mr-3"
-                  : "mr-3 hover:text-xl"
+                pathname == "/home/artists" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
               <Link href="/home/artists">Artists</Link>
             </li>
             <li
               className={
-                pathname == "/home/events"
-                  ? "font-extrabold hover:text-xl mr-3"
-                  : "mr-3 hover:text-xl"
+                pathname == "/home/events" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
               <Link href="/home/events">Events</Link>
             </li>
+          </ul>
+          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
             <li
               className={
-                pathname == "/home/mersh"
-                  ? "font-extrabold hover:text-xl mr-3"
-                  : "mr-3 hover:text-xl"
+                pathname == "/home/mersh" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
               <Link href="/home/mersh">Mersh</Link>
             </li>
             <li
               className={
-                pathname == "/home/contact"
-                  ? "font-extrabold hover:text-xl mr-3"
-                  : "mr-3 hover:text-xl"
+                pathname == "/home/about" ? "font-extrabold  mr-3" : "mr-3 "
+              }
+            >
+              <Link href="/home/about">About</Link>
+            </li>
+            <li
+              className={
+                pathname == "/home/contact" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
               <Link href="/home/contact">Contact</Link>

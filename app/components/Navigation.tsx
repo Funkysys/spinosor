@@ -18,12 +18,12 @@ const Navigation: React.FC = () => {
           height={135}
         />
       </div>
-      <ul className="flex px-4 text-3xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
+      <ul className="flex px-4 text-2xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
         <li
           className={
             pathname == "/home"
-              ? "font-extrabold hover:text-4xl mr-3"
-              : "mr-3 hover:text-4xl"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
           }
         >
           <Link href="/home">Home</Link>
@@ -31,8 +31,8 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/artists"
-              ? "font-extrabold hover:text-4xl mr-3"
-              : "mr-3 hover:text-4xl"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
           }
         >
           <Link href="/home/artists">Artists</Link>
@@ -40,8 +40,8 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/events"
-              ? "font-extrabold hover:text-4xl mr-3"
-              : "mr-3 hover:text-4xl"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
           }
         >
           <Link href="/home/events">Events</Link>
@@ -49,17 +49,26 @@ const Navigation: React.FC = () => {
         <li
           className={
             pathname == "/home/mersh"
-              ? "font-extrabold hover:text-4xl mr-3"
-              : "mr-3 hover:text-4xl"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
           }
         >
           <Link href="/home/mersh">Mersh</Link>
         </li>
         <li
           className={
+            pathname == "/home/about"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
+          }
+        >
+          <Link href="/home/about">About</Link>
+        </li>
+        <li
+          className={
             pathname == "/home/contact"
-              ? "font-extrabold hover:text-4xl mr-3"
-              : "mr-3 hover:text-4xl"
+              ? "font-extrabold hover:text-3xl mr-3"
+              : "mr-3 hover:text-3xl"
           }
         >
           <Link href="/home/contact">Contact</Link>
