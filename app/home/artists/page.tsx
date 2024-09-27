@@ -37,6 +37,41 @@ const ArtistsPage = () => {
         "This is a description for Artist Three. This is a description for Artist Three. This is a description for Artist Three. This is a description for Artist Three.",
       imageUrl: "/assets/images/artist_test.jpg",
     },
+    {
+      id: 4,
+      name: "Artist Four",
+      genre: "Hip Hop",
+      description: "This is a description for Artist Four.",
+      imageUrl: "/assets/images/artist_test.jpg",
+    },
+    {
+      id: 5,
+      name: "Artist Five",
+      genre: "Blues",
+      description: "This is a description for Artist Five.",
+      imageUrl: "/assets/images/artist_test.jpg",
+    },
+    {
+      id: 6,
+      name: "Artist Six",
+      genre: "Country",
+      description: "This is a description for Artist Six.",
+      imageUrl: "/assets/images/artist_test.jpg",
+    },
+    {
+      id: 7,
+      name: "Artist Seven",
+      genre: "Folk",
+      description: "This is a description for Artist Seven.",
+      imageUrl: "/assets/images/artist_test.jpg",
+    },
+    {
+      id: 8,
+      name: "Artist Eight",
+      genre: "Classical",
+      description: "This is a description for Artist Eight.",
+      imageUrl: "/assets/images/artist_test.jpg",
+    },
   ];
   return (
     <section className="w-[80vw] mb-[11vh]">
