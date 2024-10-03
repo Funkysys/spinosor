@@ -1,6 +1,4 @@
-import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import DiscordProvider from "next-auth/providers/discord";
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
