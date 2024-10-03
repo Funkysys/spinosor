@@ -1,11 +1,12 @@
 "use client";
 
+import Banner from "@/components/banner";
+
 const HomePage: React.FC = () => {
   return (
     <>
       <section>
-        <h1>Welcome to the Home Page</h1>
-        <p>This is the home page of your application.</p>
+        <Banner />
       </section>
     </>
   );
