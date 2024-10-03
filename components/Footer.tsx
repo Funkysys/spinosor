@@ -11,8 +11,8 @@ const Footer: React.FC = () => {
   console.log(pathname);
 
   return (
-    <footer className=" bottom-0 px-4 py-3 bg-black border-t-2 border-t-red-800 text-slate-50">
-      <div className="flex justify-between items-center">
+    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
+      <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
             <Image
@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
             </li>
           </ul>
         </div>
-        <p className="absolute right-4">
+        <p className="md:absolute text-sm mt-3 md:mt-0 right-4">
           &copy; {new Date().getFullYear()} Spinosor Records. All rights
           reserved.
         </p>

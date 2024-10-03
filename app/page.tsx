@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-black animate-fade-up animate-once animate-duration-[1500ms] animate-ease-in-out overflow-hidden">
-      <h1 className="mb-10 text-slate-100 font-bold text-center font-sans text-6xl animate-fade-left animate-once animate-duration-[3000ms] animate-ease-in-out">
+      <h1 className="mb-10 text-slate-100 font-bold text-center font-sans text-3xl md:text-4xl lg:text-5xl animate-fade-left animate-once animate-duration-[3000ms] animate-ease-in-out">
         Welcome on Spinosor Records
       </h1>
       <button
