@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Login from "./Login";
 
 const Navigation: React.FC = () => {
   const pathname = usePathname();
@@ -76,6 +77,7 @@ const Navigation: React.FC = () => {
           <Link href="/home/contact">Contact</Link>
         </li>
       </ul>
+      <Login />
     </nav>
   );
 };

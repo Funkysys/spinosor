@@ -1,5 +1,5 @@
-import Card from "@/app/components/Card";
-import CardContainer from "@/app/components/CardContainer";
+import Card from "@/components/Card";
+import CardContainer from "@/components/CardContainer";
 
 interface Artist {
   id: number;
@@ -74,7 +74,7 @@ const ArtistsPage = () => {
     },
   ];
   return (
-    <section className="w-[80vw] mb-[11vh]">
+    <div>
       <CardContainer>
         {artists.map((artist) => (
           <Card
@@ -86,7 +86,7 @@ const ArtistsPage = () => {
           />
         ))}
       </CardContainer>
-    </section>
+    </div>
   );
 };
 

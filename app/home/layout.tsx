@@ -1,5 +1,5 @@
-import Footer from "../components/Footer";
-import Navigation from "../components/Navigation";
+import Footer from "../../components/Footer";
+import Navigation from "../../components/Navigation";
 
 export default function RootLayout({
   children,
@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <Navigation />
-      <main className="bg-black text-slate-50 min-h-[100vh] w-[100vw] pt-10 px-[10vw]">
+      <main className="bg-black text-slate-50 min-h-[100vh]  ">
         {" "}
         {children}
       </main>
