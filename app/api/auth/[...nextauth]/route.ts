@@ -1,10 +1,7 @@
 import prisma from "@/lib/connect";
-import { NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiResponse,
-  res: NextApiResponse
-) {
+export async function GET(req: NextRequest) {
   const users = await prisma.user.findMany();
-  res.json(users);
+  return NextResponse.json(users);
 }
