@@ -32,7 +32,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="relative w-full h-[400px] md:h-[600px] xl:h-[800px]">
+    <div className="relative w-full h-[400px] md:h-[600px] lg:h-[700px] xl:h-[800px]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
