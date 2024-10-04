@@ -8,7 +8,6 @@ import React from "react";
 const Footer: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  console.log(pathname);
 
   return (
     <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">

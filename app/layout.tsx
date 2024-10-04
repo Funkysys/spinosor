@@ -1,3 +1,6 @@
+import AuthProvider from "@/providers/auth-provider";
+import QueryProvider from "@/providers/query-provider";
+import ThemeProviders from "@/providers/ThemeProviders";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -16,7 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-black">
-      <body className={inter.className}>{children}</body>
+      <QueryProvider>
+        <AuthProvider>
+          <ThemeProviders>
+            <body className={inter.className}>{children}</body>
+          </ThemeProviders>
+        </AuthProvider>
+      </QueryProvider>
     </html>
   );
 }

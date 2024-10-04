@@ -1,13 +1,29 @@
 "use client";
 
+import { User } from "@/types";
+import axios from "axios";
 import { Mail } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const Login = () => {
+  const [user, setUser] = useState<User>();
+
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === "authenticated" && !user) {
+      const fetchUser = async () => {
+        const { data } = await axios.get(`/api/user/${session?.user?.email}`);
+        setUser(data);
+      };
+      fetchUser();
+    }
+  }, [status, session, user]);
   const onLogin = (provider: string) => () => {
     signIn(provider, { callbackUrl: "/" });
   };
-  return (
+  return !session ? (
     <button
       onClick={onLogin("google")}
       className="flex justify-center items-center md:absolute mt-3 md:mt-0 right-6 top-12 border px-3 py-2 rounded-lg text-red-600 hover:text-red-800 hover:bg-slate-300  animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out"
@@ -15,6 +31,25 @@ const Login = () => {
       <Mail className="mr-3" />
       Sign In
     </button>
+  ) : (
+    <div className="flex md:flex-col justify-center items-center text-sm md:absolute mt-3 md:mt-0 md:right-6 md:top-6">
+      {session?.user?.image && (
+        <Image
+          className="md:w-12 md:h-12 w-8 h-8 mr-3 rounded-full border-2 border-gray-400 "
+          alt="profile picture"
+          src={session?.user?.image || ""}
+          width={48}
+          height={48}
+        />
+      )}
+
+      <button
+        onClick={() => signOut()}
+        className="mt-2 border-2 px-2 py-1 rounded-md hover:bg-red-800"
+      >
+        Deconnexion
+      </button>
+    </div>
   );
 };
 export default Login;
