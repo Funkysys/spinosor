@@ -21,7 +21,7 @@ const Login = () => {
     }
   }, [status, session, user]);
   const onLogin = (provider: string) => () => {
-    signIn(provider, { callbackUrl: "/" });
+    signIn(provider, { callbackUrl: "/home" });
   };
   return !session ? (
     <button
@@ -44,7 +44,7 @@ const Login = () => {
       )}
 
       <button
-        onClick={() => signOut()}
+        onClick={() => signOut({ callbackUrl: "/home" })}
         className="mt-2 border-2 px-2 py-1 rounded-md hover:bg-red-800"
       >
         Deconnexion
