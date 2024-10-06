@@ -37,7 +37,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4">
+    <div className="bg-white shadow-lg rounded-lg p-4 flex flex-col justify-around items-center">
       {/* Image du produit */}
       <Image
         src={selectedColor.imageUrl}
@@ -46,28 +46,29 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
         height={300}
         className="rounded-lg"
       />
+      <div>
+        {/* Infos sur le produit */}
+        <h3 className="text-2xl font-bold mt-4">{product.name}</h3>
+        <p className="text-gray-700 mt-2">{product.description}</p>
+        <p className="text-red-800 font-bold mt-4">${product.price}</p>
 
-      {/* Infos sur le produit */}
-      <h3 className="text-2xl font-bold mt-4">{product.name}</h3>
-      <p className="text-gray-700 mt-2">{product.description}</p>
-      <p className="text-red-800 font-bold mt-4">${product.price}</p>
-
-      {/* Sélection des couleurs */}
-      <div className="mt-4">
-        <h4 className="font-bold">Couleurs :</h4>
-        <div className="flex space-x-2">
-          {product.colors.map((colorOption) => (
-            <button
-              key={colorOption.color}
-              onClick={() => setSelectedColor(colorOption)}
-              className={`w-6 h-6 rounded-full ${
-                selectedColor.color === colorOption.color
-                  ? "ring-2 ring-red-800"
-                  : ""
-              }`}
-              style={{ backgroundColor: colorOption.color.toLowerCase() }}
-            />
-          ))}
+        {/* Sélection des couleurs */}
+        <div className="mt-4">
+          <h4 className="font-bold">Couleurs :</h4>
+          <div className="flex space-x-2">
+            {product.colors.map((colorOption) => (
+              <button
+                key={colorOption.color}
+                onClick={() => setSelectedColor(colorOption)}
+                className={`w-6 h-6 rounded-full ${
+                  selectedColor.color === colorOption.color
+                    ? "ring-2 ring-red-800"
+                    : ""
+                }`}
+                style={{ backgroundColor: colorOption.color.toLowerCase() }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

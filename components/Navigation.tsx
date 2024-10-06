@@ -105,7 +105,7 @@ const Navbar = () => {
         </li>
         {/* Lien vers le panier avec une icône */}
         <li className="ml-5">
-          <Link href="/cart">
+          <Link href="/home/cart">
             <FaShoppingCart className="text-3xl hover:text-red-800 transition-colors" />
           </Link>
         </li>
@@ -149,7 +149,7 @@ const Navbar = () => {
         </li>
         {/* Lien vers le panier pour petits écrans */}
         <li className="mt-4">
-          <Link href="/cart" onClick={toggleMenu}>
+          <Link href="/home/cart" onClick={toggleMenu}>
             <FaShoppingCart className="text-3xl" />
           </Link>
         </li>

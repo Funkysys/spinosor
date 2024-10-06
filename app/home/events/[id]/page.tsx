@@ -25,21 +25,21 @@ const EventPage = () => {
       name: "Concert Rock",
       date: "2024-12-01",
       description: "A thrilling rock concert with famous bands.",
-      image: "/assets/images/concert-rock.jpg",
+      image: "/assets/images/artist_test.jpg",
     },
     {
       id: 2,
       name: "Festival Jazz",
       date: "2024-11-15",
       description: "Experience the best jazz music in town.",
-      image: "/assets/images/festival-jazz.jpg",
+      image: "/assets/images/label_2.jpg",
     },
     {
       id: 3,
       name: "Expo Art",
       date: "2024-10-20",
       description: "An exhibition of modern and contemporary art.",
-      image: "/assets/images/expo-art.jpg",
+      image: "/assets/images/label_3.jpg",
     },
     // ... autres événements
   ];
