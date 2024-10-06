@@ -1,10 +1,11 @@
-"use client"; // Garde le "use client" comme tu l'avais
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import Login from "./Login"; // Assurez-vous que votre composant Login est importé correctement.
+import { FaShoppingCart } from "react-icons/fa"; // Importer une icône de panier
+import Login from "./Login";
 
 const Navbar = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Navbar = () => {
 
       {/* Menu pour grands écrans */}
       <ul
-        className={`hidden md:flex  justify-between items-center px-4 text-2xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
+        className={`hidden md:flex justify-between items-center px-4 text-2xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
       >
         <div className="mr-5 pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
           <Image
@@ -102,6 +103,12 @@ const Navbar = () => {
         >
           <Link href="/home/contact">Contact</Link>
         </li>
+        {/* Lien vers le panier avec une icône */}
+        <li className="ml-5">
+          <Link href="/cart">
+            <FaShoppingCart className="text-3xl hover:text-red-800 transition-colors" />
+          </Link>
+        </li>
       </ul>
 
       {/* Menu déroulant pour petits écrans */}
@@ -110,74 +117,41 @@ const Navbar = () => {
           isOpen ? "flex" : "hidden"
         } flex-col items-center absolute top-16 left-0 w-full bg-black md:hidden py-4 border-t border-gray-700 text-2xl z-10`}
       >
-        <li
-          className={
-            pathname == "/home"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home" onClick={toggleMenu}>
             Home
           </Link>
         </li>
-        <li
-          className={
-            pathname == "/home/artists"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home/artists" onClick={toggleMenu}>
             Artists
           </Link>
         </li>
-        <li
-          className={
-            pathname == "/home/events"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home/events" onClick={toggleMenu}>
             Events
           </Link>
         </li>
-        <li
-          className={
-            pathname == "/home/mersh"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home/mersh" onClick={toggleMenu}>
             Mersh
           </Link>
         </li>
-        <li
-          className={
-            pathname == "/home/about"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home/about" onClick={toggleMenu}>
             About
           </Link>
         </li>
-        <li
-          className={
-            pathname == "/home/contact"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
-          }
-        >
+        <li className="mr-3 hover:text-3xl">
           <Link href="/home/contact" onClick={toggleMenu}>
             Contact
           </Link>
         </li>
-        <li>
-          <Login />
+        {/* Lien vers le panier pour petits écrans */}
+        <li className="mt-4">
+          <Link href="/cart" onClick={toggleMenu}>
+            <FaShoppingCart className="text-3xl" />
+          </Link>
         </li>
       </ul>
 

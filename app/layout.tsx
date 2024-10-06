@@ -1,3 +1,4 @@
+import { CartProvider } from "@/context/CartContext";
 import AuthProvider from "@/providers/auth-provider";
 import QueryProvider from "@/providers/query-provider";
 import ThemeProviders from "@/providers/ThemeProviders";
@@ -21,9 +22,11 @@ export default function RootLayout({
     <html lang="en" className="bg-black">
       <QueryProvider>
         <AuthProvider>
-          <ThemeProviders>
-            <body className={inter.className}>{children}</body>
-          </ThemeProviders>
+          <CartProvider>
+            <ThemeProviders>
+              <body className={inter.className}>{children}</body>
+            </ThemeProviders>
+          </CartProvider>
         </AuthProvider>
       </QueryProvider>
     </html>
