@@ -44,8 +44,7 @@ model Session {
 
 enum Role {
   ADMIN
-  MODERATOR
-  EDITOR
+  CLIENT
   USER
 }
 
@@ -67,4 +66,63 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String
+  imageUrl  String
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artist {
+  id          String   @id @default(cuid())
+  name        String
+  bio         String?
+  genre       String?
+  imageUrl    String?
+  socialLinks Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  location    String
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Merchandise {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  price        Float
+  imageUrl     String?
+  stock        Int      @default(0)
+  shopifyId    String?  // Pour intégrer Shopify si nécessaire
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model LabelDescription {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  message     String
+  createdAt   DateTime @default(now())
 }

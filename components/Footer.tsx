@@ -1,14 +1,27 @@
 "use client";
 
+import { User } from "@prisma/client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [user, setUser] = useState<User>();
+  const { data: session, status } = useSession();
 
+  const fetchUser = async () => {
+    const { data } = await axios.get(`/api/user/${session?.user?.email}`);
+    setUser(data);
+    (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
+  };
+  if (status === "authenticated" && !user) {
+    fetchUser();
+  }
   return (
     <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
       <div className="flex flex-col md:flex-row justify-between items-center">
@@ -66,6 +79,14 @@ const Footer: React.FC = () => {
               <Link href="/home/contact">Contact</Link>
             </li>
           </ul>
+          {user && user.role === "ADMIN" && (
+            <button
+              onClick={() => router.push("/admin")}
+              className="border py-2 px-4 rounded-md border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition duration-200"
+            >
+              Admin
+            </button>
+          )}
         </div>
         <p className="md:absolute text-sm mt-3 md:mt-0 right-4">
           &copy; {new Date().getFullYear()} Spinosor Records. All rights

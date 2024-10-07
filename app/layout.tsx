@@ -23,9 +23,9 @@ export default function RootLayout({
       <QueryProvider>
         <AuthProvider>
           <CartProvider>
-            <ThemeProviders>
-              <body className={inter.className}>{children}</body>
-            </ThemeProviders>
+            <body className={inter.className}>
+              <ThemeProviders>{children}</ThemeProviders>
+            </body>
           </CartProvider>
         </AuthProvider>
       </QueryProvider>
