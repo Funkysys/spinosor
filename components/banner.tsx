@@ -1,38 +1,35 @@
 "use client";
 
+import { getActiveBanners } from "@/app/api/action/banner/banner"; // Importation de l'action server
+import { Banner as BannerType } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, Navigation, Pagination } from "swiper/modules"; // à partir de swiper v11
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import Image from "next/image";
-import Link from "next/link";
-
 const Banner = () => {
-  const images = [
-    {
-      src: "/assets/images/banner1.jpg",
-      alt: "Actu 1",
-      link: "/home/artists",
-      title: "Nouvel album disponible !",
-    },
-    {
-      src: "/assets/images/banner2.jpg",
-      alt: "Actu 2",
-      link: "/home/events",
-      title: "Concert à venir",
-    },
-    {
-      src: "/assets/images/artist_test.jpg",
-      alt: "Actu 3",
-      link: "/home/artists",
-      title: "Les nouveaux artistes",
-    },
-  ];
+  const [banners, setBanners] = useState<BannerType[]>([]);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const activeBanners = await getActiveBanners();
+        console.log("Bannières actives récupérées :", activeBanners);
+        setBanners(activeBanners);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des bannières :", error);
+      }
+    };
+
+    fetchBanners();
+  }, []);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[600px] lg:h-[700px] xl:h-[800px]">
+    <div className="relative w-full h-[400px] md:h-[400px] xl:h-[800px] mb-20">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
@@ -40,27 +37,28 @@ const Banner = () => {
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 5000 }}
-        loop={true}
+        loop={banners.length > 1} // Permettre le défilement en boucle uniquement si plusieurs bannières
         className="w-full h-full"
       >
-        {images.map((image, index) => (
+        {banners.map((image, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
               <Image
-                src={image.src}
-                alt={image.alt}
+                src={image.imageUrl}
+                alt={image.title}
                 layout="fill"
-                objectFit="cover"
+                objectFit={image.isSquare ? "contain" : "cover"}
+                className={`${
+                  image.isSquare ? "w-auto h-full" : "w-full h-full"
+                }`}
                 quality={100}
-                className="opacity-60"
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-10">
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-20">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                  {/* Welcome to Spinosor Records */}
                   Bienvenue chez Spinosor Records
                 </h1>
                 <p className="text-lg md:text-xl mb-6">
-                  {/* Discover the best music, artists, and events with us. */}
                   Découvrez la meilleure musique, artistes et événements avec
                   nous.
                 </p>

@@ -18,6 +18,7 @@
     "@vercel/blob": "^0.24.1",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.5.0",
     "clsx": "^2.1.1",
     "date-fns": "^2.28.0",
     "framer-motion": "^11.11.0",
