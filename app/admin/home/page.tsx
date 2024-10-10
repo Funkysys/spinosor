@@ -6,7 +6,7 @@ import {
   getBanners,
   updateBanner,
 } from "@/app/api/action/banner/banner";
-import Banner from "@/components/BannerList";
+import BannerList from "@/components/BannerList";
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -190,7 +190,7 @@ const BannerDashboard: React.FC = () => {
         <h2 className="text-xl mb-3">Bannières existantes</h2>
         <ul>
           {banners.map((banner) => (
-            <Banner
+            <BannerList
               key={banner.id}
               banner={banner}
               onDelete={handleBannerDeletion}
