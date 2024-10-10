@@ -16,6 +16,16 @@ const Card: React.FC<ArtistWithEvents> = ({
   };
   return (
     <div className="relative  max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
+      {imageUrl && (
+        <Image
+          className="w-full"
+          src={imageUrl}
+          alt={name}
+          width={500}
+          height={300}
+        />
+      )}
+
       {/* Default overlay with title and genre */}
       <div className="absolute inset-0 bg-slate-200 bg-opacity-50 flex flex-col justify-center items-center text-slate-900 p-4 transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:-translate-x-full">
         <h3 className="font-bold text-5xl mb-2">{name}</h3>

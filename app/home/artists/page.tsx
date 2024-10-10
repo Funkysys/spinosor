@@ -1,8 +1,5 @@
 "use client";
-import {
-  getArtists,
-  getArtistsWithEvents,
-} from "@/app/api/action/artists/artists";
+import { getArtistsWithEvents } from "@/app/api/action/artists/artists";
 import Card from "@/components/Card";
 import CardContainer from "@/components/CardContainer";
 import { ArtistWithEvents } from "@/types";
@@ -10,55 +7,40 @@ import { useEffect, useState } from "react";
 
 const ArtistsPage = () => {
   const [artists, setArtists] = useState<ArtistWithEvents[]>([]);
-
+  const [loading, setloading] = useState<boolean>(false);
   // Récupérer les artistes via la server action
   useEffect(() => {
+    setloading(true);
     const fetchArtists = async () => {
-      const artists = await getArtists();
-      const artistsWithEvents = await getArtistsWithEvents();
-      setArtists([
-        ...artists.map((artist) => {
-          return { ...artist, events: [] };
-        }),
-        ...artistsWithEvents,
-      ]);
-    };
+      const data = await getArtistsWithEvents();
 
+      await setArtists(data);
+      return setloading(false);
+    };
     fetchArtists();
-
-    const fetchArtistsWithEvents = async () => {
-      setArtists(artists);
-    };
-    fetchArtistsWithEvents();
   }, []);
+
+  if (loading) <p>loading...</p>;
 
   return (
     <div>
       <CardContainer>
-        {artists?.map((artist) => (
-          <Card
-            key={artist.id}
-            id={artist.id}
-            name={artist.name}
-            genre={artist.genre || "Non spécifié"}
-            bio={artist.bio || "Pas de description disponible"}
-            imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
-            socialLinks={artist.socialLinks}
-            events={artist.events.length > 0 ? artist.events : []}
-          />
-        ))}
-        {artists?.map((artist) => (
-          <Card
-            key={artist.id}
-            id={artist.id}
-            name={artist.name}
-            genre={artist.genre || "Non spécifié"}
-            bio={artist.bio || "Pas de description disponible"}
-            imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
-            socialLinks={artist.socialLinks}
-            events={artist.events.length > 0 ? artist.events : []}
-          />
-        ))}
+        {artists.length > 0 ? (
+          artists?.map((artist) => (
+            <Card
+              key={artist.id}
+              id={artist.id}
+              name={artist.name}
+              genre={artist.genre || "Non spécifié"}
+              bio={artist.bio || "Pas de description disponible"}
+              imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
+              socialLinks={artist.socialLinks}
+              events={artist.events.length > 0 ? artist.events : []}
+            />
+          ))
+        ) : (
+          <p>Aucun artiste trouvé</p>
+        )}
       </CardContainer>
     </div>
   );

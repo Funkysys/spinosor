@@ -5,7 +5,6 @@ import { JsonArray } from "@prisma/client/runtime/library";
 
 export const getArtists = async () => {
   const artists = prisma.artist.findMany();
-
   return artists;
 };
 
@@ -16,7 +15,6 @@ export const getArtistsWithEvents = async () => {
         events: true, // Inclure les événements associés
       },
     });
-
     // Transformer les données avant de les retourner
     return artists.map((artist) => ({
       id: artist.id,
@@ -24,9 +22,11 @@ export const getArtistsWithEvents = async () => {
       bio: artist.bio,
       genre: artist.genre,
       imageUrl: artist.imageUrl,
-      socialLinks: artist.socialLinks
-        ? JSON.parse(artist.socialLinks as string)
-        : {},
+      // Si socialLinks est déjà un objet, inutile de faire un JSON.parse
+      socialLinks:
+        typeof artist.socialLinks === "string"
+          ? JSON.parse(artist.socialLinks)
+          : artist.socialLinks,
       events: artist.events.map((event) => ({
         id: event.id,
         title: event.title,
