@@ -1,10 +1,10 @@
-import Banner from "@/components/Banner";
+import BannerHome from "@/components/BannerHome";
 
 const HomePage: React.FC = () => {
   return (
     <>
       <section>
-        <Banner />
+        <BannerHome />
       </section>
     </>
   );

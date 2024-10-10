@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const Banner = () => {
+const BannerHome = () => {
   const [banners, setBanners] = useState<BannerType[]>([]);
 
   useEffect(() => {
@@ -80,4 +80,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default BannerHome;
