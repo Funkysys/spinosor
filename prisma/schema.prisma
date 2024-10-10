@@ -97,6 +97,7 @@ model Event {
   location    String
   date        DateTime
   ticketLink  String?
+  imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   artists     Artist[] @relation("ArtistEvents") // Relation vers Artist

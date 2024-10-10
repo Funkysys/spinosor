@@ -64,14 +64,11 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
   const imageFile = formData.get("imageFile") as File | null;
 
   let imageUrl = "";
-  console.log("imageFile", imageFile);
 
   // Uploader l'image sur Cloudinary
   if (imageFile) {
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
-    console.log("buffer", buffer);
-    console.log("base64Data", base64Data);
 
     // Utilisation d'une promesse pour l'upload
     const uploadResult = await new Promise<any>((resolve, reject) => {
@@ -92,13 +89,11 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
     // Vérifiez si le résultat a un secure_url
     if (uploadResult && "secure_url" in uploadResult) {
       imageUrl = uploadResult.secure_url;
-      console.log("imageUrl", imageUrl);
     } else {
       throw new Error("Upload to Cloudinary failed.");
     }
   }
 
-  console.log("imageUrl", imageUrl);
   // Créer l'artiste avec les données fournies
   const artist = await prisma.artist.create({
     data: {

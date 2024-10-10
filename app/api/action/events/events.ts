@@ -1,4 +1,22 @@
+"use server";
+import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
+import { EventWithArtists } from "@/types";
+
+export const getEvent = async (id: string) => {
+  try {
+    const event = await prisma.event.findUnique({
+      where: { id },
+      include: {
+        artists: true, // Inclure les événements associés
+      },
+    });
+    return event as EventWithArtists;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de :", error);
+    return [];
+  }
+};
 
 export const getEvents = async () => {
   const events = await prisma.event.findMany({
@@ -20,12 +38,45 @@ export const createEvent = async (formData: FormData) => {
   const date = new Date(formData.get("date") as string);
   const ticketLink = formData.get("ticketLink") as string | null;
   const artistIds = formData.getAll("artists") as string[];
+  const imageFile = formData.get("imageFile") as File | null;
+
+  let imageUrl = "";
+
+  // Uploader l'image sur Cloudinary
+  if (imageFile) {
+    const base64Data = await imageFile.arrayBuffer();
+    const buffer = Buffer.from(base64Data);
+
+    // Utilisation d'une promesse pour l'upload
+    const uploadResult = await new Promise<any>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: "events" },
+        (error, result) => {
+          if (error) {
+            reject(new Error(`Cloudinary Upload Error: ${error.message}`));
+          } else {
+            resolve(result); // On résout le résultat ici
+          }
+        }
+      );
+
+      uploadStream.end(buffer); // Fin de l'envoi du buffer
+    });
+
+    // Vérifiez si le résultat a un secure_url
+    if (uploadResult && "secure_url" in uploadResult) {
+      imageUrl = uploadResult.secure_url;
+    } else {
+      throw new Error("Upload to Cloudinary failed.");
+    }
+  }
 
   return await prisma.event.create({
     data: {
       title,
       description,
       location,
+      imageUrl,
       date,
       ticketLink,
       artists: {

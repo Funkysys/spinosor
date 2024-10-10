@@ -32,9 +32,6 @@ const ArtistsDashboard: React.FC = () => {
         imageUrl: artist.imageUrl ?? null,
         socialLinks: artist.socialLinks ?? null,
       })) as Artist[];
-
-      setArtists(formattedArtists);
-
       setArtists(formattedArtists);
     };
 
@@ -102,8 +99,6 @@ const ArtistsDashboard: React.FC = () => {
   const AddNewLink = () => {
     setTempLink([...tempLink, { id: tempLink.length + 1, name: "", url: "" }]);
   };
-
-  console.log(artists);
 
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-white">

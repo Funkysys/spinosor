@@ -1,59 +1,51 @@
 "use client";
 
+import { getEvent } from "@/app/api/action/events/events";
+import { EventWithArtists } from "@/types";
+import { Artist } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-// Interface pour définir la structure d'un événement
-interface Event {
-  id: number;
-  name: string;
-  date: string;
-  description: string;
-  image: string;
-}
 
 const EventPage = () => {
   const router = useRouter();
   const { id } = useParams(); // Récupérer l'id de l'URL
-  const [event, setEvent] = useState<Event | null>(null);
-
-  // Liste factice d'événements avec description et image
-  const eventsData: Event[] = [
-    {
-      id: 1,
-      name: "Concert Rock",
-      date: "2024-12-01",
-      description: "A thrilling rock concert with famous bands.",
-      image: "/assets/images/artist_test.jpg",
-    },
-    {
-      id: 2,
-      name: "Festival Jazz",
-      date: "2024-11-15",
-      description: "Experience the best jazz music in town.",
-      image: "/assets/images/label_2.jpg",
-    },
-    {
-      id: 3,
-      name: "Expo Art",
-      date: "2024-10-20",
-      description: "An exhibition of modern and contemporary art.",
-      image: "/assets/images/label_3.jpg",
-    },
-    // ... autres événements
-  ];
+  const [event, setEvent] = useState<EventWithArtists | null>(null);
+  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedTime, setFormattedTime] = useState("");
 
   useEffect(() => {
-    // Trouver l'événement correspondant à l'id
-    const eventData = eventsData.find((event) => event.id === Number(id));
-    if (eventData) {
-      setEvent(eventData);
-    } else {
-      // Si l'événement n'existe pas, retour à la page des événements
-      router.push("/home/events");
-    }
+    const fetchEvent = async () => {
+      try {
+        const eventData = await getEvent(String(id));
+
+        if (eventData) {
+          setEvent(eventData as EventWithArtists);
+        } else {
+          // Si l'événement n'existe pas, retour à la page des événements
+          router.push("/home/events");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'événement:", error);
+        // Optionnel : gérer l'erreur (par exemple, rediriger vers la page des événements)
+        router.push("/home/events");
+      }
+    };
+
+    fetchEvent();
   }, [id, router]);
+
+  useEffect(() => {
+    if (!event) {
+      return;
+    }
+    const eventDate = new Date(event.date);
+    setFormattedDate(eventDate.toLocaleDateString());
+    setFormattedTime(
+      eventDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    );
+  }, [event]);
 
   if (!event) {
     return <div className="text-center text-2xl">Loading...</div>;
@@ -62,27 +54,69 @@ const EventPage = () => {
   return (
     <div className="min-h-screen p-5 bg-black text-black">
       <h1 className="text-4xl font-bold text-center mb-8 text-red-800">
-        {event.name}
+        {event.title} {/* Utilisation de 'title' comme dans votre modèle */}
       </h1>
 
       <div className="max-w-4xl mx-auto bg-white p-8 shadow-md rounded-lg mb-20">
         {/* Image de l'événement */}
         <div className="mb-6">
-          <Image
-            src={event.image}
-            alt={event.name}
-            width={800}
-            height={450}
-            className="rounded-lg"
-          />
+          {event.imageUrl && (
+            <Image
+              src={event.imageUrl} // Vérifiez que 'imageUrl' est correct
+              alt={event.title} // Utilisez 'title' pour l'attribut alt
+              width={800}
+              height={450}
+              className="rounded-lg mx-auto"
+            />
+          )}
         </div>
 
         {/* Détails de l'événement */}
         <div className="text-lg mb-4">
           <p>
-            <strong>Date:</strong> {event.date}
+            <strong>Date:</strong> {formattedDate} {/* Affichage de la date */}
           </p>
-          <p className="mt-4">{event.description}</p>
+          <p>
+            <strong>Heure:</strong> {formattedTime} {/* Affichage de l'heure */}
+          </p>
+          <p>
+            <strong>Lieu:</strong> {event.location}{" "}
+            {/* Affichage du lieu de l'événement */}
+          </p>
+          <p className="mt-4">
+            {event.description || "Pas de description disponible."}
+          </p>
+
+          <div className="mt-3 flex items-center ">
+            <strong>Artistes:</strong>{" "}
+            {
+              (event.artists && event.artists.length) > 0 ? (
+                <>
+                  {event.artists.map((artist: Artist) => {
+                    return (
+                      <Link key={artist.id} href={`/home/artists/${artist.id}`}>
+                        <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-white transition">
+                          {artist.name}
+                        </button>
+                      </Link>
+                    );
+                  })}
+                </>
+              ) : (
+                "Aucun artiste associé"
+              ) // Message si aucun artiste n'est associé
+            }
+          </div>
+          {event.ticketLink && (
+            <div className="w-full text-center">
+              <Link href={event.ticketLink}>
+                <button className="mt-6 bg-yellow-300 px-6 py-3 rounded-lg hover:bg-yellow-800 hover:text-white transition">
+                  Achetez vos billets ici !
+                </button>
+              </Link>
+            </div>
+          )}
+          {/* Utilisation d'un message par défaut si la description est manquante */}
         </div>
 
         {/* Bouton pour retourner à la liste des événements */}

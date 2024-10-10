@@ -5,7 +5,6 @@ import Image from "next/image";
 
 const CartPage = () => {
   const { cart, removeFromCart } = useCart();
-  console.log(cart);
 
   if (cart.length === 0) {
     return (

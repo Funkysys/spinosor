@@ -18,7 +18,6 @@ const BannerHome = () => {
     const fetchBanners = async () => {
       try {
         const activeBanners = await getActiveBanners();
-        console.log("Bannières actives récupérées :", activeBanners);
         setBanners(activeBanners);
       } catch (error) {
         console.error("Erreur lors de la récupération des bannières :", error);

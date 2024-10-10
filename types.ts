@@ -7,6 +7,7 @@ export interface EventType {
   description: string | null;
   location: string;
   date: Date;
+  imageUrl: string | null;
   ticketLink: string | null;
   createdAt: Date;
   updatedAt: Date;
@@ -29,6 +30,8 @@ export interface Event {
   date: string; // Assurez-vous que cela correspond à la structure attendue
   location: string;
   ticketLink?: string | null;
+  imageUrl?: string | null;
+  description?: string | null;
 }
 
 export interface ArtistWithEvents {
@@ -39,6 +42,18 @@ export interface ArtistWithEvents {
   imageUrl?: string | null;
   socialLinks?: JsonValue;
   events: Event[]; // Assurez-vous que cela correspond à Event[]
+}
+export interface EventWithArtists {
+  id: string;
+  title: string;
+  description: string | null;
+  location: string;
+  date: Date;
+  ticketLink: string | null;
+  imageUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  artists: Artist[]; // Assurez-vous que cela correspond à Artist[]
 }
 
 export type Category = {

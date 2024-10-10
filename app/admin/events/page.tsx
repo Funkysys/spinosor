@@ -10,11 +10,14 @@ import {
 import EventList from "@/components/EventList";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
 import { useEffect, useState } from "react";
+import Select from "react-select";
 
 const EventsDashboard: React.FC = () => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [artists, setArtists] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedArtists, setSelectedArtists] = useState<any[]>([]); // Pour gérer les artistes sélectionnés
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -31,12 +34,32 @@ const EventsDashboard: React.FC = () => {
     fetchArtists();
   }, []);
 
+  const resetForm = () => {
+    setSelectedImage(null);
+  };
+
   const handleEventCreation = async (formData: FormData) => {
     setIsLoading(true);
-    await createEvent(formData);
-    const result = await getEvents();
-    setEvents(result);
-    setIsLoading(false);
+    const imageFile = formData.get("imageFile") as File | null;
+
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(imageFile); // Lire le fichier en tant que tableau de bytes
+      reader.onloadend = async () => {
+        formData.append("imageFile", reader.result as string);
+        await createEvent(formData);
+        resetForm();
+        const result = await getEvents();
+        setEvents(result as EventType[]);
+        setIsLoading(false);
+      };
+    } else {
+      await createEvent(formData);
+      resetForm();
+      const result = await getEvents();
+      setEvents(result as EventType[]);
+      setIsLoading(false);
+    }
   };
 
   const handleEventDeletion = async (id: string) => {
@@ -45,6 +68,10 @@ const EventsDashboard: React.FC = () => {
     const result = await getEvents();
     setEvents(result);
     setIsLoading(false);
+  };
+
+  const handleArtistChange = (selectedOptions: any) => {
+    setSelectedArtists(selectedOptions);
   };
 
   return (
@@ -57,6 +84,15 @@ const EventsDashboard: React.FC = () => {
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
+          // Obtenir les artistes sélectionnés à partir du menu déroulant
+          const selectedArtists = formData.getAll("artists") as string[];
+
+          // S'assurer qu'ils sont bien ajoutés dans le FormData sous forme de tableau JSON
+          formData.set("artists", JSON.stringify(selectedArtists));
+          formData.delete("artists"); // Supprimer l'ancienne valeur
+          selectedArtists.forEach((artistId) =>
+            formData.append("artists", artistId)
+          );
           handleEventCreation(formData);
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
@@ -93,21 +129,29 @@ const EventsDashboard: React.FC = () => {
           placeholder="Lien vers la billetterie"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <input
+          type="file"
+          name="imageFile"
+          accept="image/*"
+          required
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+        />
 
         {/* Sélection des artistes */}
         <div className="mb-4">
           <label className="block mb-2">Artistes concernés :</label>
-          {artists.map((artist) => (
-            <label key={artist.id} className="block mb-2">
-              <input
-                type="checkbox"
-                name="artists"
-                value={artist.id}
-                className="mr-2"
-              />
-              {artist.name}
-            </label>
-          ))}
+          <Select
+            isMulti
+            name="artists"
+            options={artists.map((artist) => ({
+              value: artist.id, // La valeur de chaque artiste sera son ID
+              label: artist.name, // Ce qui sera affiché dans la liste
+            }))}
+            className="w-full text-black" // Ajout de text-black pour bien voir les artistes sélectionnés
+            classNamePrefix="select"
+            onChange={handleArtistChange} // Gère la sélection
+            placeholder="Sélectionnez des artistes"
+          />
         </div>
 
         <button

@@ -16,7 +16,6 @@ const ArtistsPage = () => {
     const fetchArtists = async () => {
       const artists = await getArtists();
       const artistsWithEvents = await getArtistsWithEvents();
-      console.log(artists);
       setArtists([
         ...artists.map((artist) => {
           return { ...artist, events: [] };
@@ -28,7 +27,6 @@ const ArtistsPage = () => {
     fetchArtists();
 
     const fetchArtistsWithEvents = async () => {
-      console.log(artists);
       setArtists(artists);
     };
     fetchArtistsWithEvents();

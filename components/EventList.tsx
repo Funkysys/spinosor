@@ -1,6 +1,9 @@
+import { getArtists } from "@/app/api/action/events/events";
 import { Artist as ArtistType, Event as EventType } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
 interface EventListProps {
   event: EventType & { artists: ArtistType[] }; // Assurez-vous que les artistes sont inclus
@@ -16,14 +19,30 @@ const EventList: React.FC<EventListProps> = ({
   artists,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedArtists, setSelectedArtists] = useState<any[]>([]); // Pour gérer les artistes sélectionnés
+  const [updateArtists, setUpdateArtists] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchArtists = async () => {
+      const artistList = await getArtists();
+      setUpdateArtists(artistList);
+    };
+    fetchArtists();
+  }, []);
 
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+    formData.set("artists", JSON.stringify(selectedArtists));
+    formData.delete("artists"); // Supprimer l'ancienne valeur
+    selectedArtists.forEach((artistId) => formData.append("artists", artistId));
     onUpdate(event.id, formData);
     setIsEditing(false);
   };
 
+  const handleArtistChange = (selectedArtists: any) => {
+    setSelectedArtists(selectedArtists);
+  };
   return (
     <li className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
       {isEditing ? (
@@ -63,22 +82,19 @@ const EventList: React.FC<EventListProps> = ({
 
           {/* Sélection des artistes */}
           <div className="mb-4">
-            <label htmlFor="artists" className="block mb-1">
-              Artistes participants :
-            </label>
-            <select
+            <label className="block mb-2">Artistes concernés :</label>
+            <Select
+              isMulti
               name="artists"
-              id="artists"
-              multiple
-              className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
-              defaultValue={event.artists.map((artist) => artist.id)}
-            >
-              {artists.map((artist) => (
-                <option key={artist.id} value={artist.id}>
-                  {artist.name}
-                </option>
-              ))}
-            </select>
+              options={updateArtists.map((artist) => ({
+                value: artist.id, // La valeur de chaque artiste sera son ID
+                label: artist.name, // Ce qui sera affiché dans la liste
+              }))}
+              className="w-full text-black" // Ajout de text-black pour bien voir les artistes sélectionnés
+              classNamePrefix="select"
+              onChange={handleArtistChange} // Gère la sélection
+              placeholder="Sélectionnez des artistes"
+            />
           </div>
 
           <button
@@ -99,6 +115,15 @@ const EventList: React.FC<EventListProps> = ({
         <>
           <h3 className="text-2xl font-bold mb-2">{event.title}</h3>
           <p>{event.description}</p>
+          {event.imageUrl && (
+            <Image
+              src={event.imageUrl || "/default_artist.png"}
+              alt={event.title}
+              width={128}
+              height={128}
+              className="rounded"
+            />
+          )}
           <p>Lieu : {event.location}</p>
           <p>Date : {new Date(event.date).toLocaleString()}</p>
           <p>

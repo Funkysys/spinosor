@@ -1,0 +1,91 @@
+"use client";
+
+import { getArtist } from "@/app/api/action/artists/artists";
+import { ArtistWithEvents } from "@/types";
+import { Event } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const ArtistPage = () => {
+  const router = useRouter();
+  const [Loading, setLoading] = useState(false);
+  const [artist, setArtist] = useState<ArtistWithEvents | null>(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchArtist = async () => {
+      if (typeof id === "string") {
+        const artistData = await getArtist(id);
+
+        // Vérifiez que artistData n'est pas un tableau vide et que la propriété 'events' existe
+        if (artistData && !Array.isArray(artistData) && artistData.events) {
+          const artistWithFormattedDates = {
+            ...artistData,
+            events: artistData.events.map((event: Event) => ({
+              ...event,
+              date: event.date.toISOString(), // Conversion en chaîne ISO
+            })),
+          };
+
+          setArtist(artistWithFormattedDates);
+        } else {
+          console.error("Artist data not found or events is empty.");
+          setArtist(null); // Dans le cas où artistData est vide ou malformé
+        }
+      }
+      setLoading(false);
+    };
+    fetchArtist();
+  }, [id]);
+
+  if (Loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!artist) {
+    return <div>Artist not found</div>;
+  }
+
+  return (
+    <div className="w-[66vw] min-h-[90vh] mx-auto p-8 bg-slate-900">
+      <div className="flex flex-col md:flex-row items-center gap-8">
+        {artist.imageUrl && (
+          <Image
+            className="rounded"
+            src={artist.imageUrl}
+            alt={artist.name}
+            width={400}
+            height={400}
+          />
+        )}
+        <div>
+          <h1 className="text-4xl font-bold">{artist.name}</h1>
+          <p className="text-xl text-slate-600">{artist.genre}</p>
+          <p className="mt-4">{artist.bio}</p>
+        </div>
+      </div>
+
+      {artist.events && artist.events.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-3xl font-semibold">Événements à venir</h2>
+          <ul className="list-disc ml-5 mt-4">
+            {artist.events.map((event) => (
+              <div key={event.id} className="">
+                <Link href={`/home/events/${event.id}`}>
+                  <button className="mt-6 bg-yellow-300 text-black px-6 py-3 rounded-lg hover:bg-red-800 hover:text-white transition">
+                    {event.title} - {new Date(event.date).toLocaleDateString()}
+                  </button>
+                </Link>
+              </div>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ArtistPage;
