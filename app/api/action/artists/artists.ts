@@ -1,39 +1,19 @@
 "use server";
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
-import { ArtistWithEvents } from "@/types";
 import { JsonArray } from "@prisma/client/runtime/library";
 
 export const getArtists = async () => {
   const artists = prisma.artist.findMany();
 
-  if (!Array.isArray(artists)) {
-    return [];
-  }
-  return artists?.map((artist: ArtistWithEvents) => ({
-    id: artist.id,
-    name: artist.name,
-    bio: artist.bio,
-    genre: artist.genre,
-    imageUrl: artist.imageUrl,
-    socialLinks: artist.socialLinks
-      ? JSON.parse(artist.socialLinks as string)
-      : {},
-    events: artist.events.map((event) => ({
-      id: event.id,
-      title: event.title,
-      date: event.date.toString(), // Conversion de Date en string
-      location: event.location,
-      ticketLink: event.ticketLink || undefined,
-    })),
-  }));
+  return artists;
 };
 
 export const getArtistsWithEvents = async () => {
   try {
     const artists = await prisma.artist.findMany({
       include: {
-        events: true,
+        events: true, // Inclure les événements associés
       },
     });
 
