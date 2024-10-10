@@ -113,17 +113,10 @@ model Merchandise {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
-
-model LabelDescription {
-  id          String   @id @default(cuid())
-  content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
 model ContactMessage {
   id          String   @id @default(cuid())
   name        String
+  object      String
   email       String
   message     String
   createdAt   DateTime @default(now())

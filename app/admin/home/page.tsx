@@ -6,7 +6,10 @@ import {
   getBanners,
   updateBanner,
 } from "@/app/api/action/banner/banner";
+import { getArtistImages } from "@/app/api/services/getArtistsImages";
+import { getEventsImages } from "@/app/api/services/getEventsImages";
 import BannerList from "@/components/BannerList";
+import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -15,6 +18,9 @@ const BannerDashboard: React.FC = () => {
   const [banners, setBanners] = useState<BannerType[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [galerie, setGalerie] = useState<string[]>([]);
+  const [loadImage, setLoadImage] = useState(false);
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -34,26 +40,61 @@ const BannerDashboard: React.FC = () => {
 
   const handleBannerCreation = async (formData: FormData) => {
     setIsLoading(true);
-    const imageFile = formData.get("imageFile") as File | null;
 
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.readAsDataURL(imageFile);
-      reader.onloadend = async () => {
-        formData.append("imageFile", reader.result as string);
-        await createBanner(formData);
-        resetForm();
-        const result = await getBanners();
-        setBanners(result);
-        setIsLoading(false);
-      };
+    // Si une image est sélectionnée (à partir de la galerie ou de l'upload)
+    if (selectedImage) {
+      formData.append("url", selectedImage);
     } else {
+      const imageFile = formData.get("imageFile") as File | null;
+
+      if (imageFile) {
+        // Vérifiez que le fichier n'est pas vide
+        if (imageFile.size === 0) {
+          console.error("Le fichier est vide.");
+          setIsLoading(false);
+          return; // Sortir de la fonction si le fichier est vide
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        reader.onloadend = async () => {
+          // Vérifiez que reader.result est une chaîne valide
+          if (reader.result) {
+            formData.append("imageFile", reader.result as string);
+          } else {
+            console.error("Le résultat de FileReader est vide.");
+            setIsLoading(false);
+            return; // Sortir de la fonction si le résultat est vide
+          }
+
+          try {
+            await createBanner(formData);
+            resetForm();
+            const result = await getBanners();
+            setBanners(result);
+          } catch (error) {
+            console.error("Erreur lors de la création de la bannière :", error);
+          }
+        };
+        return; // Sortir de la fonction après avoir déclenché FileReader
+      } else {
+        console.error("Aucun fichier sélectionné.");
+        setIsLoading(false);
+        return; // Sortir de la fonction si aucun fichier n'est sélectionné
+      }
+    }
+
+    // Si l'image est ajoutée (par selectedImage), on crée la bannière
+    try {
       await createBanner(formData);
       resetForm();
       const result = await getBanners();
       setBanners(result);
-      setIsLoading(false);
+    } catch (error) {
+      console.error("Erreur lors de la création de la bannière :", error);
     }
+
+    setIsLoading(false);
   };
 
   const handleBannerDeletion = async (id: string) => {
@@ -65,7 +106,23 @@ const BannerDashboard: React.FC = () => {
     setBanners(result);
     setIsLoading(false);
   };
-
+  const showModalFunc = (value: boolean, string: string) => {
+    setShowModal(value);
+    if (string === "artistes") {
+      const fetchGalerie = async () => {
+        const images = await getArtistImages();
+        setGalerie(images);
+      };
+      fetchGalerie();
+    }
+    if (string === "events") {
+      const fetchGalerie = async () => {
+        const images = await getEventsImages();
+        setGalerie(images);
+      };
+      fetchGalerie();
+    }
+  };
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-5 text-center">
@@ -131,27 +188,19 @@ const BannerDashboard: React.FC = () => {
           <h2 className="text-lg mb-2">Sélectionner une image</h2>
           <button
             type="button"
-            onClick={() => handleImageSelection("/event/image1.jpg")}
+            onClick={() => showModalFunc(true, "artistes")}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
             disabled={isLoading}
           >
-            {`Choisir une image d'événement`}
+            {`Choisir une image d'artistes`}
           </button>
           <button
             type="button"
-            onClick={() => handleImageSelection("/album/image1.jpg")}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400"
+            onClick={() => showModalFunc(true, "events")}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
             disabled={isLoading}
           >
-            {`Choisir une image d'album`}
-          </button>
-          <button
-            type="button"
-            onClick={() => handleImageSelection("/merch/image1.jpg")}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 ml-2"
-            disabled={isLoading}
-          >
-            Choisir une image de merch
+            {`Choisir une image d'évenements`}
           </button>
           <input
             type="file"
@@ -165,7 +214,7 @@ const BannerDashboard: React.FC = () => {
             className="mt-2 ml-2"
             disabled={isLoading}
           />
-          {selectedImage && (
+          {selectedImage && !loadImage && (
             <div className="mt-3 w-32 h-32 relative">
               <Image
                 src={selectedImage}
@@ -175,6 +224,16 @@ const BannerDashboard: React.FC = () => {
                 className="rounded"
               />
             </div>
+          )}
+
+          {/* Modale de sélection d'image d'artistes */}
+          {showModal && (
+            <ModaleImageSelection
+              galerie={galerie}
+              handleImageSelection={handleImageSelection}
+              onClose={() => setShowModal(false)}
+              setLoadImage={setLoadImage}
+            />
           )}
         </div>
         <button

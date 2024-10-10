@@ -94,19 +94,6 @@ export default function AdminDashboard() {
               Gérez les articles de merchandising connectés à Shopify.
             </p>
           </Link>
-
-          <Link
-            href="/admin/about"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
-          >
-            <h2 className="text-xl font-semibold text-gray-800">
-              Modifier la description du label
-            </h2>
-            <p className="text-gray-600 mt-2">
-              Mettez à jour la description officielle du label.
-            </p>
-          </Link>
-
           <Link
             href="/admin/contact"
             className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"

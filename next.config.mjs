@@ -25,11 +25,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "lh3.googleusercontent.com", // Pour les images Google
+        hostname: "res.cloudinary.com", // Pour les images Cloudinary
       },
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "res.cloudinary.com", // Pour les images Cloudinary
+      },
+
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // Pour les images Google
       },
     ],
   },

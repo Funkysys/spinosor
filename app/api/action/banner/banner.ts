@@ -3,16 +3,21 @@
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 
+// import prisma from "@/lib/prisma"; // Assurez-vous que Prisma est importé si vous l'utilisez.
+
 export const createBanner = async (formData: FormData) => {
   const title = formData.get("title") as string;
   const link = formData.get("link") as string;
   const isActive = formData.get("isActive") === "true";
-  const imageFile = formData.get("imageFile") as File | null;
+  const isSquare = formData.get("isSquare") === "true";
+  const imageFile = formData.get("imageFile") as File | string;
+  const url = formData.get("url") as string;
 
   let imageUrl = "";
 
-  // Uploader l'image sur Cloudinary
-  if (imageFile) {
+  if (url) {
+    imageUrl = url;
+  } else if (imageFile instanceof File) {
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
 
@@ -38,6 +43,11 @@ export const createBanner = async (formData: FormData) => {
     } else {
       throw new Error("Upload to Cloudinary failed.");
     }
+  } else if (typeof imageFile === "string") {
+    // Si imageFile est une chaîne, cela signifie qu'il s'agit d'une URL d'image
+    imageUrl = imageFile; // Utilisez l'URL directement
+  } else {
+    throw new Error("No valid image file or URL provided.");
   }
 
   // Créer la bannière avec l'URL de l'image uploadée
@@ -45,12 +55,13 @@ export const createBanner = async (formData: FormData) => {
     data: {
       title,
       link,
+      isSquare,
       imageUrl,
       isActive,
     },
   });
 
-  return banner;
+  return banner; // Retournez la bannière créée
 };
 
 export const deleteBanner = async (formData: FormData) => {
