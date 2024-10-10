@@ -7,8 +7,11 @@ import {
   getEvents,
   updateEvent,
 } from "@/app/api/action/events/events";
+import { getArtistImages } from "@/app/api/services/getArtistsImages";
 import EventList from "@/components/EventList";
+import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 
@@ -16,8 +19,11 @@ const EventsDashboard: React.FC = () => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [artists, setArtists] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [selectedArtists, setSelectedArtists] = useState<any[]>([]); // Pour gérer les artistes sélectionnés
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [galerie, setGalerie] = useState<string[]>([]);
+  const [loadImage, setLoadImage] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -40,26 +46,33 @@ const EventsDashboard: React.FC = () => {
 
   const handleEventCreation = async (formData: FormData) => {
     setIsLoading(true);
-    const imageFile = formData.get("imageFile") as File | null;
-
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(imageFile); // Lire le fichier en tant que tableau de bytes
-      reader.onloadend = async () => {
-        formData.append("imageFile", reader.result as string);
-        await createEvent(formData);
-        resetForm();
-        const result = await getEvents();
-        setEvents(result as EventType[]);
-        setIsLoading(false);
-      };
+    if (selectedImage) {
+      formData.append("url", selectedImage);
     } else {
-      await createEvent(formData);
-      resetForm();
-      const result = await getEvents();
-      setEvents(result as EventType[]);
-      setIsLoading(false);
+      const imageFile = formData.get("imageFile") as File | null;
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(imageFile); // Lire le fichier en tant que tableau de bytes
+        reader.onloadend = async () => {
+          formData.append("imageFile", reader.result as string);
+          await createEvent(formData);
+          resetForm();
+          const result = await getEvents();
+          setEvents(result as EventType[]);
+          setIsLoading(false);
+        };
+      }
     }
+    await createEvent(formData);
+    resetForm();
+    const result = await getEvents();
+    setEvents(result as EventType[]);
+    setIsLoading(false);
+  };
+
+  const handleImageSelection = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
   };
 
   const handleEventDeletion = async (id: string) => {
@@ -73,7 +86,16 @@ const EventsDashboard: React.FC = () => {
   const handleArtistChange = (selectedOptions: any) => {
     setSelectedArtists(selectedOptions);
   };
-
+  const showModalFunc = (value: boolean, string: string) => {
+    setShowModal(value);
+    if (string === "artistes") {
+      const fetchGalerie = async () => {
+        const images = await getArtistImages();
+        setGalerie(images);
+      };
+      fetchGalerie();
+    }
+  };
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-5 text-center">
@@ -129,13 +151,50 @@ const EventsDashboard: React.FC = () => {
           placeholder="Lien vers la billetterie"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
-        <input
-          type="file"
-          name="imageFile"
-          accept="image/*"
-          required
-          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
-        />
+        <div className="mb-4">
+          <h2 className="text-lg mb-2">Sélectionner une image</h2>
+          <button
+            type="button"
+            onClick={() => showModalFunc(true, "artistes")}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
+            disabled={isLoading}
+          >
+            {`Choisir une image d'artistes`}
+          </button>
+          <input
+            type="file"
+            name="imageFile"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                handleImageSelection(URL.createObjectURL(file));
+              }
+            }}
+            className="mt-2 ml-2"
+            disabled={isLoading}
+          />
+          {selectedImage && !loadImage && (
+            <div className="mt-3 w-32 h-32 relative">
+              <Image
+                src={selectedImage}
+                alt="Aperçu"
+                layout="fill"
+                objectFit="cover"
+                className="rounded"
+              />
+            </div>
+          )}
+
+          {/* Modale de sélection d'image d'artistes */}
+          {showModal && (
+            <ModaleImageSelection
+              galerie={galerie}
+              handleImageSelection={handleImageSelection}
+              onClose={() => setShowModal(false)}
+              setLoadImage={setLoadImage}
+            />
+          )}
+        </div>
 
         {/* Sélection des artistes */}
         <div className="mb-4">

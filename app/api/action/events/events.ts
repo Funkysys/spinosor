@@ -39,11 +39,12 @@ export const createEvent = async (formData: FormData) => {
   const ticketLink = formData.get("ticketLink") as string | null;
   const artistIds = formData.getAll("artists") as string[];
   const imageFile = formData.get("imageFile") as File | null;
+  const url = formData.get("url") as string | null;
 
   let imageUrl = "";
-
-  // Uploader l'image sur Cloudinary
-  if (imageFile) {
+  if (url) {
+    imageUrl = url;
+  } else if (imageFile) {
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
 
