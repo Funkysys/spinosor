@@ -74,7 +74,7 @@ const ArtistsDashboard: React.FC = () => {
     setIsLoading(true);
     await deleteArtist(id);
     const result = await getArtists();
-    setArtists(result); // Ici, result doit être de type ArtistWithEvents[]
+    setArtists(result as Artist[]);
     setIsLoading(false);
   };
 
@@ -213,7 +213,7 @@ const ArtistsDashboard: React.FC = () => {
               onUpdate={async (id: string, formData: FormData) => {
                 await updateArtist(id, formData);
                 const result = await getArtists();
-                setArtists(result); // Ici, result doit être de type ArtistWithEvents[]
+                setArtists(result as Artist[]);
               }}
             />
           ))}
