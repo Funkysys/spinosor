@@ -1,41 +1,25 @@
-import { JsonValue } from "@prisma/client/runtime/library";
+import { ArtistWithEvents } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  location: string;
-  ticketLink?: string;
-}
-
-interface CardProps {
-  title: string;
-  genre: string;
-  description: string;
-  imageUrl?: string;
-  socialLinks?: JsonValue;
-  events: Event[];
-}
-
-const Card: React.FC<CardProps> = ({
-  title,
+const Card: React.FC<ArtistWithEvents> = ({
+  id,
+  name,
   genre,
-  description,
+  bio,
   imageUrl,
   events,
 }) => {
   return (
     <div className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold">{title}</h2>
+      <h2 className="text-2xl font-bold">{name}</h2>
       <p>Genre : {genre}</p>
-      <p>{description}</p>
+      <p>{bio}</p>
       {imageUrl && (
         <Image
           src={imageUrl || ""}
-          alt={title}
+          alt={name}
           fill
           className="w-32 h-32 rounded"
         />

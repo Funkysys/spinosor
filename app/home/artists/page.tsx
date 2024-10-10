@@ -1,10 +1,10 @@
-import { getArtistsWithEvents } from "@/app/api/action/artists/artists"; // Vérifie le chemin d'import
+import { getArtists } from "@/app/api/action/artists/artists";
 import Card from "@/components/Card";
 import CardContainer from "@/components/CardContainer";
 
 const ArtistsPage = async () => {
   // Récupérer les artistes via la server action
-  const artists = await getArtistsWithEvents();
+  const artists = await getArtists();
 
   return (
     <div>
@@ -12,12 +12,13 @@ const ArtistsPage = async () => {
         {artists.map((artist) => (
           <Card
             key={artist.id}
-            title={artist.name}
+            id={artist.id}
+            name={artist.name}
             genre={artist.genre || "Non spécifié"}
-            description={artist.bio || "Pas de description disponible"}
+            bio={artist.bio || "Pas de description disponible"}
             imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
             socialLinks={artist.socialLinks}
-            events={artist.events}
+            events={artist.events.length > 0 ? artist.events : []}
           />
         ))}
       </CardContainer>
