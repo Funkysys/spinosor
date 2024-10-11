@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
   const fetchUser = async () => {
     const { data } = await axios.get(`/api/user/${session?.user?.email}`);
     setUser(data);
-    (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
+    (await data.role) !== "ADMIN";
   };
   if (status === "authenticated" && !user) {
     fetchUser();
