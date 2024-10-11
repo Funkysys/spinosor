@@ -167,7 +167,7 @@ const ArtistsDashboard: React.FC = () => {
                 id="link"
                 className="text-sm text-slate-200 mb-3"
               >
-                Link :
+                Liens :
               </label>
               <input
                 type="text"
@@ -185,7 +185,7 @@ const ArtistsDashboard: React.FC = () => {
             onClick={AddNewLink}
             className="mt-5 bg-yellow-700 text-white px-4 py-2 rounded hover:bg-yellow-400 hover:text-black"
           >
-            Add Another Link ?
+            Ajouter un lien ?
           </button>
         </div>
         <button

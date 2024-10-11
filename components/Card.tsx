@@ -41,7 +41,7 @@ const Card: React.FC<ArtistWithEvents> = ({
           onClick={handleReadMore}
           className="absolute bottom-4 right-4 bg-slate-200 text-slate-900 px-2 py-1 rounded"
         >
-          Read More
+          En voir +
         </button>
       </div>
     </div>

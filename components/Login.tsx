@@ -29,7 +29,7 @@ const Login = () => {
       className="flex justify-center items-center md:absolute mt-3 md:mt-0 right-6 top-12 border px-3 py-2 rounded-lg text-red-600 hover:text-red-800 hover:bg-slate-300  animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out"
     >
       <Mail className="mr-3" />
-      Sign In
+      Connection
     </button>
   ) : (
     <div className="flex md:flex-col justify-center items-center text-sm md:absolute mt-3 md:mt-0 md:right-6 md:top-6">

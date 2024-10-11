@@ -65,7 +65,7 @@ const Navbar = () => {
               : "mr-3 hover:text-3xl"
           }
         >
-          <Link href="/home/artists">Artists</Link>
+          <Link href="/home/artists">Artistes</Link>
         </li>
         <li
           className={
@@ -74,7 +74,7 @@ const Navbar = () => {
               : "mr-3 hover:text-3xl"
           }
         >
-          <Link href="/home/events">Events</Link>
+          <Link href="/home/events">Événements</Link>
         </li>
         <li
           className={
@@ -92,7 +92,7 @@ const Navbar = () => {
               : "mr-3 hover:text-3xl"
           }
         >
-          <Link href="/home/about">About</Link>
+          <Link href="/home/about">A propos</Link>
         </li>
         <li
           className={
@@ -119,17 +119,17 @@ const Navbar = () => {
       >
         <li className="mr-3 hover:text-3xl">
           <Link href="/home" onClick={toggleMenu}>
-            Home
+            Acceuil
           </Link>
         </li>
         <li className="mr-3 hover:text-3xl">
           <Link href="/home/artists" onClick={toggleMenu}>
-            Artists
+            Artistes
           </Link>
         </li>
         <li className="mr-3 hover:text-3xl">
           <Link href="/home/events" onClick={toggleMenu}>
-            Events
+            Événements
           </Link>
         </li>
         <li className="mr-3 hover:text-3xl">
@@ -139,7 +139,7 @@ const Navbar = () => {
         </li>
         <li className="mr-3 hover:text-3xl">
           <Link href="/home/about" onClick={toggleMenu}>
-            About
+            A propos
           </Link>
         </li>
         <li className="mr-3 hover:text-3xl">

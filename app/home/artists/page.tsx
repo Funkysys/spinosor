@@ -20,7 +20,7 @@ const ArtistsPage = () => {
     fetchArtists();
   }, []);
 
-  if (loading) <p>loading...</p>;
+  if (loading) <p>Chargement...</p>;
 
   return (
     <div>

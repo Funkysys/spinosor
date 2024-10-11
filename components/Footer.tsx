@@ -39,21 +39,21 @@ const Footer: React.FC = () => {
             <li
               className={pathname == "/home" ? "font-extrabold  mr-3" : "mr-3 "}
             >
-              <Link href="/home">Home</Link>
+              <Link href="/home">Accueil</Link>
             </li>
             <li
               className={
                 pathname == "/home/artists" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
-              <Link href="/home/artists">Artists</Link>
+              <Link href="/home/artists">Artistes</Link>
             </li>
             <li
               className={
                 pathname == "/home/events" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
-              <Link href="/home/events">Events</Link>
+              <Link href="/home/events">Événements</Link>
             </li>
           </ul>
           <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
                 pathname == "/home/about" ? "font-extrabold  mr-3" : "mr-3 "
               }
             >
-              <Link href="/home/about">About</Link>
+              <Link href="/home/about">A propos</Link>
             </li>
             <li
               className={
