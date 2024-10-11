@@ -34,6 +34,12 @@ export interface Event {
   description?: string | null;
 }
 
+export interface SocialLink {
+  id: string;
+  name: string;
+  url: string;
+}
+
 export interface ArtistWithEvents {
   id: string;
   name: string;
