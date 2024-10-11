@@ -1,8 +1,19 @@
-import { deleteMessage, getMessages } from "@/app/api/action/message/message"; // Assurez-vous que cette fonction est correctement importée
-import Link from "next/link";
+"use client";
 
-export default async function MessagesListPage() {
-  const messages = await getMessages();
+import { deleteMessage, getMessages } from "@/app/api/action/message/message";
+import { ContactMessage } from "@prisma/client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export default function MessagesListPage() {
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const messagesData = await getMessages();
+      return setMessages(messagesData);
+    };
+    fetchMessages();
+  }, []);
 
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-slate-200 mb-20">
