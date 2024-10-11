@@ -1,6 +1,6 @@
 "use client";
 
-import { getMessage } from "@/app/api/action/message/message";
+import { deleteMessage, getMessage } from "@/app/api/action/message/message";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
@@ -69,6 +69,17 @@ export default function MessageDetailPage() {
         <p className="text-white">
           <span className="font-semibold">Message :</span> {message.message}
         </p>
+        <div className="w-full flex justify-center">
+          <button
+            onClick={async () => {
+              await deleteMessage(message.id);
+              window.location.href = "/admin/contact";
+            }}
+            className="bg-red-800 text-white mt-5 px-3 py-2 mx-auto rounded hover:bg-red-400 hover:text-black transition"
+          >
+            Supprimer
+          </button>
+        </div>
       </div>
     </div>
   );

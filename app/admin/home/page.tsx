@@ -134,7 +134,6 @@ const BannerDashboard: React.FC = () => {
       fetchGalerie();
     }
   };
-  console.log(artists, events);
 
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-white">

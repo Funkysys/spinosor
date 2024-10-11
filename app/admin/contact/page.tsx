@@ -1,4 +1,4 @@
-import { getMessages } from "@/app/api/action/message/message"; // Assurez-vous que cette fonction est correctement importée
+import { deleteMessage, getMessages } from "@/app/api/action/message/message"; // Assurez-vous que cette fonction est correctement importée
 import Link from "next/link";
 
 export default async function MessagesListPage() {
@@ -48,6 +48,15 @@ export default async function MessagesListPage() {
                     >
                       Voir Détails
                     </Link>
+                    <button
+                      onClick={async () => {
+                        await deleteMessage(message.id);
+                        window.location.reload();
+                      }}
+                      className="bg-red-800 text-white ml-2 px-3 py-2 rounded hover:bg-red-400 hover:text-black transition"
+                    >
+                      Supprimer
+                    </button>
                   </td>
                 </tr>
               ))
