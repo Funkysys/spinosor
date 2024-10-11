@@ -18,6 +18,21 @@ export const getEvent = async (id: string) => {
   }
 };
 
+export const getEventstIdsAndNames = async () => {
+  try {
+    const events = await prisma.event.findMany({
+      select: {
+        id: true,
+        title: true,
+      },
+    });
+    return events;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des artistes :", error);
+    return [];
+  }
+};
+
 export const getEvents = async () => {
   const events = await prisma.event.findMany({
     include: {

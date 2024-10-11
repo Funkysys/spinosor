@@ -1,11 +1,13 @@
 "use client";
 
+import { getArtistIdsAndNames } from "@/app/api/action/artists/artists";
 import {
   createBanner,
   deleteBanner,
   getBanners,
   updateBanner,
 } from "@/app/api/action/banner/banner";
+import { getEventstIdsAndNames } from "@/app/api/action/events/events";
 import { getArtistImages } from "@/app/api/services/getArtistsImages";
 import { getEventsImages } from "@/app/api/services/getEventsImages";
 import BannerList from "@/components/BannerList";
@@ -21,6 +23,8 @@ const BannerDashboard: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [galerie, setGalerie] = useState<string[]>([]);
   const [loadImage, setLoadImage] = useState(false);
+  const [artists, setArtists] = useState<{ id: string; name: string }[]>([]);
+  const [events, setEvents] = useState<{ id: string; title: string }[]>([]);
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -28,6 +32,13 @@ const BannerDashboard: React.FC = () => {
       setBanners(result);
     };
     fetchBanners();
+    const fetchArtistAndEvents = async () => {
+      const artists = await getArtistIdsAndNames();
+      const events = await getEventstIdsAndNames();
+      setArtists(artists);
+      setEvents(events);
+    };
+    fetchArtistAndEvents();
   }, []);
 
   const handleImageSelection = (imageUrl: string) => {
@@ -123,6 +134,8 @@ const BannerDashboard: React.FC = () => {
       fetchGalerie();
     }
   };
+  console.log(artists, events);
+
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-5 text-center">
@@ -166,9 +179,24 @@ const BannerDashboard: React.FC = () => {
             required
             className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
           >
-            <option value="/artists">Artists</option>
-            <option value="/events">Events</option>
-            <option value="/merch">Merch</option>
+            <option value="/artists">Page Artists</option>
+            <option value="/events">Page Events</option>
+            <option value="/merch">Page Merch</option>
+            <optgroup label="Artistes">
+              {artists.map((artist) => (
+                <option key={artist.id} value={`/artists/${artist.id}`}>
+                  {artist.name}
+                </option>
+              ))}
+            </optgroup>
+
+            <optgroup label="Événements">
+              {events.map((event) => (
+                <option key={event.id} value={`/events/${event.id}`}>
+                  {event.title}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </div>
 
