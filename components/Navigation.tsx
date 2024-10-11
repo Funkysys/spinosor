@@ -17,9 +17,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full flex justify-between items-center border-b-2 py-4 border-b-red-800 bg-black text-slate-50">
+    <nav className="flex justify-center border-b-2 py-4 border-b-red-800 bg-black text-slate-50">
       {/* Logo */}
-      <div className="md:invisible pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
+      <div className="md:hidden pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
           src="/assets/images/logo.svg"
           alt="Spinosor Records logo"
@@ -38,9 +38,9 @@ const Navbar = () => {
 
       {/* Menu pour grands écrans */}
       <ul
-        className={`hidden md:flex justify-between items-center px-4 text-2xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
+        className={`hidden md:flex items-center text-2xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
       >
-        <div className="mr-5 pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
+        <div className=" pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
           <Image
             src="/assets/images/logo.svg"
             alt="Spinosor Records logo"
@@ -52,8 +52,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "ml-5 font-extrabold hover:text-3xl mr-4"
+              : "ml-5 mr-4 hover:text-3xl"
           }
         >
           <Link href="/home">Home</Link>
@@ -61,8 +61,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/artists"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "font-extrabold hover:text-3xl mr-4"
+              : "mr-4 hover:text-3xl"
           }
         >
           <Link href="/home/artists">Artistes</Link>
@@ -70,8 +70,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/events"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "font-extrabold hover:text-3xl mr-4"
+              : "mr-4 hover:text-3xl"
           }
         >
           <Link href="/home/events">Événements</Link>
@@ -79,8 +79,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/mersh"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "font-extrabold hover:text-3xl mr-4"
+              : "mr-4 hover:text-3xl"
           }
         >
           <Link href="/home/mersh">Mersh</Link>
@@ -88,8 +88,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/about"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "font-extrabold hover:text-3xl mr-4"
+              : "mr-4 hover:text-3xl"
           }
         >
           <Link href="/home/about">A propos</Link>
@@ -97,8 +97,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/contact"
-              ? "font-extrabold hover:text-3xl mr-3"
-              : "mr-3 hover:text-3xl"
+              ? "font-extrabold hover:text-3xl mr-4"
+              : "mr-4 hover:text-3xl"
           }
         >
           <Link href="/home/contact">Contact</Link>
@@ -117,32 +117,32 @@ const Navbar = () => {
           isOpen ? "flex" : "hidden"
         } flex-col items-center absolute top-16 left-0 w-full bg-black md:hidden py-4 border-t border-gray-700 text-2xl z-10`}
       >
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home" onClick={toggleMenu}>
             Acceuil
           </Link>
         </li>
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home/artists" onClick={toggleMenu}>
             Artistes
           </Link>
         </li>
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home/events" onClick={toggleMenu}>
             Événements
           </Link>
         </li>
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home/mersh" onClick={toggleMenu}>
             Mersh
           </Link>
         </li>
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home/about" onClick={toggleMenu}>
             A propos
           </Link>
         </li>
-        <li className="mr-3 hover:text-3xl">
+        <li className="mr-4 hover:text-3xl">
           <Link href="/home/contact" onClick={toggleMenu}>
             Contact
           </Link>
