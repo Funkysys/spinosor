@@ -10,12 +10,12 @@ export const createBanner = async (formData: FormData) => {
   const link = formData.get("link") as string;
   const isActive = formData.get("isActive") === "true";
   const isSquare = formData.get("isSquare") === "true";
-  const imageFile = formData.get("imageFile") as File | string;
+  const imageFile = formData.get("imageFile") as File;
   const url = formData.get("url") as string;
 
   let imageUrl = "";
 
-  if (url) {
+  if (url && imageFile.size === 0) {
     imageUrl = url;
   } else if (imageFile instanceof File) {
     const base64Data = await imageFile.arrayBuffer();

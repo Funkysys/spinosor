@@ -53,11 +53,11 @@ export const createEvent = async (formData: FormData) => {
   const date = new Date(formData.get("date") as string);
   const ticketLink = formData.get("ticketLink") as string | null;
   const artistIds = formData.getAll("artists") as string[];
-  const imageFile = formData.get("imageFile") as File | null;
+  const imageFile = formData.get("imageFile") as File;
   const url = formData.get("url") as string | null;
 
   let imageUrl = "";
-  if (url) {
+  if (url && imageFile.size === 0) {
     imageUrl = url;
   } else if (imageFile) {
     const base64Data = await imageFile.arrayBuffer();
