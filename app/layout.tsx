@@ -9,11 +9,11 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Spinosor Records",
   description: "Label for independent artists",
 };
-export const belleza = Belleza({
+const belleza = Belleza({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-belleza",
