@@ -9,7 +9,7 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Spinosor Records",
   description: "Label for independent artists",
 };
@@ -19,7 +19,7 @@ const belleza = Belleza({
   variable: "--font-belleza",
 });
 
-export const ruda = Ruda({
+const ruda = Ruda({
   subsets: ["latin"],
   weight: ["400", "700"], // Choisissez les poids désirés
   variable: "--font-ruda",
