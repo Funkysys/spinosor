@@ -42,8 +42,8 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
       ) : (
         <p className="text-red-500 font-semibold">Inactive</p>
       )}
-      <p className="font-semibold">Titre: {banner.title}</p>
-      <p>Lien: {banner.link}</p>
+      <p className="font-semibold w-full">Titre: {banner.title}</p>
+      <p className="w-full">Lien: {banner.link}</p>
       <div className="w-32 h-32 relative mb-2">
         <Image
           src={banner.imageUrl}
