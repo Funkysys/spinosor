@@ -72,7 +72,7 @@ const ArtistPage = () => {
       {artist.socialLinks && (
         <div className="mt-8">
           <h2 className="text-3xl font-semibold">Nous trouver :</h2>
-          <ul className="list-disc ml-5 mt-4">
+          <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
             {(() => {
               let socialLinksArray = [];
 
@@ -116,16 +116,20 @@ const ArtistPage = () => {
       {artist.events && artist.events.length > 0 && (
         <div className="mt-8">
           <h2 className="text-3xl font-semibold">Événements à venir :</h2>
-          <ul className="list-disc ml-5 mt-4">
-            {artist.events.map((event) => (
-              <div key={event.id} className="">
-                <Link href={`/home/events/${event.id}`}>
-                  <button className="mt-6 bg-yellow-300 text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition">
-                    {event.title} - {new Date(event.date).toLocaleDateString()}
-                  </button>
-                </Link>
-              </div>
-            ))}
+          <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2">
+            {artist.events.map(
+              (event) =>
+                new Date(event.date).getTime() > new Date().getTime() && (
+                  <div key={event.id} className="">
+                    <Link href={`/home/events/${event.id}`}>
+                      <button className="mt-6 bg-yellow-300 text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition">
+                        {event.title} -{" "}
+                        {new Date(event.date).toLocaleDateString()}
+                      </button>
+                    </Link>
+                  </div>
+                )
+            )}
           </ul>
         </div>
       )}
