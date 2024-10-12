@@ -48,7 +48,7 @@ const ContactPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-10 mb-20">
-      <h1 className="text-4xl font-bold text-center mb-6">Contact Us</h1>
+      <h1 className="text-4xl font-bold text-center mb-6">Contactez-nous </h1>
 
       {submitted ? (
         <div className="bg-green-100 text-green-800 p-4 rounded-lg text-center">
@@ -61,7 +61,7 @@ const ContactPage: React.FC = () => {
         >
           <div className="mb-4">
             <label htmlFor="name" className="block text-lg font-semibold mb-2">
-              Name:
+              Votre nom :
             </label>
             <input
               type="text"
@@ -76,7 +76,7 @@ const ContactPage: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-lg font-semibold mb-2">
-              Email:
+              Votre email :
             </label>
             <input
               type="email"
@@ -94,7 +94,7 @@ const ContactPage: React.FC = () => {
               htmlFor="object"
               className="block text-lg font-semibold mb-2"
             >
-              Object:
+              Objet :
             </label>
             <input
               type="text"
@@ -112,7 +112,7 @@ const ContactPage: React.FC = () => {
               htmlFor="message"
               className="block text-lg font-semibold mb-2"
             >
-              Message:
+              Message :
             </label>
             <textarea
               id="message"
@@ -130,7 +130,7 @@ const ContactPage: React.FC = () => {
             disabled={isPending}
             className="bg-red-800 text-white py-2 px-4 rounded-lg w-full hover:bg-red-700 transition duration-300"
           >
-            {isPending ? "Envoi en cours..." : "Submit"}
+            {isPending ? "Envoi en cours..." : "Envoyer"}
           </button>
 
           {errorMessage && (
