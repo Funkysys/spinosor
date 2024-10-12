@@ -1,7 +1,7 @@
 "use client";
 
+import { getUser } from "@/app/api/action/user/user";
 import { User } from "@prisma/client";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,13 +11,15 @@ import React, { useState } from "react";
 const Footer: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();
 
   const fetchUser = async () => {
-    const { data } = await axios.get(`/api/user/${session?.user?.email}`);
+    const email = session?.user?.email;
+    if (!email) return;
+    const data = await getUser(email);
     setUser(data);
-    (await data.role) !== "ADMIN";
+    (await data?.role) !== "ADMIN";
   };
   if (status === "authenticated" && !user) {
     fetchUser();
@@ -85,6 +87,14 @@ const Footer: React.FC = () => {
               className="border py-2 px-4 rounded-md border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition duration-200"
             >
               Admin
+            </button>
+          )}
+          {user && user.role === "USER" && (
+            <button
+              onClick={() => router.push("/user")}
+              className="border py-2 px-4 rounded-md border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition duration-200"
+            >
+              Votre Espace
             </button>
           )}
         </div>

@@ -1,20 +1,21 @@
 "use client";
 
 import { User } from "@prisma/client";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
 import { useState } from "react";
+import { getUser } from "../api/action/user/user";
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();
   const router = useRouter();
 
   const fetchUser = async () => {
-    const { data } = await axios.get(`/api/user/${session?.user?.email}`);
+    const data = await getUser(session?.user?.email as string);
     setUser(data);
+    if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
     (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
   };
 
@@ -35,12 +36,12 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-red-800">
           Tableau de Bord Admin
         </h1>
-        <p className="mb-8 text-gray-600">
+        <p className="mb-8 text-gray-400">
           Bienvenue <span className="font-semibold">{user?.name}</span>,
           {`vous êtes connecté en tant qu'ADMIN.`}
         </p>
@@ -49,7 +50,7 @@ export default function AdminDashboard() {
           {/* Liste des sections */}
           <Link
             href="/admin/home"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
+            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               {`Gestion de la bannière de la page d'accueil`}
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/artist"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
+            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion des artistes
@@ -73,7 +74,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/events"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
+            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion des événements
@@ -85,7 +86,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/mersh"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
+            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion du merchandising
@@ -96,7 +97,7 @@ export default function AdminDashboard() {
           </Link>
           <Link
             href="/admin/contact"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-gray-50 transition duration-200"
+            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Messages reçus via la page de contact
