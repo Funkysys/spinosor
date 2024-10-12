@@ -11,7 +11,6 @@ export const getEventsImages = async (): Promise<string[]> => {
     const artistImages = response.resources.map(
       (resource: { url: any }) => resource.url
     );
-    console.log("Images d'artistes récupérées avec succès :", artistImages);
 
     return artistImages;
   } catch (error) {

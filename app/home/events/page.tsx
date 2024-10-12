@@ -16,8 +16,6 @@ const EventsPage: React.FC = () => {
     fetchEvents();
   }, []);
 
-  console.log(eventsData);
-
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [pastEvents, setPastEvents] = useState<Event[]>([]);
 

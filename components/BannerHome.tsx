@@ -26,7 +26,6 @@ const BannerHome = () => {
 
     fetchBanners();
   }, []);
-  console.log(banners);
 
   return (
     <div className="relative w-full h-[400px] md:h-[400px] xl:h-[800px] mb-20">

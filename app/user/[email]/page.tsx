@@ -19,7 +19,6 @@ export default function UserPage() {
       setLoading(true);
       try {
         const data = await getUser(email);
-        console.log(data);
         await setUserData(data);
 
         if (!data) return; // Redirection si l'utilisateur n'est pas trouvé
