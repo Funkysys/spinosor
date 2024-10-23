@@ -2,6 +2,7 @@ import { ArtistWithEvents } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+
 const Card: React.FC<ArtistWithEvents> = ({
   id,
   name,
@@ -14,16 +15,21 @@ const Card: React.FC<ArtistWithEvents> = ({
   const handleReadMore = () => {
     router.push(`/home/artists/${id}`); // Navigate to the dynamic artist page
   };
+
   return (
-    <div className="relative  max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
+    <div className="relative max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
       {imageUrl && (
-        <Image
-          className="w-full"
-          src={imageUrl}
-          alt={name}
-          width={500}
-          height={300}
-        />
+        <div className="flex justify-center items-center ">
+          {" "}
+          {/* Conteneur flex pour centrer verticalement */}
+          <Image
+            className="object-cover"
+            src={imageUrl}
+            alt={name}
+            width={500}
+            height={300}
+          />
+        </div>
       )}
 
       {/* Default overlay with title and genre */}
