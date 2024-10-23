@@ -52,7 +52,7 @@ const BannerHome = () => {
                 }`}
                 quality={100}
               />
-              <div className="absolute inset-0 bg-perso-bg bg-opacity-50 z-10"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-perso-white-one z-20">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">
                   Bienvenue chez Spinosor Records

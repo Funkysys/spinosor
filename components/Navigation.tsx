@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-center border-b-2 py-4 border-b-perso-red-one bg-black text-perso-white-two">
+    <nav className="flex justify-center border-b-2 py-4 border-b-perso-red-one bg-perso-bg text-perso-white-two">
       {/* Logo */}
       <div className="md:hidden pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
