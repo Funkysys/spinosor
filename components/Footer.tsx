@@ -99,8 +99,8 @@ const Footer: React.FC = () => {
           )}
         </div>
         <p className="md:absolute text-sm mt-3 md:mt-0 right-4">
-          &copy; {new Date().getFullYear()} Spinosor Records. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} Spinosor Records. Tout droit
+          réservés.
         </p>
       </div>
     </footer>
