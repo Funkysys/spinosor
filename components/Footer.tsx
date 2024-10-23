@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
     fetchUser();
   }
   return (
-    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-perso-bg border-t-2 border-t-perso-red-one text-perso-perso-white-one-two">
+    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-perso-bg border-t-2 border-t-perso-red-one text-perso-white-two">
       <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
