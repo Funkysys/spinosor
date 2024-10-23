@@ -36,9 +36,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-red-800">
+        <h1 className="text-3xl font-bold text-perso-white-two mb-6 border-b-2 border-perso-red-one">
           Tableau de Bord Admin
         </h1>
         <p className="mb-8 text-gray-400">
@@ -50,9 +50,9 @@ export default function AdminDashboard() {
           {/* Liste des sections */}
           <Link
             href="/admin/home"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
+            className="block p-6 bg-perso-white-two shadow-md rounded-lg hover:bg-red-300 hover:text-perso-white-one transition duration-200"
           >
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-perso-bg">
               {`Gestion de la bannière de la page d'accueil`}
             </h2>
             <p className="text-gray-600 mt-2">
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/artist"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
+            className="block p-6 bg-perso-white-two shadow-md rounded-lg hover:bg-red-300 hover:text-perso-white-one transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion des artistes
@@ -74,7 +74,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/events"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
+            className="block p-6 bg-perso-white-two shadow-md rounded-lg hover:bg-red-300 hover:text-perso-white-one transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion des événements
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
 
           <Link
             href="/admin/mersh"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
+            className="block p-6 bg-perso-white-two shadow-md rounded-lg hover:bg-red-300 hover:text-perso-white-one transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Gestion du merchandising
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
           </Link>
           <Link
             href="/admin/contact"
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-300 hover:text-white transition duration-200"
+            className="block p-6 bg-perso-white-two shadow-md rounded-lg hover:bg-red-300 hover:text-perso-white-one transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               Messages reçus via la page de contact

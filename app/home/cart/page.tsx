@@ -25,7 +25,7 @@ const CartPage = () => {
         {cart.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col justify-around items-center bg-white shadow-lg rounded-lg py-10 relative"
+            className="flex flex-col justify-around items-center bg-perso-white-one shadow-lg rounded-lg py-10 relative"
           >
             <Image
               src={item.imageUrl}
@@ -40,10 +40,10 @@ const CartPage = () => {
                 Couleur : {item.color} <br />
                 Taille : {item.size}
               </p>
-              <p className="text-red-800 font-bold mt-4">${item.price}</p>
+              <p className="text-perso-red-one font-bold mt-4">${item.price}</p>
               <button
                 onClick={() => removeFromCart(item.id)}
-                className="bg-red-800 text-white mt-4 py-2 px-4 rounded-lg w-full hover:bg-red-600 transition"
+                className="bg-perso-red-one text-perso-white-one mt-4 py-2 px-4 rounded-lg w-full hover:bg-perso-red-two transition"
               >
                 Retirer
               </button>
@@ -53,7 +53,7 @@ const CartPage = () => {
       </div>
 
       <div className="mt-10">
-        <button className="bg-green-600 text-white py-2 px-4 rounded-lg w-full hover:bg-green-800 transition">
+        <button className="bg-green-600 text-perso-white-one py-2 px-4 rounded-lg w-full hover:bg-green-800 transition">
           Procéder au paiement
         </button>
       </div>

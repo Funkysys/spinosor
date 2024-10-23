@@ -36,9 +36,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6 ">
+    <div className="min-h-screen bg-perso-bg text-perso-white-one p-6 ">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-red-800">
+        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-perso-red-one">
           Tableau de Bord User
         </h1>
         <p className="mb-8 text-gray-400">
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
           {/* Liste des sections */}
           <Link
             href={`/user/${session?.user?.email}`}
-            className="block p-6 bg-white shadow-md rounded-lg hover:bg-red-400 transition duration-200"
+            className="block p-6 bg-perso-white-one shadow-md rounded-lg hover:bg-red-400 transition duration-200"
           >
             <h2 className="text-xl font-semibold text-gray-800">
               {`Gestion de vos informations personnelles`}

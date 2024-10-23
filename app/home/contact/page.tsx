@@ -57,7 +57,7 @@ const ContactPage: React.FC = () => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out text-black"
+          className="bg-perso-white-one shadow-md rounded-lg p-6 max-w-lg mx-auto animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out text-perso-bg"
         >
           <div className="mb-4">
             <label htmlFor="name" className="block text-lg font-semibold mb-2">
@@ -70,7 +70,7 @@ const ContactPage: React.FC = () => {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-slate-200 focus:ring-red-800"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
             />
           </div>
 
@@ -85,7 +85,7 @@ const ContactPage: React.FC = () => {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-slate-200 focus:ring-red-800"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
             />
           </div>
 
@@ -103,7 +103,7 @@ const ContactPage: React.FC = () => {
               value={formData.object}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-slate-200 focus:ring-red-800"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
             />
           </div>
 
@@ -120,7 +120,7 @@ const ContactPage: React.FC = () => {
               value={formData.message}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-slate-200 focus:ring-red-800"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
               rows={5}
             ></textarea>
           </div>
@@ -128,7 +128,7 @@ const ContactPage: React.FC = () => {
           <button
             type="submit"
             disabled={isPending}
-            className="bg-red-800 text-white py-2 px-4 rounded-lg w-full hover:bg-red-700 transition duration-300"
+            className="bg-perso-red-one text-perso-white-one py-2 px-4 rounded-lg w-full hover:bg-perso-red-two transition duration-300"
           >
             {isPending ? "Envoi en cours..." : "Envoyer"}
           </button>

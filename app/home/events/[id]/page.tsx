@@ -52,12 +52,12 @@ const EventPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-5 bg-black text-black">
-      <h1 className="text-4xl font-bold text-center mb-8 text-red-800">
+    <div className="min-h-screen p-5 bg-perso-bg text-perso-bg">
+      <h1 className="text-4xl font-bold text-center mb-8 text-perso-red-one">
         {event.title} {/* Utilisation de 'title' comme dans votre modèle */}
       </h1>
 
-      <div className="max-w-4xl mx-auto bg-white p-8 shadow-md rounded-lg mb-20">
+      <div className="max-w-4xl mx-auto bg-perso-white-two p-8 shadow-md rounded-lg mb-20">
         {/* Image de l'événement */}
         <div className="mb-6">
           {event.imageUrl && (
@@ -95,7 +95,7 @@ const EventPage = () => {
                   {event.artists.map((artist: Artist) => {
                     return (
                       <Link key={artist.id} href={`/home/artists/${artist.id}`}>
-                        <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-white transition">
+                        <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
                           {artist.name}
                         </button>
                       </Link>
@@ -110,7 +110,7 @@ const EventPage = () => {
           {event.ticketLink && (
             <div className="w-full text-center">
               <Link href={event.ticketLink}>
-                <button className="mt-6 bg-yellow-300 px-6 py-3 rounded-lg hover:bg-yellow-800 hover:text-white transition">
+                <button className="mt-6 bg-perso-yellow-one px-6 py-3 rounded-lg hover:bg-perso-yellow-two hover:text-perso-white-two transition">
                   Achetez vos billets ici !
                 </button>
               </Link>
@@ -123,7 +123,7 @@ const EventPage = () => {
         <div className="mt-8 text-center">
           <button
             onClick={() => router.push("/home/events")}
-            className="bg-red-800 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
+            className="bg-perso-red-one text-perso-white-two px-6 py-3 rounded-lg hover:bg-perso-red-two transition"
           >
             Retour aux événements
           </button>

@@ -97,7 +97,7 @@ const EventsDashboard: React.FC = () => {
     }
   };
   return (
-    <div className="min-h-screen p-5 bg-gray-900 text-white">
+    <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Événements
       </h1>

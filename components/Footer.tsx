@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
     fetchUser();
   }
   return (
-    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-black border-t-2 border-t-red-800 text-slate-50">
+    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-perso-bg border-t-2 border-t-perso-red-one text-perso-perso-white-one-two">
       <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
           {user && user.role === "ADMIN" && (
             <button
               onClick={() => router.push("/admin")}
-              className="border py-2 px-4 rounded-md border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition duration-200"
+              className="border py-2 px-4 rounded-md border-perso-red-one text-perso-red-one hover:bg-perso-red-two hover:text-perso-white-one transition duration-200"
             >
               Admin
             </button>
@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
           {user && user.role === "USER" && (
             <button
               onClick={() => router.push("/user")}
-              className="border py-2 px-4 rounded-md border-red-800 text-red-800 hover:bg-red-800 hover:text-white transition duration-200"
+              className="border py-2 px-4 rounded-md border-perso-red-one text-perso-red-one hover:bg-perso-red-two hover:text-perso-white-one transition duration-200"
             >
               Votre Espace
             </button>

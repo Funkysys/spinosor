@@ -99,13 +99,13 @@ const EventList: React.FC<EventListProps> = ({
 
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400"
+            className="bg-blue-500 text-perso-white-one px-4 py-2 rounded hover:bg-blue-400"
           >
             Mettre à jour
           </button>
           <button
             type="button"
-            className="ml-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-400"
+            className="ml-4 bg-gray-500 text-perso-white-one px-4 py-2 rounded hover:bg-gray-400"
             onClick={() => setIsEditing(false)}
           >
             Annuler
@@ -137,13 +137,13 @@ const EventList: React.FC<EventListProps> = ({
           </p>
 
           <button
-            className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400"
+            className="mt-5 bg-red-500 text-perso-white-one px-4 py-2 rounded hover:bg-red-400"
             onClick={() => onDelete(event.id)}
           >
             Supprimer
           </button>
           <button
-            className="ml-4 mt-5 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-400"
+            className="ml-4 mt-5 bg-perso-yellow-two text-perso-white-one px-4 py-2 rounded hover:bg-perso-yellow-one"
             onClick={() => setIsEditing(true)}
           >
             Modifier

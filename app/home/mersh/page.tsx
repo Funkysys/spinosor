@@ -46,10 +46,10 @@ const MershPage = () => {
   const latestProducts = products.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black mb-20">
+    <div className="min-h-screen bg-perso-white-two text-perso-bg mb-20">
       {/* Bannière défilante */}
-      <section className="py-8 bg-red-800">
-        <h2 className="text-3xl text-center text-white font-bold mb-6 border-b-2">
+      <section className="py-8 bg-perso-red-one">
+        <h2 className="text-3xl text-center text-perso-white-one font-bold mb-6 border-b-2">
           Nos Dernières Nouveautées
         </h2>
         <Carousel items={latestProducts} />

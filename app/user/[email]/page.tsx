@@ -80,7 +80,7 @@ export default function UserPage() {
 
   return (
     <div className="min-h-screen bg-gray-800 p-6">
-      <div className="max-w-4xl mx-auto bg-gray-900 text-white p-8 rounded-lg">
+      <div className="max-w-4xl mx-auto bg-perso-bg text-perso-white-one p-8 rounded-lg">
         <h1 className="text-3xl font-bold mb-6">{`Modifier ou Supprimer l'utilisateur`}</h1>
         {userData && (
           <form onSubmit={handleUpdate} className="grid grid-cols-1 gap-6">
@@ -184,7 +184,7 @@ export default function UserPage() {
             <button
               type="submit"
               onClick={handleUpdate}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700"
+              className="mt-4 px-4 py-2 bg-blue-600 text-perso-white-one rounded-md shadow-md hover:bg-blue-700"
             >
               Mettre à jour
             </button>
@@ -192,7 +192,7 @@ export default function UserPage() {
         )}
         <button
           onClick={handleDelete}
-          className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md shadow-md hover:bg-red-700"
+          className="mt-4 px-4 py-2 bg-perso-red-one text-perso-white-one rounded-md shadow-md hover:bg-perso-red-two"
         >
           Supprimer
         </button>

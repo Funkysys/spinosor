@@ -34,8 +34,8 @@ const EventsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-5 bg-black text-slate-200 mb-20">
-      <h1 className="text-4xl font-bold text-center mb-8 text-slate-200">
+    <div className="min-h-screen p-5 bg-perso-bg text-perso-white-two mb-20">
+      <h1 className="text-4xl font-bold text-center mb-8 text-perso-white-two">
         Événements
       </h1>
 
@@ -44,14 +44,18 @@ const EventsPage: React.FC = () => {
         <h2 className="text-3xl font-semibold mb-6 text-slate-400">
           Événements à venir
         </h2>
-        <table className="min-w-full bg-black border-collapse">
+        <table className="min-w-full bg-perso-bg border-collapse">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b-2 border-red-800">
+              <th className="py-2 px-4 border-b-2 border-perso-red-one">
                 {`Nom de l'événements`}
               </th>
-              <th className="py-2 px-4 border-b-2 border-red-800">Date</th>
-              <th className="py-2 px-4 border-b-2 border-red-800">Action</th>
+              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+                Date
+              </th>
+              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -65,7 +69,7 @@ const EventsPage: React.FC = () => {
                   <td className="py-2 px-4 border-b">
                     <button
                       onClick={() => handleLearnMore(event.id)}
-                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-400 hover:text-black transition"
+                      className="bg-perso-red-two text-perso-white-one px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
                     >
                       En savoir +
                     </button>
@@ -88,13 +92,15 @@ const EventsPage: React.FC = () => {
         <h2 className="text-3xl font-semibold mb-6 text-slate-400">
           Événements passés
         </h2>
-        <table className="min-w-full bg-black border-collapse">
+        <table className="min-w-full bg-perso-bg border-collapse">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b-2 border-red-800">
+              <th className="py-2 px-4 border-b-2 border-perso-red-one">
                 {`Nom de l'événements`}
               </th>
-              <th className="py-2 px-4 border-b-2 border-red-800">Date</th>
+              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+                Date
+              </th>
             </tr>
           </thead>
           <tbody>

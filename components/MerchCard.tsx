@@ -37,7 +37,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 flex flex-col justify-around items-center">
+    <div className="bg-perso-white-one shadow-lg rounded-lg p-4 flex flex-col justify-around items-center">
       {/* Image du produit */}
       <Image
         src={selectedColor.imageUrl}
@@ -50,7 +50,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
         {/* Infos sur le produit */}
         <h3 className="text-2xl font-bold mt-4">{product.name}</h3>
         <p className="text-gray-700 mt-2">{product.description}</p>
-        <p className="text-red-800 font-bold mt-4">${product.price}</p>
+        <p className="text-perso-red-one font-bold mt-4">${product.price}</p>
 
         {/* Sélection des couleurs */}
         <div className="mt-4">
@@ -62,7 +62,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
                 onClick={() => setSelectedColor(colorOption)}
                 className={`w-6 h-6 rounded-full ${
                   selectedColor.color === colorOption.color
-                    ? "ring-2 ring-red-800"
+                    ? "ring-2 ring-perso-red-one"
                     : ""
                 }`}
                 style={{ backgroundColor: colorOption.color.toLowerCase() }}
@@ -80,8 +80,8 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`bg-gray-200 text-gray-700 px-2 py-1 rounded ${
-                selectedSize === size ? "ring-2 ring-red-800" : ""
+              className={`bg-perso-white-two text-gray-700 px-2 py-1 rounded ${
+                selectedSize === size ? "ring-2 ring-perso-red-one" : ""
               }`}
             >
               {size}
@@ -93,7 +93,7 @@ const MerchCard: React.FC<MerchCardProps> = ({ product }) => {
       {/* Bouton Ajouter au panier */}
       <button
         onClick={handleAddToCart}
-        className="bg-red-800 text-white mt-4 py-2 px-4 rounded-lg w-full hover:bg-red-600 transition"
+        className="bg-perso-red-one text-perso-white-one mt-4 py-2 px-4 rounded-lg w-full hover:bg-perso-red-two transition"
       >
         Ajouter au panier
       </button>

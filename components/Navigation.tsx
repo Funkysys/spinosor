@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-center border-b-2 py-4 border-b-red-800 bg-black text-slate-50">
+    <nav className="flex justify-center border-b-2 py-4 border-b-perso-red-one bg-black text-perso-white-two">
       {/* Logo */}
       <div className="md:hidden pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
@@ -106,7 +106,7 @@ const Navbar = () => {
         {/* Lien vers le panier avec une icône */}
         <li className="ml-5">
           <Link href="/home/cart">
-            <FaShoppingCart className="text-3xl hover:text-red-800 transition-colors" />
+            <FaShoppingCart className="text-3xl hover:text-perso-red-two transition-colors" />
           </Link>
         </li>
       </ul>

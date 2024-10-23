@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <Navigation />
-      <main className="bg-black text-slate-50   "> {children}</main>
+      <main className="bg-perso-bg text-perso-white-one   "> {children}</main>
       <Footer />
     </>
   );

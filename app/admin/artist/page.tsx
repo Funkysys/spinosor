@@ -101,7 +101,7 @@ const ArtistsDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-5 bg-gray-900 text-white">
+    <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Artistes
       </h1>
@@ -149,7 +149,7 @@ const ArtistsDashboard: React.FC = () => {
               <label
                 htmlFor="name"
                 id="name"
-                className="text-sm text-slate-200 mb-3"
+                className="text-sm text-perso-white-two mb-3"
               >
                 Name :
               </label>
@@ -165,7 +165,7 @@ const ArtistsDashboard: React.FC = () => {
               <label
                 htmlFor="link"
                 id="link"
-                className="text-sm text-slate-200 mb-3"
+                className="text-sm text-perso-white-two mb-3"
               >
                 Liens :
               </label>
@@ -183,14 +183,14 @@ const ArtistsDashboard: React.FC = () => {
           <button
             type="button"
             onClick={AddNewLink}
-            className="mt-5 bg-yellow-700 text-white px-4 py-2 rounded hover:bg-yellow-400 hover:text-black"
+            className="mt-5 bg-perso-red-two text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one hover:text-perso-bg"
           >
             Ajouter un lien ?
           </button>
         </div>
         <button
           type="submit"
-          className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400"
+          className="mt-5 bg-green-500 text-perso-white-two px-4 py-2 rounded hover:bg-green-400"
         >
           Créer Artiste
         </button>

@@ -52,8 +52,8 @@ const BannerHome = () => {
                 }`}
                 quality={100}
               />
-              <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-20">
+              <div className="absolute inset-0 bg-perso-bg bg-opacity-50 z-10"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-perso-white-one z-20">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">
                   Bienvenue chez Spinosor Records
                 </h1>
@@ -66,7 +66,7 @@ const BannerHome = () => {
                 </h2>
                 <Link
                   href={image.link}
-                  className="bg-red-700 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300"
+                  className="bg-perso-red-one hover:bg-perso-red-two text-perso-white-one font-semibold py-2 px-6 rounded-lg transition duration-300"
                 >
                   En savoir plus
                 </Link>

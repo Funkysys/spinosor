@@ -136,7 +136,7 @@ const BannerDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-5 bg-gray-900 text-white">
+    <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Bannières
       </h1>
@@ -216,7 +216,7 @@ const BannerDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => showModalFunc(true, "artistes")}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
+            className="bg-blue-500 text-perso-white-two px-4 py-2 rounded hover:bg-blue-400 mr-2"
             disabled={isLoading}
           >
             {`Choisir une image d'artistes`}
@@ -224,7 +224,7 @@ const BannerDashboard: React.FC = () => {
           <button
             type="button"
             onClick={() => showModalFunc(true, "events")}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
+            className="bg-blue-500 text-perso-white-two px-4 py-2 rounded hover:bg-blue-400 mr-2"
             disabled={isLoading}
           >
             {`Choisir une image d'évenements`}
@@ -265,7 +265,7 @@ const BannerDashboard: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400"
+          className="mt-5 bg-green-500 text-perso-white-two px-4 py-2 rounded hover:bg-green-400"
         >
           Créer Bannière
         </button>

@@ -50,7 +50,7 @@ const ArtistPage = () => {
   }
 
   return (
-    <div className="w-[66vw] min-h-[90vh] mx-auto p-8 bg-slate-900 mb-20">
+    <div className="w-[66vw] min-h-[90vh] mx-auto p-8 bg-perso-bg mb-20">
       <div className="flex flex-col md:flex-row items-center gap-8">
         {artist.imageUrl && (
           <Image
@@ -98,7 +98,7 @@ const ArtistPage = () => {
                     link.name !== "" && (
                       <div key={link.id} className="">
                         <Link href={link.url}>
-                          <button className="mt-6 bg-blue-300 text-black px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-white transition">
+                          <button className="mt-6 bg-blue-300 text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
                             {link.name}
                           </button>
                         </Link>
@@ -121,7 +121,7 @@ const ArtistPage = () => {
                 new Date(event.date).getTime() > new Date().getTime() && (
                   <div key={event.id} className="">
                     <Link href={`/home/events/${event.id}`}>
-                      <button className="mt-6 bg-yellow-300 text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition">
+                      <button className="mt-6 bg-perso-yellow-one text-black px-4 py-2 rounded-lg hover:bg-perso-red-one hover:text-perso-white-two transition">
                         {event.title} -{" "}
                         {new Date(event.date).toLocaleDateString()}
                       </button>

@@ -66,7 +66,7 @@ const BannerForm: React.FC<BannerFormProps> = ({
         <button
           type="button"
           onClick={() => handleImageSelection("/event/image1.jpg")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
+          className="bg-blue-500 text-perso-white-one px-4 py-2 rounded hover:bg-blue-400 mr-2"
           disabled={isLoading}
         >
           {`Choisir une image d'événement`}
@@ -74,7 +74,7 @@ const BannerForm: React.FC<BannerFormProps> = ({
         <button
           type="button"
           onClick={() => handleImageSelection("/album/image1.jpg")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
+          className="bg-blue-500 text-perso-white-one px-4 py-2 rounded hover:bg-blue-400 mr-2"
           disabled={isLoading}
         >
           {`Choisir une image d'album`}
@@ -82,7 +82,7 @@ const BannerForm: React.FC<BannerFormProps> = ({
         <button
           type="button"
           onClick={() => handleImageSelection("/merch/image1.jpg")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400"
+          className="bg-blue-500 text-perso-white-one px-4 py-2 rounded hover:bg-blue-400"
           disabled={isLoading}
         >
           Choisir une image de merch
@@ -116,7 +116,7 @@ const BannerForm: React.FC<BannerFormProps> = ({
 
       <button
         type="submit"
-        className={`mt-5 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400 ${
+        className={`mt-5 bg-green-500 text-perso-white-one px-4 py-2 rounded hover:bg-green-400 ${
           isLoading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={isLoading}
