@@ -27,7 +27,7 @@ const Card: React.FC<ArtistWithEvents> = ({
             src={imageUrl}
             alt={name}
             width={500}
-            height={300}
+            height={500}
           />
         </div>
       )}
