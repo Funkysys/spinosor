@@ -53,7 +53,7 @@ const EventPage = () => {
 
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-bg">
-      <h1 className="text-4xl font-bold text-center mb-8 text-perso-red-one">
+      <h1 className="text-4xl font-bold text-center mb-8 text-perso-white-one">
         {event.title} {/* Utilisation de 'title' comme dans votre modèle */}
       </h1>
 
