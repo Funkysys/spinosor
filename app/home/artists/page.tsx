@@ -8,25 +8,29 @@ import { useEffect, useState } from "react";
 const ArtistsPage = () => {
   const [artists, setArtists] = useState<ArtistWithEvents[]>([]);
   const [loading, setloading] = useState<boolean>(false);
+
   // Récupérer les artistes via la server action
   useEffect(() => {
     setloading(true);
     const fetchArtists = async () => {
       const data = await getArtistsWithEvents();
 
-      await setArtists(data);
-      return setloading(false);
+      // Trier les artistes par ordre alphabétique
+      const sortedArtists = data.sort((a, b) => a.name.localeCompare(b.name));
+
+      setArtists(sortedArtists);
+      setloading(false);
     };
     fetchArtists();
   }, []);
 
-  if (loading) <p>Chargement...</p>;
+  if (loading) return <p>Chargement...</p>;
 
   return (
     <div>
       <CardContainer>
         {artists.length > 0 ? (
-          artists?.map((artist) => (
+          artists.map((artist) => (
             <Card
               key={artist.id}
               id={artist.id}
