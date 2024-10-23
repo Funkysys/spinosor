@@ -34,12 +34,12 @@ const Card: React.FC<ArtistWithEvents> = ({
 
       {/* Default overlay with title and genre */}
       {/* <div className="absolute inset-0 bg-slate-200 bg-opacity-50 flex flex-col justify-center items-center text-slate-900 p-4 transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:-translate-x-full">
-        <h3 className="font-bold text-5xl mb-2">{name}</h3>
-        <p className="text-2xl">{genre}</p>
       </div> */}
 
       {/* Hidden overlay with description */}
       <div className="absolute inset-0 bg-slate-900 bg-opacity-80 flex items-center justify-center text-white p-10 translate-x-full transition-all duration-500 ease-in-out group-hover:translate-x-0 ">
+        <h3 className="font-bold text-5xl mb-2">{name}</h3>
+        <p className="text-2xl">{genre}</p>
         <p className="text-2xl ">
           {bio && <>{bio.length > 100 ? bio.substring(0, 100) + "..." : bio}</>}
         </p>
