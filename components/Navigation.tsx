@@ -53,7 +53,7 @@ const Navbar = () => {
           className={
             pathname == "/home"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home">Home</Link>
@@ -62,7 +62,7 @@ const Navbar = () => {
           className={
             pathname == "/home/artists"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home/artists">Artistes</Link>
@@ -71,7 +71,7 @@ const Navbar = () => {
           className={
             pathname == "/home/events"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home/events">Événements</Link>
@@ -80,7 +80,7 @@ const Navbar = () => {
           className={
             pathname == "/home/mersh"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home/mersh">Mersh</Link>
@@ -89,7 +89,7 @@ const Navbar = () => {
           className={
             pathname == "/home/about"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home/about">A propos</Link>
@@ -98,7 +98,7 @@ const Navbar = () => {
           className={
             pathname == "/home/contact"
               ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
+              : "hover:text-perso-yellow-one"
           }
         >
           <Link href="/home/contact">Contact</Link>
