@@ -47,13 +47,13 @@ const EventsPage: React.FC = () => {
         <table className="min-w-full bg-perso-bg border-collapse">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+              <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
                 {`Nom de l'événements`}
               </th>
-              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+              <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
                 Date
               </th>
-              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+              <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
                 Action
               </th>
             </tr>
@@ -69,7 +69,7 @@ const EventsPage: React.FC = () => {
                   <td className="py-2 px-4 border-b">
                     <button
                       onClick={() => handleLearnMore(event.id)}
-                      className="bg-perso-red-two text-perso-white-one px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
+                      className="bg-perso-yellow-two text-perso-white-one px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
                     >
                       En savoir +
                     </button>
@@ -95,10 +95,10 @@ const EventsPage: React.FC = () => {
         <table className="min-w-full bg-perso-bg border-collapse">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+              <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
                 {`Nom de l'événements`}
               </th>
-              <th className="py-2 px-4 border-b-2 border-perso-red-one">
+              <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
                 Date
               </th>
             </tr>

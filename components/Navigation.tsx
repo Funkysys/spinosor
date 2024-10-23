@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-center border-b-2 py-4 border-b-perso-red-one bg-perso-bg text-perso-white-two">
+    <nav className="flex justify-center border-b-2 py-4 border-b-perso-yellow-one bg-perso-bg text-perso-white-two">
       {/* Logo */}
       <div className="md:hidden pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
@@ -52,8 +52,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home">Home</Link>
@@ -61,8 +61,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/artists"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home/artists">Artistes</Link>
@@ -70,8 +70,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/events"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home/events">Événements</Link>
@@ -79,8 +79,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/mersh"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home/mersh">Mersh</Link>
@@ -88,8 +88,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/about"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home/about">A propos</Link>
@@ -97,8 +97,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/contact"
-              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-yellow-one hover:text-perso-yellow-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-yellow-two"
           }
         >
           <Link href="/home/contact">Contact</Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
         {/* Lien vers le panier avec une icône */}
         <li className="ml-5">
           <Link href="/home/cart">
-            <FaShoppingCart className="text-3xl hover:text-perso-red-two transition-colors" />
+            <FaShoppingCart className="text-3xl hover:text-perso-yellow-two transition-colors" />
           </Link>
         </li>
       </ul>

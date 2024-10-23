@@ -66,7 +66,7 @@ const BannerHome = () => {
                 </h2>
                 <Link
                   href={image.link}
-                  className="bg-perso-red-one hover:bg-perso-red-two text-perso-white-one font-semibold py-2 px-6 rounded-lg transition duration-300"
+                  className="bg-perso-yellow-one hover:bg-perso-yellow-two text-perso-white-one font-semibold py-2 px-6 rounded-lg transition duration-300"
                 >
                   En savoir plus
                 </Link>

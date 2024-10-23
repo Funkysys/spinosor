@@ -48,7 +48,7 @@ const MershPage = () => {
   return (
     <div className="min-h-screen bg-perso-white-two text-perso-bg mb-20">
       {/* Bannière défilante */}
-      <section className="py-8 bg-perso-red-one">
+      <section className="py-8 bg-perso-yellow-one">
         <h2 className="text-3xl text-center text-perso-white-one font-bold mb-6 border-b-2">
           Nos Dernières Nouveautées
         </h2>

@@ -40,10 +40,12 @@ const CartPage = () => {
                 Couleur : {item.color} <br />
                 Taille : {item.size}
               </p>
-              <p className="text-perso-red-one font-bold mt-4">${item.price}</p>
+              <p className="text-perso-yellow-one font-bold mt-4">
+                ${item.price}
+              </p>
               <button
                 onClick={() => removeFromCart(item.id)}
-                className="bg-perso-red-one text-perso-white-one mt-4 py-2 px-4 rounded-lg w-full hover:bg-perso-red-two transition"
+                className="bg-perso-yellow-one text-perso-white-one mt-4 py-2 px-4 rounded-lg w-full hover:bg-perso-yellow-two transition"
               >
                 Retirer
               </button>

@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-perso-bg text-perso-white-one p-6 ">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-perso-red-one">
+        <h1 className="text-3xl font-bold text-gray-200 mb-6 border-b-2 border-perso-yellow-one">
           Tableau de Bord User
         </h1>
         <p className="mb-8 text-gray-400">

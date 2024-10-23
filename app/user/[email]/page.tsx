@@ -192,7 +192,7 @@ export default function UserPage() {
         )}
         <button
           onClick={handleDelete}
-          className="mt-4 px-4 py-2 bg-perso-red-one text-perso-white-one rounded-md shadow-md hover:bg-perso-red-two"
+          className="mt-4 px-4 py-2 bg-perso-yellow-one text-perso-white-one rounded-md shadow-md hover:bg-perso-yellow-two"
         >
           Supprimer
         </button>

@@ -123,7 +123,7 @@ const EventPage = () => {
         <div className="mt-8 text-center">
           <button
             onClick={() => router.push("/home/events")}
-            className="bg-perso-red-one text-perso-white-two px-6 py-3 rounded-lg hover:bg-perso-red-two transition"
+            className="bg-perso-yellow-one text-perso-white-two px-6 py-3 rounded-lg hover:bg-perso-yellow-two transition"
           >
             Retour aux événements
           </button>

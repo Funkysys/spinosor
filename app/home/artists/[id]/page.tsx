@@ -121,7 +121,7 @@ const ArtistPage = () => {
                 new Date(event.date).getTime() > new Date().getTime() && (
                   <div key={event.id} className="">
                     <Link href={`/home/events/${event.id}`}>
-                      <button className="mt-6 bg-perso-yellow-one text-black px-4 py-2 rounded-lg hover:bg-perso-red-one hover:text-perso-white-two transition">
+                      <button className="mt-6 bg-perso-yellow-one text-black px-4 py-2 rounded-lg hover:bg-perso-yellow-one hover:text-perso-white-two transition">
                         {event.title} -{" "}
                         {new Date(event.date).toLocaleDateString()}
                       </button>

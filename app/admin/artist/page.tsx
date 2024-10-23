@@ -183,7 +183,7 @@ const ArtistsDashboard: React.FC = () => {
           <button
             type="button"
             onClick={AddNewLink}
-            className="mt-5 bg-perso-red-two text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one hover:text-perso-bg"
+            className="mt-5 bg-perso-yellow-two text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one hover:text-perso-bg"
           >
             Ajouter un lien ?
           </button>

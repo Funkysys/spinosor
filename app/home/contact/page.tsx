@@ -70,7 +70,7 @@ const ContactPage: React.FC = () => {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-yellow-one"
             />
           </div>
 
@@ -85,7 +85,7 @@ const ContactPage: React.FC = () => {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-yellow-one"
             />
           </div>
 
@@ -103,7 +103,7 @@ const ContactPage: React.FC = () => {
               value={formData.object}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-yellow-one"
             />
           </div>
 
@@ -120,7 +120,7 @@ const ContactPage: React.FC = () => {
               value={formData.message}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-red-one"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 text-perso-white-two focus:ring-perso-yellow-one"
               rows={5}
             ></textarea>
           </div>
@@ -128,7 +128,7 @@ const ContactPage: React.FC = () => {
           <button
             type="submit"
             disabled={isPending}
-            className="bg-perso-red-one text-perso-white-one py-2 px-4 rounded-lg w-full hover:bg-perso-red-two transition duration-300"
+            className="bg-perso-yellow-one text-perso-white-one py-2 px-4 rounded-lg w-full hover:bg-perso-yellow-two transition duration-300"
           >
             {isPending ? "Envoi en cours..." : "Envoyer"}
           </button>
