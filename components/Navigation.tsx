@@ -52,8 +52,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home">Home</Link>
@@ -61,8 +61,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/artists"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home/artists">Artistes</Link>
@@ -70,8 +70,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/events"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home/events">Événements</Link>
@@ -79,8 +79,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/mersh"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home/mersh">Mersh</Link>
@@ -88,8 +88,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/about"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home/about">A propos</Link>
@@ -97,8 +97,8 @@ const Navbar = () => {
         <li
           className={
             pathname == "/home/contact"
-              ? "ml-5 font-extrabold hover:text-3xl hover:text-perso-red-two mr-4"
-              : "ml-5 mr-4 hover:text-3xl text-perso-red-one hover:text-perso-red-two"
+              ? "ml-5 font-extrabold hover:text-3xl text-perso-red-one hover:text-perso-red-two mr-4"
+              : "ml-5 mr-4 hover:text-3xl  hover:text-perso-red-two"
           }
         >
           <Link href="/home/contact">Contact</Link>
