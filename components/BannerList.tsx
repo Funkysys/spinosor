@@ -40,7 +40,7 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
       {banner.isActive ? (
         <p className="text-green-500 font-semibold">Active</p>
       ) : (
-        <p className="text-perso-yellow-two font-semibold">Inactive</p>
+        <p className="text-perso-yellow-one font-semibold">Inactive</p>
       )}
       <p className="font-semibold w-full">Titre: {banner.title}</p>
       <p className="w-full">Lien: {banner.link}</p>
@@ -57,7 +57,7 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
       {/* Boutons de mise à jour et suppression */}
       <button
         onClick={() => onDelete(banner.id)}
-        className="bg-perso-yellow-two text-perso-white-two px-4 py-2 rounded hover:bg-red-400 mr-2"
+        className="bg-perso-yellow-one text-perso-white-two px-4 py-2 rounded hover:bg-red-400 mr-2"
       >
         Supprimer
       </button>
@@ -65,7 +65,7 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
       {/* Formulaire de mise à jour intégré sous la bannière */}
       <button
         type="button"
-        className="bg-perso-yellow-two text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one"
+        className="bg-perso-yellow-one text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one"
         onClick={() => setIsUpdating(!isUpdating)}
       >
         {isUpdating ? "Annuler" : "Mettre à jour"}
