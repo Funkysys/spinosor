@@ -47,7 +47,7 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-10 mb-20">
+    <div className="container mx-auto py-10 mb-20 min-h-[85vh]">
       <h1 className="text-4xl font-bold text-center mb-6">Contactez-nous </h1>
 
       {submitted ? (
