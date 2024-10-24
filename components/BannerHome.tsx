@@ -28,7 +28,7 @@ const BannerHome = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[400px] xl:h-[800px] mb-20">
+    <div className="relative w-full h-[85vh] mb-20">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}

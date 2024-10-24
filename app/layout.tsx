@@ -36,7 +36,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <body
-              className={`${belleza.variable} ${ruda.variable} ${inter.className}`}
+              className={`${belleza.variable} ${ruda.variable} ${inter.className} min-h-[100vh]`}
             >
               <ThemeProviders>{children}</ThemeProviders>
             </body>
