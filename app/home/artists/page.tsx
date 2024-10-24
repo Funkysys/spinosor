@@ -27,7 +27,7 @@ const ArtistsPage = () => {
   if (loading) return <p>Chargement...</p>;
 
   return (
-    <div>
+    <div className="min-h-[85vh]">
       <CardContainer>
         {artists.length > 0 ? (
           artists.map((artist) => (

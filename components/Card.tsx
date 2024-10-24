@@ -19,16 +19,10 @@ const Card: React.FC<ArtistWithEvents> = ({
   return (
     <div className="relative max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
       {imageUrl && (
-        <div className="flex justify-center items-center ">
+        <div className="flex justify-center items-center min-w-[20vw] min-h-[20vw]">
           {" "}
           {/* Conteneur flex pour centrer verticalement */}
-          <Image
-            className="object-cover"
-            src={imageUrl}
-            alt={name}
-            width={500}
-            height={500}
-          />
+          <Image className="object-cover" src={imageUrl} alt={name} fill />
         </div>
       )}
 
@@ -45,7 +39,7 @@ const Card: React.FC<ArtistWithEvents> = ({
         </p>
         <button
           onClick={handleReadMore}
-          className="absolute bottom-4 right-4 bg-slate-200 text-slate-900 px-2 py-1 rounded"
+          className="absolute bottom-4 right-4 bg-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-slate-900 px-2 py-1 rounded"
         >
           En voir +
         </button>

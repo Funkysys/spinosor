@@ -143,7 +143,7 @@ const EventList: React.FC<EventListProps> = ({
             Supprimer
           </button>
           <button
-            className="ml-4 mt-5 bg-perso-yellow-two text-perso-white-one px-4 py-2 rounded hover:bg-perso-yellow-one"
+            className="ml-4 mt-5 bg-perso-yellow-one text-perso-white-one px-4 py-2 rounded hover:bg-perso-yellow-two"
             onClick={() => setIsEditing(true)}
           >
             Modifier

@@ -24,7 +24,7 @@ const config: Config = {
         "perso-red-one": "#B40C2C",
         "perso-red-two": "#BE2621",
         "perso-yellow-one": "#DCAE39",
-        "perso-yellow-two": "#E8A22A",
+        "perso-yellow-two": "#F9A23E",
         "perso-white-one": "#FBFBFB",
         "perso-white-two": "#F1E9DF",
         background: "hsl(var(--background))",

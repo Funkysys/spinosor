@@ -64,12 +64,12 @@ const EventsPage: React.FC = () => {
                 <tr key={event.id}>
                   <td className="py-2 px-4 border-b">{event.title}</td>
                   <td className="py-2 px-4 border-b">
-                    {event.date.toISOString()}
+                    {event.date.toLocaleString()}
                   </td>
                   <td className="py-2 px-4 border-b">
                     <button
                       onClick={() => handleLearnMore(event.id)}
-                      className="bg-perso-yellow-two text-perso-white-one px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
+                      className="bg-perso-yellow-one text-perso-bg px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
                     >
                       En savoir +
                     </button>
@@ -109,7 +109,7 @@ const EventsPage: React.FC = () => {
                 <tr key={event.id}>
                   <td className="py-2 px-4 border-b">{event.title}</td>
                   <td className="py-2 px-4 border-b">
-                    {event.date.toISOString()}
+                    {event.date.toLocaleString()}
                   </td>
                 </tr>
               ))
