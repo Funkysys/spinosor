@@ -33,20 +33,20 @@ const Login = () => {
       Connection
     </button>
   ) : (
-    <div className="flex md:flex-col justify-center items-center text-sm md:absolute mt-3 md:mt-0 md:right-6 md:top-6">
+    <div className="flex h-[10vh]  justify-center items-center text-sm md:absolute mt-3 md:mt-0 md:right-6 ">
       {session?.user?.image && (
         <Image
-          className="md:w-12 md:h-12 w-8 h-8 mr-3 rounded-full border-2 border-gray-400 "
+          className="md:w-8 md:h-8 w-8 h-8 mr-3 rounded-full border-2 border-gray-400 "
           alt="profile picture"
           src={session?.user?.image || ""}
-          width={48}
-          height={48}
+          width={25}
+          height={25}
         />
       )}
 
       <button
         onClick={() => signOut({ callbackUrl: "/home" })}
-        className="mt-2 border-2 px-2 py-1 rounded-md hover:bg-red-800"
+        className=" text-sm border-2 px-2 py-1 rounded-md hover:bg-red-800"
       >
         Deconnexion
       </button>

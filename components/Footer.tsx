@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
     fetchUser();
   }
   return (
-    <footer className="fixed bottom-0 px-4 py-3 w-[100vw] bg-perso-bg border-t-2 border-t-perso-yellow-one text-perso-white-two">
+    <footer className="fixed bottom-0 px-4 py-2 w-[100vw] bg-perso-bg border-t-2 border-t-perso-yellow-one text-perso-white-two">
       <div className="flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
@@ -33,8 +33,8 @@ const Footer: React.FC = () => {
               src="/assets/images/logo.svg"
               alt="Spinosor Records logo"
               onClick={() => router.push("/")}
-              width={80}
-              height={80}
+              width={70}
+              height={70}
             />
           </div>
           <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
@@ -50,6 +50,8 @@ const Footer: React.FC = () => {
             >
               <Link href="/home/artists">Artistes</Link>
             </li>
+          </ul>
+          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
             <li
               className={
                 pathname == "/home/events" ? "font-extrabold  mr-3" : "mr-3 "
@@ -57,8 +59,6 @@ const Footer: React.FC = () => {
             >
               <Link href="/home/events">Événements</Link>
             </li>
-          </ul>
-          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
             <li
               className={
                 pathname == "/home/mersh" ? "font-extrabold  mr-3" : "mr-3 "
@@ -66,6 +66,8 @@ const Footer: React.FC = () => {
             >
               <Link href="/home/mersh">Mersh</Link>
             </li>
+          </ul>
+          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
             <li
               className={
                 pathname == "/home/about" ? "font-extrabold  mr-3" : "mr-3 "
@@ -84,7 +86,7 @@ const Footer: React.FC = () => {
           {user && user.role === "ADMIN" && (
             <button
               onClick={() => router.push("/admin")}
-              className="border py-2 px-4 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+              className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
             >
               Admin
             </button>
@@ -92,7 +94,7 @@ const Footer: React.FC = () => {
           {user && user.role === "USER" && (
             <button
               onClick={() => router.push("/user")}
-              className="border py-2 px-4 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+              className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
             >
               Votre Espace
             </button>

@@ -9,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        belleza: ["var(--font-belleza)", "sans-serif"],
+        ruda: ["var(--font-ruda)", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
