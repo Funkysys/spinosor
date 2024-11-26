@@ -30,8 +30,11 @@ const Navbar = () => {
       </div>
 
       {/* Menu burger (visible sur petits écrans) */}
-      <div className="md:hidden flex items-center mr-5">
-        <button onClick={toggleMenu} className="text-3xl focus:outline-none">
+      <div className="md:hidden flex items-center absolute right-5 top-5 mr-5">
+        <button
+          onClick={toggleMenu}
+          className={`${isOpen && "text-red-400"} text-3xl focus:outline-none`}
+        >
           &#9776; {/* Icone de menu burger */}
         </button>
       </div>
