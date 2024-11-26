@@ -21,7 +21,7 @@ const Navbar = () => {
       {/* Logo */}
       <div className="md:hidden cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
-          src="/assets/images/logo.svg"
+          src="/assets/images/6.png"
           alt="Spinosor Records logo"
           onClick={() => router.push("/")}
           width={135}
@@ -42,7 +42,7 @@ const Navbar = () => {
       >
         <div className="pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
           <Image
-            src="/assets/images/logo.svg"
+            src="/assets/images/6.png"
             alt="Spinosor Records logo"
             onClick={() => router.push("/")}
             width={80}

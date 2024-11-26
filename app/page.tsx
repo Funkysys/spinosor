@@ -18,8 +18,8 @@ export default function Home() {
         {/* Enter the website */}
         Découvrir le site
       </button>
-      <div className=" w-[80vw] h-[50vh]  relative animate-flip-up animate-once animate-duration-[3000ms] animate-ease-in-out">
-        <Image src="/assets/images/logo.svg" alt="Spinosor Records logo" fill />
+      <div className=" w-[50vh] h-[50vh]  relative animate-fade-up animate-once animate-duration-[3000ms] animate-ease-in-out">
+        <Image src="/assets/images/1.png" alt="Spinosor Records logo" fill />
       </div>
     </main>
   );
