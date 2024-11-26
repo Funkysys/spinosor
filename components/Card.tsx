@@ -19,16 +19,21 @@ const Card: React.FC<ArtistWithEvents> = ({
   return (
     <div className="relative max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
       {imageUrl && (
-        <div className="flex justify-center items-center min-w-[20vw] min-h-[20vw]">
-          {" "}
-          {/* Conteneur flex pour centrer verticalement */}
-          <Image className="object-cover" src={imageUrl} alt={name} fill />
+        <div className="relative w-full aspect-square">
+          {/* Conteneur carré grâce à aspect-square */}
+          <Image
+            className="object-cover"
+            src={imageUrl}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
       )}
 
       {/* Default overlay with title and genre */}
       {/* <div className="absolute inset-0 bg-slate-200 bg-opacity-50 flex flex-col justify-center items-center text-slate-900 p-4 transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:-translate-x-full">
-      </div> */}
+  </div> */}
 
       {/* Hidden overlay with description */}
       <div className="absolute inset-0 bg-slate-900 bg-opacity-80 flex items-center justify-center text-white p-10 translate-x-full transition-all duration-500 ease-in-out group-hover:translate-x-0 flex flex-col">
