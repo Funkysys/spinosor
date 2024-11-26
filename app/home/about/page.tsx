@@ -4,7 +4,11 @@ import Image from "next/image";
 import React from "react";
 
 const AboutPage: React.FC = () => {
-  const description = `Spinosor Records est un label de musique indépendant dédié à découvrir et promouvoir des talents uniques. Nous offrons une plateforme pour les artistes émergents de différents genres musicaux, et mettons un point d'honneur à favoriser l'originalité et la créativité dans chaque projet que nous soutenons.`;
+  const description = [
+    `Spinosor Records est un label de musique indépendant dédié à découvrir et promouvoir des talents uniques. Nous offrons une plateforme pour les artistes émergents de différents genres musicaux, et mettons un point d'honneur à favoriser l'originalité et la créativité dans chaque projet que nous soutenons.`,
+    "Tout en préservant l’indépendance de ses membres, le travail en collectif permet d’assurer l’exploration de nouveaux horizons, notamment dans le champ des musiques improvisées, ambiantes et électro-acoustiques. Il favorise l’éclosion d’une scène cohérente dans un cadre serein face à la transformation des arts en contenus.",
+    "Spinosor Records, c’est chercher la musique de demain avec les savoir-faire d’hier ; privilégier l’humain et l’authenticité, avec un usage restreint des correcteurs et une prohibition de l’IA dans l’intégralité du processus créatif. ",
+  ];
 
   const images = [
     "/assets/images/label_1.jpg",
@@ -29,7 +33,7 @@ const AboutPage: React.FC = () => {
             {/* Texte à gauche/droite en fonction de l'index */}
             <div className="md:w-1/2 p-4">
               <p className="text-xl font-semibold text-gray-200 leading-relaxed">
-                {description}
+                {description[index]}
               </p>
             </div>
 
