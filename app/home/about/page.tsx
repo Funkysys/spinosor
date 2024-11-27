@@ -5,7 +5,7 @@ import React from "react";
 
 const AboutPage: React.FC = () => {
   const description = [
-    `Spinosor Records est un label de musique indépendant dédié à découvrir et promouvoir des talents uniques. Nous offrons une plateforme pour les artistes émergents de différents genres musicaux, et mettons un point d'honneur à favoriser l'originalité et la créativité dans chaque projet que nous soutenons.`,
+    "Spinosor Records est un label coopératif rassemblant des musiciens porteurs de créations originales. Réunis autour de l’entraide mutuelle et du partage des compétences, Spinosor défend une vision artisanale de la musique, attentive à chaque étape de la conception des œuvres dans une démarche analogue à la production maraîchère ; limiter les intermédiaires, privilégier les circuits courts, veiller à une rémunération juste des artistes en explorant de nouveaux circuits économiques.",
     "Tout en préservant l’indépendance de ses membres, le travail en collectif permet d’assurer l’exploration de nouveaux horizons, notamment dans le champ des musiques improvisées, ambiantes et électro-acoustiques. Il favorise l’éclosion d’une scène cohérente dans un cadre serein face à la transformation des arts en contenus.",
     "Spinosor Records, c’est chercher la musique de demain avec les savoir-faire d’hier ; privilégier l’humain et l’authenticité, avec un usage restreint des correcteurs et une prohibition de l’IA dans l’intégralité du processus créatif. ",
   ];

@@ -120,38 +120,38 @@ const Navbar = () => {
           isOpen ? "flex" : "hidden"
         } flex-col items-center absolute top-16 left-0 w-full bg-black md:hidden py-4 border-t border-gray-700 text-2xl z-10`}
       >
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center pb-3">
           <Link href="/home" onClick={toggleMenu}>
             Acceuil
           </Link>
         </li>
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
           <Link href="/home/artists" onClick={toggleMenu}>
             Artistes
           </Link>
         </li>
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
           <Link href="/home/events" onClick={toggleMenu}>
             Événements
           </Link>
         </li>
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
           <Link href="/home/mersh" onClick={toggleMenu}>
             Mersh
           </Link>
         </li>
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
           <Link href="/home/about" onClick={toggleMenu}>
             A propos
           </Link>
         </li>
-        <li className="mr-4 ">
+        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
           <Link href="/home/contact" onClick={toggleMenu}>
             Contact
           </Link>
         </li>
         {/* Lien vers le panier pour petits écrans */}
-        <li className="mt-4">
+        <li className="mt-4 text-green-500">
           <Link href="/home/cart" onClick={toggleMenu}>
             <FaShoppingCart className="text-3xl" />
           </Link>
