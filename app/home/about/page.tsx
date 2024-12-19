@@ -6,7 +6,7 @@ import React from "react";
 const AboutPage: React.FC = () => {
   const description = [,];
 
-  const images = ["/assets/images/label_1.jpg"];
+  const images = ["/assets/images/label_2.jpg"];
 
   return (
     <div className="container min:h-[100vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
