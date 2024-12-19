@@ -45,7 +45,7 @@ const Navbar = () => {
       >
         <div className="pt-2 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
           <Image
-            src="/assets/images/6.png"
+            src="/assets/images/SPINOSOR.png"
             alt="Spinosor Records logo"
             onClick={() => router.push("/")}
             width={80}
