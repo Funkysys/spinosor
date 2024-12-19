@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
         <div className="flex items-center">
           <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
             <Image
-              src="/assets/images/logo.svg"
+              src="/assets/images/SPINOSOR.png"
               alt="Spinosor Records logo"
               onClick={() => router.push("/")}
               width={70}
