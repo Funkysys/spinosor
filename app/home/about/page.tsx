@@ -9,7 +9,7 @@ const AboutPage: React.FC = () => {
   const images = ["/assets/images/label_1.jpg"];
 
   return (
-    <div className="container min:h-[80vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mb-20">
+    <div className="container min:h-[100vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mb-20">
       <h1 className="text-4xl font-bold font-ruda text-center mb-8">
         About Spinosor Records
       </h1>
@@ -26,11 +26,11 @@ const AboutPage: React.FC = () => {
             <div className="md:w-1/2 p-4">
               <p className="text-xl font-semibold font-belleza text-gray-200 leading-relaxed">
                 {`Spinosor Records est un label coopératif rassemblant des musiciens porteurs de créations originales.`}{" "}
-                <br />
+                <br /> <br />
                 {`Réunis autour de l’entraide mutuelle et du partage des compétences, Spinosor défend une vision artisanale de la musique, attentive à chaque étape de la conception des œuvres dans une démarche analogue à la production maraîchère ; limiter les intermédiaires, privilégier les circuits courts, veiller à une rémunération juste des artistes en explorant de nouveaux circuits économiques.`}{" "}
-                <br />
+                <br /> <br />
                 {` Tout en préservant l’indépendance de ses membres, le travail en collectif permet d’assurer l’exploration de nouveaux horizons, notamment dans le champ des musiques improvisées, ambiantes et électro-acoustiques. Il favorise l’éclosion d’une scène cohérente dans un cadre serein face à la transformation des arts en contenus.`}{" "}
-                <br />
+                <br /> <br />
                 {`Spinosor Records, c’est chercher la musique de demain avec les savoir-faire d’hier ; privilégier l’humain et l’authenticité, avec un usage restreint des correcteurs et une prohibition de l’IA dans l’intégralité du processus créatif. `}
               </p>
             </div>
