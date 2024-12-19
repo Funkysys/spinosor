@@ -37,8 +37,8 @@ const Card: React.FC<ArtistWithEvents> = ({
 
       {/* Hidden overlay with description */}
       <div className="absolute inset-0 bg-slate-900 bg-opacity-80 flex items-center justify-center text-white p-10 translate-x-full transition-all duration-500 ease-in-out group-hover:translate-x-0  flex-col">
-        <h3 className="font-bold text-3xl mb-2 font-belleza">{name}</h3>
-        <p className="text-1xl text-slate-400 font-belleza">{genre}</p>
+        <h3 className="font-bold text-5xl mb-2 font-belleza">{name}</h3>
+        <p className="text-3xl text-slate-400 font-belleza">{genre}</p>
         <button
           onClick={handleReadMore}
           className="absolute bottom-4 right-4 bg-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-slate-900 px-2 py-1 rounded font-belleza"

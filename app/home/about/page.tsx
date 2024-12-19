@@ -18,7 +18,7 @@ const AboutPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mb-20">
-      <h1 className="text-4xl font-bold text-center mb-8">
+      <h1 className="text-4xl font-bold font-ruda text-center mb-8">
         About Spinosor Records
       </h1>
 
@@ -26,13 +26,13 @@ const AboutPage: React.FC = () => {
         {images.map((image, index) => (
           <div
             key={index}
-            className={`flex flex-col md:flex-row ${
+            className={`flex flex-col font-belleza md:flex-row ${
               index % 2 !== 0 ? "md:flex-row-reverse" : ""
             } items-center`}
           >
             {/* Texte à gauche/droite en fonction de l'index */}
             <div className="md:w-1/2 p-4">
-              <p className="text-xl font-semibold text-gray-200 leading-relaxed">
+              <p className="text-xl font-semibold font-belleza text-gray-200 leading-relaxed">
                 {description[index]}
               </p>
             </div>
