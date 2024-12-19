@@ -38,11 +38,11 @@ const Footer: React.FC = () => {
             />
           </div>
           <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
-            <li
+            {/* <li
               className={pathname == "/home" ? "font-extrabold  mr-3" : "mr-3 "}
             >
               <Link href="/home">Accueil</Link>
-            </li>
+            </li> */}
             <li
               className={
                 pathname == "/home/artists" ? "font-extrabold  mr-3" : "mr-3 "

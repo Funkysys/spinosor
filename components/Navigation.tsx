@@ -52,7 +52,7 @@ const Navbar = () => {
             height={95}
           />
         </div>
-        <li
+        {/* <li
           className={
             pathname == "/home"
               ? "ml-5 font-extrabold  text-perso-yellow-one hover:text-perso-yellow-two mr-4"
@@ -60,7 +60,7 @@ const Navbar = () => {
           }
         >
           <Link href="/home">Accueil</Link>
-        </li>
+        </li> */}
         <li
           className={
             pathname == "/home/artists"
