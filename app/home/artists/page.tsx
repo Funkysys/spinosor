@@ -36,7 +36,6 @@ const ArtistsPage = () => {
               id={artist.id}
               name={artist.name}
               genre={artist.genre || "Non spécifié"}
-              bio={artist.bio || "Pas de description disponible"}
               imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
               socialLinks={artist.socialLinks}
               events={artist.events.length > 0 ? artist.events : []}
