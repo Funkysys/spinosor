@@ -49,7 +49,7 @@ const Navbar = () => {
             alt="Spinosor Records logo"
             onClick={() => router.push("/")}
             width={95}
-            height={95}
+            height={80}
           />
         </div>
         {/* <li
