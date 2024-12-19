@@ -11,7 +11,7 @@ const AboutPage: React.FC = () => {
   return (
     <div className="container min:h-[100vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
       <h1 className="text-4xl font-bold font-ruda text-center mb-8">
-        A Propos de Spinosor Records
+        À Propos de Spinosor Records
       </h1>
 
       <div className="space-y-16">
