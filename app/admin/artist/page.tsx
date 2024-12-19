@@ -115,6 +115,10 @@ const ArtistsDashboard: React.FC = () => {
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
       >
         {/* Champs de formulaire */}
+
+        <label htmlFor="name" className="underline mb-3">
+          Name
+        </label>
         <input
           type="text"
           name="name"
@@ -122,17 +126,26 @@ const ArtistsDashboard: React.FC = () => {
           required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="bio" className="underline mb-3">
+          Bio
+        </label>
         <textarea
           name="bio"
           placeholder="Description"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="genre" className="underline mb-3">
+          Genre
+        </label>
         <input
           type="text"
           name="genre"
           placeholder="Genre"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="imageFile" className="underline mb-3">
+          Image
+        </label>
         <input
           type="file"
           name="imageFile"
