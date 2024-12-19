@@ -33,7 +33,7 @@ const Login = () => {
       Connection
     </button>
   ) : (
-    <div className="flex h-[10vh] xl:h-[5vh] justify-center items-center text-sm md:absolute mt-3 md:mt-0 md:right-6 ">
+    <div className="flex h-[10vh] xl:h-[5vh] justify-center items-center text-sm md:mt-0 md:right-6 ">
       {session?.user?.image && (
         <Image
           className="md:w-8 md:h-8 w-8 h-8 mr-3 rounded-full border-2 border-gray-400 "
