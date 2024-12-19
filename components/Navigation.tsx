@@ -48,8 +48,8 @@ const Navbar = () => {
             src="/assets/images/SPINOSOR.png"
             alt="Spinosor Records logo"
             onClick={() => router.push("/")}
-            width={80}
-            height={80}
+            width={95}
+            height={95}
           />
         </div>
         <li
