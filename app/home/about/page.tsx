@@ -5,16 +5,10 @@ import React from "react";
 
 const AboutPage: React.FC = () => {
   const description = [
-    "Spinosor Records est un label coopératif rassemblant des musiciens porteurs de créations originales. Réunis autour de l’entraide mutuelle et du partage des compétences, Spinosor défend une vision artisanale de la musique, attentive à chaque étape de la conception des œuvres dans une démarche analogue à la production maraîchère ; limiter les intermédiaires, privilégier les circuits courts, veiller à une rémunération juste des artistes en explorant de nouveaux circuits économiques.",
-    "Tout en préservant l’indépendance de ses membres, le travail en collectif permet d’assurer l’exploration de nouveaux horizons, notamment dans le champ des musiques improvisées, ambiantes et électro-acoustiques. Il favorise l’éclosion d’une scène cohérente dans un cadre serein face à la transformation des arts en contenus.",
-    "Spinosor Records, c’est chercher la musique de demain avec les savoir-faire d’hier ; privilégier l’humain et l’authenticité, avec un usage restreint des correcteurs et une prohibition de l’IA dans l’intégralité du processus créatif. ",
+    "Spinosor Records est un label coopératif rassemblant des musiciens porteurs de créations originales. Réunis autour de l’entraide mutuelle et du partage des compétences, Spinosor défend une vision artisanale de la musique, attentive à chaque étape de la conception des œuvres dans une démarche analogue à la production maraîchère ; limiter les intermédiaires, privilégier les circuits courts, veiller à une rémunération juste des artistes en explorant de nouveaux circuits économiques. Tout en préservant l’indépendance de ses membres, le travail en collectif permet d’assurer l’exploration de nouveaux horizons, notamment dans le champ des musiques improvisées, ambiantes et électro-acoustiques. Il favorise l’éclosion d’une scène cohérente dans un cadre serein face à la transformation des arts en contenus.Spinosor Records, c’est chercher la musique de demain avec les savoir-faire d’hier ; privilégier l’humain et l’authenticité, avec un usage restreint des correcteurs et une prohibition de l’IA dans l’intégralité du processus créatif. ",
   ];
 
-  const images = [
-    "/assets/images/label_1.jpg",
-    "/assets/images/label_2.jpg",
-    "/assets/images/label_3.jpg",
-  ];
+  const images = ["/assets/images/label_1.jpg"];
 
   return (
     <div className="container mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mb-20">
