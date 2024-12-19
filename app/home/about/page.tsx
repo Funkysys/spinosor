@@ -9,7 +9,7 @@ const AboutPage: React.FC = () => {
   const images = ["/assets/images/label_1.jpg"];
 
   return (
-    <div className="container min:h-[100vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mb-20">
+    <div className="container min:h-[100vh] mx-auto py-10 px-4 animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
       <h1 className="text-4xl font-bold font-ruda text-center mb-8">
         About Spinosor Records
       </h1>
@@ -22,7 +22,6 @@ const AboutPage: React.FC = () => {
               index % 2 !== 0 ? "md:flex-row-reverse" : ""
             } items-center`}
           >
-            {/* Texte à gauche/droite en fonction de l'index */}
             <div className="md:w-1/2 p-4">
               <p className="text-xl font-semibold font-belleza text-gray-200 leading-relaxed">
                 {`Spinosor Records est un label coopératif rassemblant des musiciens porteurs de créations originales.`}{" "}
@@ -35,7 +34,6 @@ const AboutPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Image à droite/gauche */}
             <div className="md:w-1/2 p-4">
               <Image
                 src={image}
