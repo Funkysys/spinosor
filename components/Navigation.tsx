@@ -43,7 +43,7 @@ const Navbar = () => {
       <ul
         className={`hidden md:flex items-center text-xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
       >
-        <div className=" cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
+        <div className="cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mr-5">
           <Image
             src="/assets/images/SPINOSOR.png"
             alt="Spinosor Records logo"
