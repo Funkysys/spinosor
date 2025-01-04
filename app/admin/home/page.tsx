@@ -161,6 +161,9 @@ const BannerDashboard: React.FC = () => {
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
       >
+        <label htmlFor="title" className="text-sm text-slate-400">
+          Title
+        </label>
         <input
           type="text"
           name="title"
@@ -201,14 +204,10 @@ const BannerDashboard: React.FC = () => {
 
         {/* Ajout des cases à cocher */}
         <div className="mb-4">
-          <label className="block mb-2">
-            <input type="checkbox" name="isActive" className="mr-2" />
-            Activer la bannière
-          </label>
-          <label className="block mb-4">
-            <input type="checkbox" name="isSquare" className="mr-2" />
-            Format carré
-          </label>
+          <label className="block mb-2">Activer la bannière</label>
+          <input type="checkbox" name="isActive" className="mr-2" />
+          <label className="block mb-4">Format carré</label>
+          <input type="checkbox" name="isSquare" className="mr-2" />
         </div>
 
         <div className="mb-4">
@@ -229,6 +228,9 @@ const BannerDashboard: React.FC = () => {
           >
             {`Choisir une image d'évenements`}
           </button>
+          <label htmlFor="imageFile" className="text-sm text-slate-400">
+            Image
+          </label>
           <input
             type="file"
             name="imageFile"

@@ -28,7 +28,7 @@ const ModaleImageSelection: React.FC<ModaleImageSelectionProps> = ({
                 onClose();
                 setLoadImage(false);
               }}
-              className="relative overflow-hidden rounded-lg cursor-pointer focus:outline-none"
+              className="relative overflow-scroll rounded-lg cursor-pointer focus:outline-none"
             >
               <Image
                 src={imageUrl}
