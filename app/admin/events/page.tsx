@@ -120,6 +120,9 @@ const EventsDashboard: React.FC = () => {
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
       >
         {/* Champs de formulaire */}
+        <label htmlFor="title" className="text-sm text-slate-400">
+          Title
+        </label>
         <input
           type="text"
           name="title"
@@ -127,11 +130,17 @@ const EventsDashboard: React.FC = () => {
           required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="description" className="text-sm text-slate-400">
+          Description
+        </label>
         <textarea
           name="description"
           placeholder="Description"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="location" className="text-sm text-slate-400">
+          Location
+        </label>
         <input
           type="text"
           name="location"
@@ -139,12 +148,18 @@ const EventsDashboard: React.FC = () => {
           required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="date" className="text-sm text-slate-400">
+          Date
+        </label>
         <input
           type="datetime-local"
           name="date"
           required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="ticketLink" className="text-sm text-slate-400">
+          Ticket Link
+        </label>
         <input
           type="text"
           name="ticketLink"
@@ -161,6 +176,9 @@ const EventsDashboard: React.FC = () => {
           >
             {`Choisir une image d'artistes`}
           </button>
+          <label htmlFor="imageFile" className="text-sm text-slate-400">
+            Image
+          </label>
           <input
             type="file"
             name="imageFile"
