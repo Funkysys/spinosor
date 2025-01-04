@@ -73,6 +73,9 @@ const ArtistList: React.FC<ArtistListProps> = ({
       {isEditing ? (
         <form onSubmit={handleUpdate}>
           {/* Champs de formulaire pour mise à jour */}
+          <label htmlFor="name" className="text-sm text-slate-400">
+            Name
+          </label>
           <input
             type="text"
             name="name"
@@ -80,19 +83,28 @@ const ArtistList: React.FC<ArtistListProps> = ({
             required
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="bio" className="text-sm text-slate-400">
+            Bio
+          </label>
           <textarea
             name="bio"
             defaultValue={artist.bio || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="genre" className="text-sm text-slate-400">
+            Genre
+          </label>
           <input
             type="text"
             name="genre"
             defaultValue={artist.genre || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="imageUrl" className="text-sm text-slate-400">
+            Image
+          </label>
           <input
-            type="url"
+            type="file"
             name="imageUrl"
             defaultValue={artist.imageUrl || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
@@ -101,10 +113,7 @@ const ArtistList: React.FC<ArtistListProps> = ({
           {tempLink.map((el: Link, index) => (
             <div key={index} className="grid md:grid-cols-2 gap-2 mb-4">
               <div>
-                <label
-                  htmlFor={`name-${el.id}`}
-                  className="text-sm text-slate-400"
-                >
+                <label htmlFor={el.name} className="text-sm text-slate-400">
                   Nom :
                 </label>
                 <input
@@ -142,7 +151,11 @@ const ArtistList: React.FC<ArtistListProps> = ({
             </div>
           ))}
           <div className="flex mb-5">
-            <button type="button" onClick={AddNewLink}>
+            <button
+              type="button"
+              onClick={AddNewLink}
+              className="border-1 px-4 py-2 rounded-md bg-yellow-300 text-black hover:bg-yellow-500"
+            >
               Ajouter un autre lien ?
             </button>
           </div>

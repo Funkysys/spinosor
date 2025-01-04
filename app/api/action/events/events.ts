@@ -138,7 +138,27 @@ export const updateEvent = async (id: string, formData: FormData) => {
 };
 
 export const deleteEvent = async (eventId: string) => {
-  return await prisma.event.delete({
+  const event = await prisma.event.delete({
     where: { id: eventId },
   });
+  if (!event.imageUrl) {
+    return event;
+  }
+
+  // Extraire le public_id de l'image (vérifie que ce n'est pas undefined)
+  const publicId = event.imageUrl.split("/").pop() || ""; // Fournir une valeur par défaut
+
+  if (!publicId) {
+    console.error("Public ID de l'image non trouvé.");
+    return event;
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    console.log("Résultat de suppression sur Cloudinary :", result);
+  } catch (error) {
+    console.error("Erreur lors de la suppression sur Cloudinary :", error);
+  }
+
+  return event;
 };

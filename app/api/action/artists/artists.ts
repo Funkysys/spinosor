@@ -179,7 +179,27 @@ export const updateArtist = async (id: string, formData: FormData) => {
 };
 
 export const deleteArtist = async (artistId: string) => {
-  await prisma.artist.delete({
+  const artist = await prisma.artist.delete({
     where: { id: artistId },
   });
+  if (!artist.imageUrl) {
+    return artist;
+  }
+
+  // Extraire le public_id de l'image (vérifie que ce n'est pas undefined)
+  const publicId = artist.imageUrl.split("/").pop() || ""; // Fournir une valeur par défaut
+
+  if (!publicId) {
+    console.error("Public ID de l'image non trouvé.");
+    return artist;
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    console.log("Résultat de suppression sur Cloudinary :", result);
+  } catch (error) {
+    console.error("Erreur lors de la suppression sur Cloudinary :", error);
+  }
+
+  return artist;
 };

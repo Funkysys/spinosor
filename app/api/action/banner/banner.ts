@@ -67,9 +67,28 @@ export const createBanner = async (formData: FormData) => {
 export const deleteBanner = async (formData: FormData) => {
   const id = formData.get("id") as string;
 
-  await prisma.banner.delete({
+  const banner = await prisma.banner.delete({
     where: { id: String(id) },
   });
+
+  if (!banner.imageUrl) {
+    return banner;
+  }
+
+  // Extraire le public_id de l'image (vérifie que ce n'est pas undefined)
+  const publicId = banner.imageUrl.split("/").pop() || ""; // Fournir une valeur par défaut
+
+  if (!publicId) {
+    console.error("Public ID de l'image non trouvé.");
+    return banner;
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    console.log("Résultat de suppression sur Cloudinary :", result);
+  } catch (error) {
+    console.error("Erreur lors de la suppression sur Cloudinary :", error);
+  }
 
   return { message: "Banner deleted successfully" };
 };

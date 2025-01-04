@@ -47,6 +47,9 @@ const EventList: React.FC<EventListProps> = ({
     <li className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
       {isEditing ? (
         <form onSubmit={handleUpdate}>
+          <label htmlFor="title" className="text-sm text-slate-400">
+            Title
+          </label>
           <input
             type="text"
             name="title"
@@ -54,11 +57,17 @@ const EventList: React.FC<EventListProps> = ({
             required
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="description" className="text-sm text-slate-400">
+            Description
+          </label>
           <textarea
             name="description"
             defaultValue={event.description || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           ></textarea>
+          <label htmlFor="location" className="text-sm text-slate-400">
+            Location
+          </label>
           <input
             type="text"
             name="location"
@@ -66,6 +75,9 @@ const EventList: React.FC<EventListProps> = ({
             required
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="date" className="text-sm text-slate-400">
+            Date
+          </label>
           <input
             type="datetime-local"
             name="date"
@@ -73,6 +85,9 @@ const EventList: React.FC<EventListProps> = ({
             required
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="ticketLink" className="text-sm text-slate-400">
+            Ticket Link
+          </label>
           <input
             type="url"
             name="ticketLink"

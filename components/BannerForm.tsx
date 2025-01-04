@@ -87,6 +87,9 @@ const BannerForm: React.FC<BannerFormProps> = ({
         >
           Choisir une image de merch
         </button>
+        <label htmlFor="imageFile" className="text-sm text-slate-400">
+          Image
+        </label>
         <input
           type="file"
           name="imageFile"

@@ -73,6 +73,9 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
 
       {isUpdating && (
         <form onSubmit={handleUpdate} className="mt-3">
+          <label htmlFor="title" className="text-sm text-slate-400">
+            Title
+          </label>
           <input
             type="text"
             defaultValue={banner.title}
@@ -82,26 +85,22 @@ const BannerList: React.FC<BannerProps> = ({ banner, onDelete, onUpdate }) => {
           />
 
           {/* Cases à cocher */}
-          <label className="block mb-2">
-            <input
-              type="checkbox"
-              name="isActive"
-              className="mr-2"
-              defaultChecked={banner.isActive}
-              onChange={(e) => updateFormData("isActive", e.target.checked)}
-            />
-            Activer la bannière
-          </label>
-          <label className="block mb-2">
-            <input
-              type="checkbox"
-              name="isSquare"
-              className="mr-2"
-              defaultChecked={banner.isSquare}
-              onChange={(e) => updateFormData("isSquare", e.target.checked)}
-            />
-            Format carré
-          </label>
+          <label className="block mb-2">Activer la bannière</label>
+          <input
+            type="checkbox"
+            name="isActive"
+            className="mr-2"
+            defaultChecked={banner.isActive}
+            onChange={(e) => updateFormData("isActive", e.target.checked)}
+          />
+          <label className="block mb-2">Format carré</label>
+          <input
+            type="checkbox"
+            name="isSquare"
+            className="mr-2"
+            defaultChecked={banner.isSquare}
+            onChange={(e) => updateFormData("isSquare", e.target.checked)}
+          />
 
           <div className="mb-4">
             <label htmlFor="link" className="block mb-1">
