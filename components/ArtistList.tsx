@@ -67,6 +67,7 @@ const ArtistList: React.FC<ArtistListProps> = ({
   const removeLink = (id: number) => {
     setTempLink(tempLink.filter((link) => link.id !== id));
   };
+  console.log(artist.imageUrl);
 
   return (
     <li className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
@@ -100,13 +101,13 @@ const ArtistList: React.FC<ArtistListProps> = ({
             defaultValue={artist.genre || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+
           <label htmlFor="imageUrl" className="text-sm text-slate-400">
             Image
           </label>
           <input
             type="file"
             name="imageUrl"
-            defaultValue={artist.imageUrl || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
 
@@ -204,19 +205,22 @@ const ArtistList: React.FC<ArtistListProps> = ({
               <p>Aucun lien social disponible.</p>
             )}
           </div>
-
-          <button
-            className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400"
-            onClick={() => onDelete(artist.id)}
-          >
-            Supprimer
-          </button>
-          <button
-            className="ml-4 mt-5 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-400"
-            onClick={() => setIsEditing(true)}
-          >
-            Modifier
-          </button>
+          {!isEditing && (
+            <>
+              <button
+                className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400"
+                onClick={() => onDelete(artist.id)}
+              >
+                Supprimer
+              </button>
+              <button
+                className="ml-4 mt-5 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-400"
+                onClick={() => setIsEditing(true)}
+              >
+                Modifier
+              </button>
+            </>
+          )}
         </>
       )}
     </li>
