@@ -123,14 +123,22 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
   return artist;
 };
 
-export const updateArtist = async (id: string, formData: FormData) => {
+export const updateArtist = async (
+  id: string,
+  formData: FormData,
+  actualImage: string | null
+) => {
   const updateData: {
     name?: string;
     bio?: string | null;
     genre?: string | null;
-    imageUrl?: string | null;
+    imageUrl?: File | null;
     socialLinks?: { [key: string]: any } | undefined;
   } = {};
+
+  const imageFile = formData.get("imageFile") as File | null;
+
+  let image = "";
 
   // Vérifiez et mettez à jour le nom
   if (formData.has("name")) {
@@ -149,7 +157,58 @@ export const updateArtist = async (id: string, formData: FormData) => {
 
   // Vérifiez et mettez à jour l'URL de l'image
   if (formData.has("imageUrl")) {
-    updateData.imageUrl = formData.get("imageUrl") as string | null;
+    if (!actualImage && actualImage !== "") {
+      throw new Error("Actual image not found.");
+    }
+    const publicId = actualImage.split("/").pop() || ""; // Fournir une valeur par défaut
+
+    if (!publicId) {
+      console.error("Public ID de l'image non trouvé.");
+      return;
+    }
+
+    try {
+      const result = await cloudinary.uploader.destroy(publicId);
+      console.log("Résultat de suppression sur Cloudinary :", result);
+    } catch (error) {
+      console.error("Erreur lors de la suppression sur Cloudinary :", error);
+    }
+
+    const base64Data = await imageFile?.arrayBuffer();
+
+    if (!base64Data) {
+      throw new Error("Failed to get array buffer from imageUrl.");
+    }
+
+    const buffer = Buffer.from(base64Data);
+
+    // Utilisation d'une promesse pour l'upload
+    const uploadResult = await new Promise<{ secure_url: string }>(
+      (resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "trikcs" },
+          (error, result) => {
+            if (error) {
+              reject(new Error(`Cloudinary Upload Error: ${error.message}`));
+            } else {
+              if (result) {
+                resolve(result);
+              } else {
+                reject(new Error("Cloudinary upload result is undefined"));
+              }
+            }
+          }
+        );
+
+        uploadStream.end(buffer);
+      }
+    );
+
+    if (uploadResult && "secure_url" in uploadResult) {
+      image = uploadResult.secure_url;
+    } else {
+      throw new Error("Upload to Cloudinary failed.");
+    }
   }
 
   // Vérifiez et mettez à jour les liens sociaux
@@ -174,7 +233,13 @@ export const updateArtist = async (id: string, formData: FormData) => {
   // Effectuer la mise à jour dans la base de données
   return await prisma.artist.update({
     where: { id },
-    data: updateData,
+    data: {
+      name: updateData.name,
+      bio: updateData.bio,
+      genre: updateData.genre,
+      imageUrl: image,
+      socialLinks: updateData.socialLinks,
+    },
   });
 };
 
