@@ -69,13 +69,14 @@ const Footer: React.FC = () => {
         <div className="hidden group-hover:flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <div className="mr-3 cursor-pointer">
             <div className="flex items-center">
-              <Image
-                src="/assets/images/SPINOSOR.png"
-                alt="Spinosor Records logo"
-                onClick={() => router.push("/")}
-                width={70}
-                height={70}
-              />
+              <Link href="/">
+                <Image
+                  src="/assets/images/SPINOSOR.png"
+                  alt="Spinosor Records logo"
+                  width={70}
+                  height={70}
+                />
+              </Link>
               <Link href="/home/legal">
                 <button className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                   {" "}
