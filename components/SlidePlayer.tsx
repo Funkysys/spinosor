@@ -12,7 +12,7 @@ const SlideModal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Icône déclencheur */}
       <div
         className="fixed top-1/2 left-0 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transform-translate-y-1/2 hover:bg-gray-600"
-        onMouseEnter={() => setIsOpen(true)}
+        onMouseEnter={() => setIsOpen(!isOpen)}
       >
         <FaMusic className="text-2xl text-perso-yellow-two" />{" "}
         {/* Nouvelle icône */}
@@ -29,6 +29,13 @@ const SlideModal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       >
         <div className=" flex items-center justify-center h-full">
           {children}
+          <div
+            className="md:hidden z-20 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transform-translate-y-1/2 hover:bg-gray-600"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <FaMusic className="text-2xl text-perso-yellow-two" />{" "}
+            {/* Nouvelle icône */}
+          </div>
         </div>
       </div>
     </div>

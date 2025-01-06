@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
               <Link href="/home/legal">
                 <button
                   onClick={() => router.push("/admin")}
-                  className="border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+                  className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
                 >
                   {" "}
                   Mentions légales
@@ -104,6 +104,13 @@ const Footer: React.FC = () => {
               réservés.
             </p>
           </div>
+          <button
+            onClick={() => router.push("/admin")}
+            className="md:hidden border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
+          >
+            {" "}
+            Mentions légales
+          </button>
         </div>
       </div>
     </footer>
