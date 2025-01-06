@@ -24,8 +24,11 @@ const Footer: React.FC = () => {
   }, [status, session?.user?.email]);
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
-      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-36 overflow-hidden transition-all duration-300">
+    <footer
+      className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
+      aria-label="Footer"
+    >
+      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300">
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
             <Link href="/admin">
