@@ -21,11 +21,14 @@ const EventList: React.FC<EventListProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [selectedArtists, setSelectedArtists] = useState<any[]>([]); // Pour gérer les artistes sélectionnés
   const [updateArtists, setUpdateArtists] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchArtists = async () => {
       const artistList = await getArtists();
       setUpdateArtists(artistList);
+      setLoading(false);
     };
     fetchArtists();
   }, []);
@@ -43,6 +46,12 @@ const EventList: React.FC<EventListProps> = ({
   const handleArtistChange = (selectedArtists: any) => {
     setSelectedArtists(selectedArtists);
   };
+
+  if (loading) {
+    return (
+      <div className="w-16 h-16 border-4 border-t-transparent border-gray-500 rounded-full animate-spin"></div>
+    );
+  }
   return (
     <li className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
       {isEditing ? (

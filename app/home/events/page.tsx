@@ -8,10 +8,14 @@ import { useEffect, useState } from "react";
 const EventsPage: React.FC = () => {
   const router = useRouter();
   const [eventsData, setEventsData] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    setLoading(true);
     const fetchEvents = async () => {
       const data = await getEvents();
       setEventsData(data);
+      setLoading(false);
     };
     fetchEvents();
   }, []);
@@ -32,6 +36,14 @@ const EventsPage: React.FC = () => {
   const handleLearnMore = (id: string) => {
     router.push(`/home/events/${id}`);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-16 h-16 border-4 border-t-transparent border-gray-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-white-two mb-20">
