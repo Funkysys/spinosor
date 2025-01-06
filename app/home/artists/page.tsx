@@ -1,4 +1,5 @@
 "use client";
+
 import { getArtistsWithEvents } from "@/app/api/action/artists/artists";
 import Card from "@/components/Card";
 import CardContainer from "@/components/CardContainer";
@@ -7,7 +8,8 @@ import { useEffect, useState } from "react";
 
 const ArtistsPage = () => {
   const [artists, setArtists] = useState<ArtistWithEvents[]>([]);
-  const [loading, setloading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isMounted, setIsMounted] = useState(false); // État pour vérifier si le composant est monté côté client
 
   // Récupérer les artistes via la server action
   useEffect(() => {
@@ -18,17 +20,25 @@ const ArtistsPage = () => {
       const sortedArtists = data.sort((a, b) => a.name.localeCompare(b.name));
 
       setArtists(sortedArtists);
-      setloading(false);
+      setLoading(false);
     };
     fetchArtists();
+
+    // Définir `isMounted` à true pour marquer que le composant est monté côté client
+    setIsMounted(true);
   }, []);
 
-  if (loading)
+  if (!isMounted) {
+    return null; // Ne pas afficher le contenu tant que le composant n'est pas monté côté client
+  }
+
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="w-16 h-16 border-4 border-t-transparent border-gray-500 rounded-full animate-spin"></div>
       </div>
     );
+  }
 
   return (
     <div className="h-full w-full bg-perso-bg">

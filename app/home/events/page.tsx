@@ -9,35 +9,43 @@ const EventsPage: React.FC = () => {
   const router = useRouter();
   const [eventsData, setEventsData] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  console.log("eventsData", eventsData);
+  const [isMounted, setIsMounted] = useState(false); // Vérifier si le composant est monté côté client
 
   useEffect(() => {
     const fetchEvents = async () => {
       const data = await getEvents();
-      console.log("data", data);
-
       setEventsData(data);
       setLoading(false);
     };
     fetchEvents();
+
+    // Marquer que le composant est monté côté client
+    setIsMounted(true);
   }, []);
 
+  // Diviser les événements en passés et à venir
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [pastEvents, setPastEvents] = useState<Event[]>([]);
 
   useEffect(() => {
-    const today = new Date();
-    const upcoming = eventsData.filter((event) => event.date >= today);
-    const past = eventsData.filter((event) => event.date < today);
+    if (eventsData.length > 0) {
+      const today = new Date();
+      const upcoming = eventsData.filter((event) => event.date >= today);
+      const past = eventsData.filter((event) => event.date < today);
 
-    setUpcomingEvents(upcoming);
-    setPastEvents(past);
+      setUpcomingEvents(upcoming);
+      setPastEvents(past);
+    }
   }, [eventsData]);
 
   // Fonction pour gérer le clic sur "En savoir plus"
   const handleLearnMore = (id: string) => {
     router.push(`/home/events/${id}`);
   };
+
+  if (!isMounted) {
+    return null; // Attendre que le composant soit monté côté client
+  }
 
   if (loading) {
     return (

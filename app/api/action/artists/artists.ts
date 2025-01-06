@@ -30,6 +30,7 @@ export const getArtistsWithEvents = async () => {
         events: true, // Inclure les événements associés
       },
     });
+
     // Transformer les données avant de les retourner
     return artists.map((artist) => ({
       id: artist.id,
