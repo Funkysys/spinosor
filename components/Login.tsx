@@ -8,7 +8,7 @@ const Login = () => {
   const { data: session, status } = useSession();
 
   const onLogin = (provider: string) => () => {
-    signIn(provider, { callbackUrl: "/home" });
+    signIn(provider, { callbackUrl: "/admin" });
   };
   return !session ? (
     <button
