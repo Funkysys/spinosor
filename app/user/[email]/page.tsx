@@ -69,7 +69,9 @@ export default function UserPage() {
 
   if (status === "loading") {
     return (
-      <p className="text-center text-xl font-semibold mt-10">Chargement...</p>
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-16 h-16 border-4 border-t-transparent border-gray-500 rounded-full animate-spin"></div>
+      </div>
     );
   }
 
