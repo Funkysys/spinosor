@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
                   Mentions légales
                 </button>
               </Link>
-              <div>
+              <div className="mr-5 md:mr-0">
                 <Login />
               </div>
               {user?.role === "USER" && (
