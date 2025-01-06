@@ -12,6 +12,7 @@ import Login from "./Login";
 const Footer: React.FC = () => {
   const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();
+  const [isFooterOpen, setIsFooterOpen] = useState(false); // Nouveau state pour gérer l'ouverture du footer
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,29 +24,30 @@ const Footer: React.FC = () => {
     fetchUser();
   }, [status, session?.user?.email]);
 
-  // Fonction pour empêcher la propagation des clics sur les éléments de navigation
-  const handleFooterClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Empêche le clic de se propager au parent
-  };
-
-  // Fonction pour gérer le clic sur le bouton de connexion (ou autres boutons interactifs)
-  const handleLoginClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Empêche le clic sur le bouton de se propager
+  // Fonction pour basculer l'état du footer
+  const toggleFooter = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Empêche la propagation du clic
+    setIsFooterOpen((prevState) => !prevState); // Bascule l'état du footer
   };
 
   return (
     <footer
       className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
       aria-label="Footer"
-      onClick={handleFooterClick} // Empêche le clic de fermer ou interagir avec d'autres éléments
+      onClick={toggleFooter} // Le footer se ferme ou s'ouvre lors du clic
     >
-      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300 footer-expanded">
+      <div
+        className={`flex flex-col justify-center items-center ${
+          isFooterOpen ? "h-44" : "h-12"
+        } group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300 footer-expanded`}
+        onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic dans cette zone spécifique
+      >
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
             <Link href="/admin">
               <button
                 className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-                onClick={handleLoginClick} // Empêche la propagation sur les boutons
+                onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic sur ce bouton
               >
                 Admin
               </button>
@@ -56,7 +58,7 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
-            onClick={handleLoginClick} // Empêche la propagation sur les liens
+            onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic sur ce lien
           >
             <FaFacebook size={24} />
           </Link>
@@ -65,7 +67,7 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
-            onClick={handleLoginClick}
+            onClick={(e) => e.stopPropagation()}
           >
             <FaInstagram size={24} />
           </Link>
@@ -74,13 +76,17 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
-            onClick={handleLoginClick}
+            onClick={(e) => e.stopPropagation()}
           >
             <FaBandcamp size={24} />
           </Link>
         </div>
 
-        <div className="flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 footer-content">
+        <div
+          className={`flex flex-col justify-between items-center mt-2 transition-opacity duration-300 ${
+            isFooterOpen ? "opacity-100" : "opacity-0"
+          }`}
+        >
           <div className="mr-3 cursor-pointer">
             <div className="flex items-center">
               <Link href="/">
@@ -94,19 +100,21 @@ const Footer: React.FC = () => {
               <Link href="/home/legal">
                 <button
                   className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
-                  onClick={handleLoginClick}
+                  onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic
                 >
                   Mentions légales
                 </button>
               </Link>
-              <div className="ml-5 md:ml-0" onClick={handleLoginClick}>
-                <Login />
-              </div>
+              {isFooterOpen && (
+                <div className="ml-5 md:ml-0">
+                  <Login />
+                </div>
+              )}
               {user?.role === "USER" && (
                 <Link href="/user">
                   <button
                     className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-                    onClick={handleLoginClick}
+                    onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic
                   >
                     Votre Espace
                   </button>
