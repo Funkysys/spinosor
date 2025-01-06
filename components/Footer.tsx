@@ -23,10 +23,16 @@ const Footer: React.FC = () => {
     fetchUser();
   }, [status, session?.user?.email]);
 
+  // Fonction pour éviter la propagation du clic
+  const handleFooterClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <footer
       className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
       aria-label="Footer"
+      onClick={handleFooterClick} // Ajout de la gestion du clic ici
     >
       <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300 footer-expanded">
         <div className="flex space-x-6">
