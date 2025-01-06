@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-20 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
+    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-40 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
       {/* Footer container */}
       <div className="flex flex-col justify-center items-center h-12 group-hover:h-32 overflow-hidden transition-all duration-300">
         {/* Social Media Icons */}
