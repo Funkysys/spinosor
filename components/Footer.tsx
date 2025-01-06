@@ -5,13 +5,12 @@ import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaBandcamp, FaFacebook, FaInstagram } from "react-icons/fa"; // Import des icônes
 import Login from "./Login";
 
 const Footer: React.FC = () => {
-  const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();

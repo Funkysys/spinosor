@@ -45,7 +45,7 @@ const Login = () => {
       )}
 
       <button
-        onClick={() => signOut({ callbackUrl: "/home" })}
+        onClick={() => signOut({ callbackUrl: "/admin" })}
         className="flex justify-center items-center mt-3 md:mt-0 right-6 border px-3 py-2 rounded-lg text--600 hover:text-red-800 hover:bg-slate-300  animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out"
       >
         Deconnexion
