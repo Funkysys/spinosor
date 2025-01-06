@@ -1,4 +1,5 @@
 import SlideModal from "@/components/SlidePlayer";
+import Link from "next/link";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 
@@ -18,9 +19,9 @@ export default function RootLayout({
             src="https://bandcamp.com/EmbeddedPlayer/album=766049808/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/"
             seamless
           >
-            <a href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2">
+            <Link href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2">
               Spinosor Playlist by Spinosor Records
-            </a>
+            </Link>
           </iframe>{" "}
         </SlideModal>
         {children}
