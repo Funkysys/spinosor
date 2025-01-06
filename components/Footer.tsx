@@ -27,9 +27,9 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-40 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
+    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
       {/* Footer container */}
-      <div className="flex flex-col justify-center items-center h-12 group-hover:h-32 overflow-hidden transition-all duration-300">
+      <div className="flex flex-col justify-center items-center h-12 group-hover:h-36 overflow-hidden transition-all duration-300">
         {/* Social Media Icons */}
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
           >
             <FaFacebook size={24} />
           </Link>
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
           >
             <FaInstagram size={24} />
           </Link>
@@ -60,16 +60,16 @@ const Footer: React.FC = () => {
             href="https://bandcamp.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-yellow-two hover:scale-110 transition-transform duration-200"
           >
             <FaBandcamp size={24} />
           </Link>
         </div>
 
         {/* Main Navigation */}
-        <div className="hidden group-hover:flex flex-col md:flex-row justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
-          <div className="flex items-center">
-            <div className="mr-3 cursor-pointer">
+        <div className="hidden group-hover:flex flex-col  justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+          <div className="mr-3 cursor-pointer">
+            <div className="flex items-center">
               <Image
                 src="/assets/images/SPINOSOR.png"
                 alt="Spinosor Records logo"
@@ -77,19 +77,26 @@ const Footer: React.FC = () => {
                 width={70}
                 height={70}
               />
+              <Link href="/home/legal">
+                <button
+                  onClick={() => router.push("/admin")}
+                  className="border py-1 px-2 ml-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+                >
+                  {" "}
+                  Mentions légales
+                </button>
+              </Link>
+              {user?.role === "USER" && (
+                <button
+                  onClick={() => router.push("/user")}
+                  className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+                >
+                  Votre Espace
+                </button>
+              )}
             </div>
           </div>
-
-          {/* Admin/User Buttons */}
-          <div className="flex space-x-4 mt-3 md:mt-0">
-            {user?.role === "USER" && (
-              <button
-                onClick={() => router.push("/user")}
-                className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-              >
-                Votre Espace
-              </button>
-            )}
+          <div className="flex space-x-4 md:mt-0">
             <p className="text-sm mt-2 text-center">
               &copy; {new Date().getFullYear()} Spinosor Records. Tous droits
               réservés.
@@ -97,8 +104,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer Bottom */}
     </footer>
   );
 };
