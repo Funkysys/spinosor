@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { FaBandcamp, FaFacebook, FaInstagram } from "react-icons/fa"; // Import des icônes
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -19,71 +20,19 @@ const Footer: React.FC = () => {
     if (!email) return;
     const data = await getUser(email);
     setUser(data);
-    (await data?.role) !== "ADMIN";
   };
+
   if (status === "authenticated" && !user) {
     fetchUser();
   }
+
   return (
-    <footer className="fixed bottom-0 px-4 py-2 w-[100vw] bg-perso-bg border-t-2 border-t-perso-yellow-one text-perso-white-two">
-      <div className="flex flex-col md:flex-row justify-between items-center">
-        <div className="flex items-center">
-          <div className="mr-3 cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out ">
-            <Image
-              src="/assets/images/SPINOSOR.png"
-              alt="Spinosor Records logo"
-              onClick={() => router.push("/")}
-              width={70}
-              height={70}
-            />
-          </div>
-          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
-            {/* <li
-              className={pathname == "/home" ? "font-extrabold  mr-3" : "mr-3 "}
-            >
-              <Link href="/home">Accueil</Link>
-            </li> */}
-            <li
-              className={
-                pathname == "/home/artists" ? "font-extrabold  mr-3" : "mr-3 "
-              }
-            >
-              <Link href="/home/artists">Artistes</Link>
-            </li>
-          </ul>
-          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
-            <li
-              className={
-                pathname == "/home/events" ? "font-extrabold  mr-3" : "mr-3 "
-              }
-            >
-              <Link href="/home/events">Événements</Link>
-            </li>
-            <li
-              className={
-                pathname == "/home/mersh" ? "font-extrabold  mr-3" : "mr-3 "
-              }
-            >
-              <Link href="/home/mersh">Mersh</Link>
-            </li>
-          </ul>
-          <ul className="flex flex-col px-4 text-sm animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
-            <li
-              className={
-                pathname == "/home/about" ? "font-extrabold  mr-3" : "mr-3 "
-              }
-            >
-              <Link href="/home/about">A propos</Link>
-            </li>
-            <li
-              className={
-                pathname == "/home/contact" ? "font-extrabold  mr-3" : "mr-3 "
-              }
-            >
-              <Link href="/home/contact">Contact</Link>
-            </li>
-          </ul>
-          {user && user.role === "ADMIN" && (
+    <footer className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-20 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group">
+      {/* Footer container */}
+      <div className="flex flex-col justify-center items-center h-12 group-hover:h-32 overflow-hidden transition-all duration-300">
+        {/* Social Media Icons */}
+        <div className="flex space-x-6">
+          {user?.role === "ADMIN" && (
             <button
               onClick={() => router.push("/admin")}
               className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
@@ -91,20 +40,65 @@ const Footer: React.FC = () => {
               Admin
             </button>
           )}
-          {user && user.role === "USER" && (
-            <button
-              onClick={() => router.push("/user")}
-              className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-            >
-              Votre Espace
-            </button>
-          )}
+          <Link
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+          >
+            <FaFacebook size={24} />
+          </Link>
+          <Link
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+          >
+            <FaInstagram size={24} />
+          </Link>
+          <Link
+            href="https://bandcamp.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center text-perso-yellow-one hover:text-perso-white-two hover:scale-110 transition-transform duration-200"
+          >
+            <FaBandcamp size={24} />
+          </Link>
         </div>
-        <p className="md:absolute text-sm mt-3 md:mt-0 right-4">
-          &copy; {new Date().getFullYear()} Spinosor Records. Tout droits
-          réservés.
-        </p>
+
+        {/* Main Navigation */}
+        <div className="hidden group-hover:flex flex-col md:flex-row justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+          <div className="flex items-center">
+            <div className="mr-3 cursor-pointer">
+              <Image
+                src="/assets/images/SPINOSOR.png"
+                alt="Spinosor Records logo"
+                onClick={() => router.push("/")}
+                width={70}
+                height={70}
+              />
+            </div>
+          </div>
+
+          {/* Admin/User Buttons */}
+          <div className="flex space-x-4 mt-3 md:mt-0">
+            {user?.role === "USER" && (
+              <button
+                onClick={() => router.push("/user")}
+                className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+              >
+                Votre Espace
+              </button>
+            )}
+            <p className="text-sm mt-2 text-center">
+              &copy; {new Date().getFullYear()} Spinosor Records. Tous droits
+              réservés.
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* Footer Bottom */}
     </footer>
   );
 };
