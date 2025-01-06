@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
       className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
       aria-label="Footer"
     >
-      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300">
+      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300 footer-expanded">
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
             <Link href="/admin">
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
           </Link>
         </div>
 
-        <div className="hidden group-hover:flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+        <div className="hidden group-hover:flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100 footer-content">
           <div className="mr-3 cursor-pointer">
             <div className="flex items-center">
               <Link href="/">
@@ -76,7 +76,6 @@ const Footer: React.FC = () => {
               </Link>
               <Link href="/home/legal">
                 <button className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
-                  {" "}
                   Mentions légales
                 </button>
               </Link>
@@ -93,7 +92,6 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <button className="md:hidden border py-1 px-2 mt-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
-            {" "}
             Mentions légales
           </button>
           <div className="flex space-x-4 md:mt-0">
