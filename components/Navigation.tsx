@@ -79,7 +79,7 @@ const Navbar = () => {
         >
           <Link href="/home/events">Événements</Link>
         </li>
-        <li
+        {/* <li
           className={
             pathname == "/home/mersh"
               ? "ml-5 font-extrabold  text-perso-yellow-one hover:text-perso-yellow-two mr-4"
@@ -87,7 +87,7 @@ const Navbar = () => {
           }
         >
           <Link href="/home/mersh">Mersh</Link>
-        </li>
+        </li> */}
         <li
           className={
             pathname == "/home/about"
@@ -107,11 +107,11 @@ const Navbar = () => {
           <Link href="/home/contact">Contact</Link>
         </li>
         {/* Lien vers le panier avec une icône */}
-        <li className="ml-5">
+        {/* <li className="ml-5">
           <Link href="/home/cart">
             <FaShoppingCart className="text-3xl hover:text-perso-yellow-two transition-colors" />
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       {/* Menu déroulant pour petits écrans */}

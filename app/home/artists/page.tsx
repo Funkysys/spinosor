@@ -24,10 +24,15 @@ const ArtistsPage = () => {
     fetchArtists();
   }, []);
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-16 h-16 border-4 border-t-transparent border-gray-500 rounded-full animate-spin"></div>
+      </div>
+    );
 
   return (
-    <div>
+    <div className="h-full w-full bg-perso-bg">
       <CardContainer>
         {artists.length > 0 ? (
           artists.map((artist) => (

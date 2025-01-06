@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <>
       <Navigation />
-      <main className="bg-perso-bg text-perso-white-one   ">
+      <main className="bg-perso-bg text-perso-white-one">
         {" "}
         <SlideModal>
           <iframe
