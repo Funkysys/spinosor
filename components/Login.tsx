@@ -6,8 +6,8 @@ import Image from "next/image";
 
 const Login = () => {
   const { data: session, status } = useSession();
-
-  const onLogin = (provider: string) => () => {
+  const onLogin = (provider: string) => (e: React.MouseEvent) => {
+    e.stopPropagation();
     signIn(provider, { callbackUrl: "/admin" });
   };
   return !session ? (
