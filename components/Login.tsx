@@ -1,26 +1,12 @@
 "use client";
 
-import { getUser } from "@/app/api/action/user/user";
-import { User } from "@prisma/client";
 import { Mail } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const Login = () => {
-  const [user, setUser] = useState<User | null>();
-
   const { data: session, status } = useSession();
-  useEffect(() => {
-    if (status === "authenticated" && !user) {
-      const fetchUser = async () => {
-        const data = await getUser(session?.user?.email as string);
-        if (!data) return;
-        setUser(data);
-      };
-      fetchUser();
-    }
-  }, [status, session, user]);
+
   const onLogin = (provider: string) => () => {
     signIn(provider, { callbackUrl: "/home" });
   };
