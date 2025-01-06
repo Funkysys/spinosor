@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
               <Link href="/home/legal">
                 <button
                   onClick={() => router.push("/admin")}
-                  className="border py-1 px-2 ml-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
+                  className="border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
                 >
                   {" "}
                   Mentions légales
