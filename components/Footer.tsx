@@ -33,12 +33,11 @@ const Footer: React.FC = () => {
         {/* Social Media Icons */}
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
-            <button
-              onClick={() => router.push("/admin")}
-              className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-            >
-              Admin
-            </button>
+            <Link href="/admin">
+              <button className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200">
+                Admin
+              </button>
+            </Link>
           )}
           <Link
             href="https://facebook.com"
@@ -78,31 +77,24 @@ const Footer: React.FC = () => {
                 height={70}
               />
               <Link href="/home/legal">
-                <button
-                  onClick={() => router.push("/admin")}
-                  className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
-                >
+                <button className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                   {" "}
                   Mentions légales
                 </button>
               </Link>
-              <div className="mr-5 md:mr-0">
+              <div className="ml-5 md:mr-0">
                 <Login />
               </div>
               {user?.role === "USER" && (
-                <button
-                  onClick={() => router.push("/user")}
-                  className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200"
-                >
-                  Votre Espace
-                </button>
+                <Link href="/user">
+                  <button className="border py-1 px-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one transition duration-200">
+                    Votre Espace
+                  </button>
+                </Link>
               )}
             </div>
           </div>
-          <button
-            onClick={() => router.push("/admin")}
-            className="md:hidden border py-1 px-2 mt-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
-          >
+          <button className="md:hidden border py-1 px-2 mt-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
             {" "}
             Mentions légales
           </button>
