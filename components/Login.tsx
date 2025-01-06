@@ -6,13 +6,10 @@ import Image from "next/image";
 
 const Login = () => {
   const { data: session, status } = useSession();
-  const onLogin = (provider: string) => (e: React.MouseEvent) => {
-    e.stopPropagation();
-    signIn(provider, { callbackUrl: "/admin" });
-  };
+
   return !session ? (
     <button
-      onClick={onLogin("google")}
+      onClick={() => signIn("google", { callbackUrl: "/admin" })}
       className="flex justify-center items-center  right-6 border px-3 py-2 rounded-lg text--600 hover:text-red-800 hover:bg-slate-300  animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out"
     >
       <Mail className="mr-3 text-sm" />
