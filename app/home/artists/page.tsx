@@ -11,7 +11,6 @@ const ArtistsPage = () => {
 
   // Récupérer les artistes via la server action
   useEffect(() => {
-    setloading(true);
     const fetchArtists = async () => {
       const data = await getArtistsWithEvents();
 

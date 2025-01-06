@@ -9,11 +9,13 @@ const EventsPage: React.FC = () => {
   const router = useRouter();
   const [eventsData, setEventsData] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  console.log("eventsData", eventsData);
 
   useEffect(() => {
-    setLoading(true);
     const fetchEvents = async () => {
       const data = await getEvents();
+      console.log("data", data);
+
       setEventsData(data);
       setLoading(false);
     };
