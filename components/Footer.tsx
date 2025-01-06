@@ -87,7 +87,9 @@ const Footer: React.FC = () => {
                   Mentions légales
                 </button>
               </Link>
-              <Login />
+              <div>
+                <Login />
+              </div>
               {user?.role === "USER" && (
                 <button
                   onClick={() => router.push("/user")}
@@ -98,12 +100,6 @@ const Footer: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="flex space-x-4 md:mt-0">
-            <p className="text-sm mt-2 text-center">
-              &copy; {new Date().getFullYear()} Spinosor Records. Tous droits
-              réservés.
-            </p>
-          </div>
           <button
             onClick={() => router.push("/admin")}
             className="md:hidden border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200"
@@ -111,6 +107,12 @@ const Footer: React.FC = () => {
             {" "}
             Mentions légales
           </button>
+          <div className="flex space-x-4 md:mt-0">
+            <p className="text-sm mt-2 text-center">
+              &copy; {new Date().getFullYear()} Spinosor Records. Tous droits
+              réservés.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
