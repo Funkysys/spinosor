@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa"; // Importer une icône de panier
-import Login from "./Login";
 
 const Navbar = () => {
   const router = useRouter();
@@ -30,7 +28,7 @@ const Navbar = () => {
       </div>
 
       {/* Menu burger (visible sur petits écrans) */}
-      <div className="md:hidden flex items-center absolute right-5 top-5 mr-5">
+      <div className="md:hidden flex items-center bg-perso-bg bg-opacity-85 rounded-full px-5 py-4 z-20 fixed right-5 top-5 mr-5">
         <button
           onClick={toggleMenu}
           className={`${isOpen && "text-red-400"} text-3xl focus:outline-none`}
@@ -118,44 +116,44 @@ const Navbar = () => {
       <ul
         className={`${
           isOpen ? "flex" : "hidden"
-        } flex-col items-center absolute top-16 left-0 w-full bg-black md:hidden py-4 border-t border-gray-700 text-2xl z-10`}
+        } fixed flex-col items-center  top-28 left-0 w-full bg-perso-bg bg-opacity-85 text-perso-white-two md:hidden  border-t border-gray-700 text-2xl z-10`}
       >
-        <li className="mr-4 border-b-2 border-white w-full text-center pb-3">
+        {/* <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center pb-3">
           <Link href="/home" onClick={toggleMenu}>
             Acceuil
           </Link>
-        </li>
-        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
+        </li> */}
+        <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/artists" onClick={toggleMenu}>
             Artistes
           </Link>
         </li>
-        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
+        <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/events" onClick={toggleMenu}>
             Événements
           </Link>
         </li>
-        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
+        {/* <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/mersh" onClick={toggleMenu}>
             Mersh
           </Link>
-        </li>
-        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
+        </li> */}
+        <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/about" onClick={toggleMenu}>
             A propos
           </Link>
         </li>
-        <li className="mr-4 border-b-2 border-white w-full text-center py-3">
+        <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/contact" onClick={toggleMenu}>
             Contact
           </Link>
         </li>
         {/* Lien vers le panier pour petits écrans */}
-        <li className="mt-4 text-green-500">
+        {/* <li className="mt-4 text-green-500">
           <Link href="/home/cart" onClick={toggleMenu}>
             <FaShoppingCart className="text-3xl" />
           </Link>
-        </li>
+        </li> */}
       </ul>
 
       {/* Composant Login */}
