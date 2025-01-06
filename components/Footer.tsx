@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaBandcamp, FaFacebook, FaInstagram } from "react-icons/fa"; // Import des icônes
+import Login from "./Login";
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
@@ -86,6 +87,7 @@ const Footer: React.FC = () => {
                   Mentions légales
                 </button>
               </Link>
+              <Login />
               {user?.role === "USER" && (
                 <button
                   onClick={() => router.push("/user")}

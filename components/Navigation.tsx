@@ -159,9 +159,9 @@ const Navbar = () => {
       </ul>
 
       {/* Composant Login */}
-      <div className="hidden md:block ml-10">
+      {/* <div className="hidden md:block ml-10">
         <Login />
-      </div>
+      </div> */}
     </nav>
   );
 };
