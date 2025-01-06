@@ -5,13 +5,11 @@ import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaBandcamp, FaFacebook, FaInstagram } from "react-icons/fa"; // Import des icônes
 import Login from "./Login";
 
 const Footer: React.FC = () => {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();
 
@@ -83,7 +81,7 @@ const Footer: React.FC = () => {
                   Mentions légales
                 </button>
               </Link>
-              <div className="ml-5 md:mr-0">
+              <div className="ml-5 md:ml-0">
                 <Login />
               </div>
               {user?.role === "USER" && (

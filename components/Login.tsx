@@ -15,7 +15,7 @@ const Login = () => {
       onClick={() => onLogin("google")}
       className="flex justify-center items-center  right-6 border px-3 py-2 rounded-lg text--600 hover:text-red-800 hover:bg-slate-300  animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out"
     >
-      <Mail className="mr-3" />
+      <Mail className="mr-3 text-sm" />
       Connection
     </button>
   ) : (
