@@ -23,16 +23,10 @@ const Footer: React.FC = () => {
     fetchUser();
   }, [status, session?.user?.email]);
 
-  const handleFooterClick = (e: React.MouseEvent) => {
-    // Empêche toute action du clic qui pourrait affecter la page
-    e.preventDefault();
-  };
-
   return (
     <footer
       className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
       aria-label="Footer"
-      onClick={handleFooterClick}
     >
       <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300 footer-expanded">
         <div className="flex space-x-6">
@@ -81,11 +75,11 @@ const Footer: React.FC = () => {
                 />
               </Link>
               <Link href="/home/legal">
-                <button className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md  ">
+                <button className="hidden md:block border py-1 px-2 mx-5 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                   Mentions légales
                 </button>
               </Link>
-              <div className="ml-5 md:ml-0 group-hover:block">
+              <div className="ml-5 md:ml-0">
                 <Login />
               </div>
               {user?.role === "USER" && (
