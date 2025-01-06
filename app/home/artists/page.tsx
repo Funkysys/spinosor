@@ -46,7 +46,11 @@ const ArtistsPage = () => {
             />
           ))
         ) : (
-          <p>Aucun artiste trouvé</p>
+          <div className="h-full w-full bg-perso-bg flex items-center justify-center">
+            <h1 className="text-perso-white-two text-center text-2xl font-semibold">
+              Aucun artiste trouvé
+            </h1>
+          </div>
         )}
       </CardContainer>
     </div>
