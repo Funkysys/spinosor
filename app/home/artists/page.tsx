@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const ArtistsPage = () => {
   const [artists, setArtists] = useState<ArtistWithEvents[]>([]);
-  const [loading, setloading] = useState<boolean>(false);
+  const [loading, setloading] = useState<boolean>(true);
 
   // Récupérer les artistes via la server action
   useEffect(() => {
@@ -46,7 +46,7 @@ const ArtistsPage = () => {
             />
           ))
         ) : (
-          <div className="h-full w-full bg-perso-bg flex items-center justify-center">
+          <div className="h-[90%] w-[100%] bg-perso-bg flex items-center justify-center">
             <h1 className="text-perso-white-two text-center text-2xl font-semibold">
               Aucun artiste trouvé
             </h1>
