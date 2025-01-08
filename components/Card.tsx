@@ -41,9 +41,9 @@ const Card: React.FC<ArtistWithEvents> = ({
         <p className="text-3xl text-slate-400 font-belleza">{genre}</p>
         <button
           onClick={handleReadMore}
-          className="absolute bottom-4 right-4 bg-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-slate-900 px-2 py-1 rounded font-belleza"
+          className="absolute bottom-5 right-5 bg-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-slate-900 px-3 pb-1 rounded-full font-belleza text-2xl lg:text-4xl"
         >
-          En voir +
+          +
         </button>
       </div>
     </div>

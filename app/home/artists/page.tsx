@@ -41,7 +41,7 @@ const ArtistsPage = () => {
   }
 
   return (
-    <div className="h-full w-full bg-perso-bg">
+    <div className="min-h-[100vh] w-full bg-perso-bg">
       <CardContainer>
         {artists.length > 0 ? (
           artists.map((artist) => (
