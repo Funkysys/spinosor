@@ -37,6 +37,7 @@ export const getArtistsWithEvents = async () => {
       name: artist.name,
       bio: artist.bio,
       genre: artist.genre,
+      videoUrl: artist.videoUrl,
       imageUrl: artist.imageUrl,
       // Si socialLinks est déjà un objet, inutile de faire un JSON.parse
       socialLinks:
@@ -76,6 +77,7 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
   const name = formData.get("name") as string;
   const bio = formData.get("bio") as string | null;
   const genre = formData.get("genre") as string | null;
+  const videoUrl = formData.get("videoUrl") as string | null;
   const socialLinks = link;
   const imageFile = formData.get("imageFile") as File | null;
 
@@ -110,13 +112,13 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
     }
   }
 
-  // Créer l'artiste avec les données fournies
   const artist = await prisma.artist.create({
     data: {
       name,
       bio,
       genre,
       imageUrl,
+      videoUrl,
       socialLinks: socialLinks,
     },
   });
@@ -134,6 +136,7 @@ export const updateArtist = async (
     bio?: string | null;
     genre?: string | null;
     imageUrl?: File | null;
+    videoUrl?: string | null;
     socialLinks?: { [key: string]: any } | undefined;
   } = {};
 
@@ -154,6 +157,9 @@ export const updateArtist = async (
   // Vérifiez et mettez à jour le genre
   if (formData.has("genre")) {
     updateData.genre = formData.get("genre") as string | null;
+  }
+  if (formData.has("videoUrl")) {
+    updateData.videoUrl = formData.get("videoUrl") as string | null;
   }
 
   // Vérifiez et mettez à jour l'URL de l'image
@@ -243,6 +249,7 @@ export const updateArtist = async (
       bio: updateData.bio,
       genre: updateData.genre,
       imageUrl: image,
+      videoUrl: updateData.videoUrl,
       socialLinks: updateData.socialLinks,
     },
   });

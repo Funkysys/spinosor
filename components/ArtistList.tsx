@@ -101,7 +101,16 @@ const ArtistList: React.FC<ArtistListProps> = ({
             defaultValue={artist.genre || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
-
+          <label htmlFor="videoUrl" className="underline mb-3">
+            Video
+          </label>
+          <input
+            type="text"
+            name="videoUrl"
+            placeholder="Video link"
+            defaultValue={artist.videoUrl || ""}
+            className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+          />
           <label htmlFor="imageUrl" className="text-sm text-slate-400">
             Image
           </label>

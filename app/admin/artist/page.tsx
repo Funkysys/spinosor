@@ -35,6 +35,7 @@ const ArtistsDashboard: React.FC = () => {
         bio: artist.bio ?? null,
         genre: artist.genre ?? null,
         imageUrl: artist.imageUrl ?? null,
+        videoUrl: artist.videoUrl ?? null,
         socialLinks: artist.socialLinks ?? null,
       })) as Artist[];
       setArtists(formattedArtists);
@@ -157,6 +158,15 @@ const ArtistsDashboard: React.FC = () => {
           name="imageFile"
           accept="image/*"
           required
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+        />
+        <label htmlFor="videoUrl" className="underline mb-3">
+          Video
+        </label>
+        <input
+          type="text"
+          name="videoUrl"
+          placeholder="Video link"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="Links" className="underline mb-3">

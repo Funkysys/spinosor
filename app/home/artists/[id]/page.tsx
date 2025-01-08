@@ -3,12 +3,11 @@
 import { getArtist } from "@/app/api/action/artists/artists";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
+import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// Si vous souhaitez utiliser html-react-parser
-import parse from "html-react-parser";
 
 const ArtistPage = () => {
   const router = useRouter();
@@ -22,7 +21,6 @@ const ArtistPage = () => {
       if (typeof id === "string") {
         const artistData = await getArtist(id);
 
-        // Vérifiez que artistData n'est pas un tableau vide et que la propriété 'events' existe
         if (artistData && !Array.isArray(artistData) && artistData.events) {
           const artistWithFormattedDates = {
             ...artistData,
@@ -56,7 +54,7 @@ const ArtistPage = () => {
   }
 
   return (
-    <div className="w-[66vw] min-h-[90vh] mx-auto p-8 bg-perso-bg mb-20">
+    <div className="w-[66vw] min-h-[100vh] mx-auto p-8 bg-perso-bg ">
       <div className="flex flex-col md:flex-row items-center gap-8">
         {artist.imageUrl && (
           <Image
@@ -76,6 +74,21 @@ const ArtistPage = () => {
           </div>
         </div>
       </div>
+      {artist.videoUrl && (
+        <div className="w-full my-8 flex justify-center">
+          <iframe
+            className="border-4 border-gray-600 rounded-lg"
+            width="1120"
+            height="630"
+            src="https://www.youtube.com/embed/Sqzawst0WlE?si=vTWcuLQgxKtE-UVy"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
 
       {artist.socialLinks && (
         <div className="mt-8">
@@ -121,7 +134,7 @@ const ArtistPage = () => {
       {artist.events && artist.events.length > 0 && (
         <div className="mt-8">
           <h2 className="text-3xl font-semibold">Événements à venir :</h2>
-          <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2">
+          <ul className="list-disc ml-5 mt-4 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2">
             {artist.events.map(
               (event) =>
                 new Date(event.date).getTime() > new Date().getTime() && (
