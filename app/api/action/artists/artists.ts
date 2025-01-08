@@ -137,7 +137,7 @@ export const updateArtist = async (
     socialLinks?: { [key: string]: any } | undefined;
   } = {};
 
-  const imageFile = formData.get("imageFile") as File | null;
+  const imageFile = formData.get("imageUrl") as File | null;
 
   let image = "";
 
@@ -157,7 +157,10 @@ export const updateArtist = async (
   }
 
   // Vérifiez et mettez à jour l'URL de l'image
-  if (formData.has("imageUrl")) {
+
+  if (imageFile && imageFile?.size > 0) {
+    console.log("imageUrl", imageFile);
+
     if (!actualImage && actualImage !== "") {
       throw new Error("Actual image not found.");
     }
@@ -165,7 +168,6 @@ export const updateArtist = async (
 
     if (!publicId) {
       console.error("Public ID de l'image non trouvé.");
-      return;
     }
 
     try {
@@ -210,6 +212,8 @@ export const updateArtist = async (
     } else {
       throw new Error("Upload to Cloudinary failed.");
     }
+  } else {
+    image = actualImage || "";
   }
 
   // Vérifiez et mettez à jour les liens sociaux

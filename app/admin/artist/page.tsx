@@ -1,4 +1,4 @@
-"use client"; // Assurez-vous que cela est nécessaire
+"use client";
 
 import {
   createArtist,
@@ -9,7 +9,11 @@ import {
 import ArtistList from "@/components/ArtistList";
 import { Link } from "@/types"; // Assurez-vous que le chemin est correct
 import { Artist, Prisma } from "@prisma/client";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import "react-quill/dist/quill.snow.css"; // Styles pour Quill
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
@@ -19,6 +23,7 @@ const ArtistsDashboard: React.FC = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [bio, setBio] = useState<string>(""); // État pour la bio enrichie
 
   useEffect(() => {
     const fetchArtists = async () => {
@@ -27,7 +32,7 @@ const ArtistsDashboard: React.FC = () => {
       const formattedArtists = artistList.map((artist: any) => ({
         id: artist.id,
         name: artist.name,
-        bio: artist.bio ?? null, // Ici, on s'assure que `bio` n'est jamais undefined
+        bio: artist.bio ?? null,
         genre: artist.genre ?? null,
         imageUrl: artist.imageUrl ?? null,
         socialLinks: artist.socialLinks ?? null,
@@ -40,16 +45,19 @@ const ArtistsDashboard: React.FC = () => {
 
   const resetForm = () => {
     setSelectedImage(null);
+    setBio("");
   };
 
   const handleArtistCreation = async (formData: FormData) => {
     setIsLoading(true);
     setLinks(tempLink as Prisma.JsonArray);
+
+    formData.append("bio", bio);
     const imageFile = formData.get("imageFile") as File | null;
 
     if (imageFile) {
       const reader = new FileReader();
-      reader.readAsArrayBuffer(imageFile); // Lire le fichier en tant que tableau de bytes
+      reader.readAsArrayBuffer(imageFile);
       reader.onloadend = async () => {
         formData.append("imageFile", reader.result as string);
         await createArtist(formData, links);
@@ -105,7 +113,6 @@ const ArtistsDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Artistes
       </h1>
-      {/* Formulaire de création d'artiste */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -114,8 +121,6 @@ const ArtistsDashboard: React.FC = () => {
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
       >
-        {/* Champs de formulaire */}
-
         <label htmlFor="name" className="underline mb-3">
           Name
         </label>
@@ -129,10 +134,11 @@ const ArtistsDashboard: React.FC = () => {
         <label htmlFor="bio" className="underline mb-3">
           Bio
         </label>
-        <textarea
-          name="bio"
-          placeholder="Description"
-          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+        <ReactQuill
+          value={bio}
+          onChange={setBio}
+          className="mb-4 bg-gray-900 border border-gray-600 text-perso-white-one rounded"
+          theme="snow"
         />
         <label htmlFor="genre" className="underline mb-3">
           Genre

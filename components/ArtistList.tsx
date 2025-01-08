@@ -1,7 +1,11 @@
 import { Link } from "@/types";
 import { Artist } from "@prisma/client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface ArtistListProps {
   artist: Artist;
@@ -15,16 +19,16 @@ const ArtistList: React.FC<ArtistListProps> = ({
   onUpdate,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [tempBio, setTempBio] = useState(artist.bio || ""); // Temp value for bio
   const [tempLink, setTempLink] = useState<Link[]>([
     { id: 1, name: "", url: "" },
   ]);
 
   useEffect(() => {
-    // Vérifiez si socialLinks est un tableau avant d'appeler .map()
     if (Array.isArray(artist.socialLinks)) {
       setTempLink(
         artist.socialLinks.map((link: any, index: number) => ({
-          id: index + 1, // Générez un id basé sur l'index
+          id: index + 1,
           name: link.name,
           url: link.url,
         }))
@@ -35,28 +39,23 @@ const ArtistList: React.FC<ArtistListProps> = ({
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+    formData.append("bio", tempBio); // Append the updated bio
     formData.append("socialLinks", JSON.stringify(tempLink));
     onUpdate(artist.id, formData);
     setIsEditing(false);
   };
 
   const handleOnChangeLinkName = (data: any, el: Link) => {
-    const updatedLinks = tempLink.map((item) => {
-      if (item.id === el.id) {
-        return { ...item, name: data.target.value };
-      }
-      return item;
-    });
+    const updatedLinks = tempLink.map((item) =>
+      item.id === el.id ? { ...item, name: data.target.value } : item
+    );
     setTempLink(updatedLinks);
   };
 
   const handleOnChangeLinkUrl = (data: any, el: Link) => {
-    const updatedLinks = tempLink.map((item) => {
-      if (item.id === el.id) {
-        return { ...item, url: data.target.value };
-      }
-      return item;
-    });
+    const updatedLinks = tempLink.map((item) =>
+      item.id === el.id ? { ...item, url: data.target.value } : item
+    );
     setTempLink(updatedLinks);
   };
 
@@ -67,13 +66,11 @@ const ArtistList: React.FC<ArtistListProps> = ({
   const removeLink = (id: number) => {
     setTempLink(tempLink.filter((link) => link.id !== id));
   };
-  console.log(artist.imageUrl);
 
   return (
     <li className="bg-gray-800 p-5 mb-4 rounded-lg shadow-lg">
       {isEditing ? (
         <form onSubmit={handleUpdate}>
-          {/* Champs de formulaire pour mise à jour */}
           <label htmlFor="name" className="text-sm text-slate-400">
             Name
           </label>
@@ -84,14 +81,17 @@ const ArtistList: React.FC<ArtistListProps> = ({
             required
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+
           <label htmlFor="bio" className="text-sm text-slate-400">
             Bio
           </label>
-          <textarea
-            name="bio"
-            defaultValue={artist.bio || ""}
-            className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+          <ReactQuill
+            value={tempBio}
+            onChange={setTempBio}
+            className="mb-4 bg-gray-900 border border-gray-600 text-perso-white-one rounded"
+            theme="snow"
           />
+
           <label htmlFor="genre" className="text-sm text-slate-400">
             Genre
           </label>
@@ -178,7 +178,7 @@ const ArtistList: React.FC<ArtistListProps> = ({
       ) : (
         <>
           <h3 className="text-2xl font-bold mb-2">{artist.name}</h3>
-          <p>{artist.bio}</p>
+          <div dangerouslySetInnerHTML={{ __html: artist.bio || "" }} />
           <p>Genre : {artist.genre}</p>
           {artist.imageUrl && (
             <Image
@@ -189,8 +189,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
               className="rounded"
             />
           )}
-
-          {/* Afficher les liens sociaux */}
           <div>
             <h4 className="mt-3 text-lg font-semibold">Liens sociaux :</h4>
             {tempLink.length > 0 ? (

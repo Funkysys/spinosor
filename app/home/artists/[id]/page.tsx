@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+// Si vous souhaitez utiliser html-react-parser
+import parse from "html-react-parser";
 
 const ArtistPage = () => {
   const router = useRouter();
@@ -33,7 +35,7 @@ const ArtistPage = () => {
           setArtist(artistWithFormattedDates);
         } else {
           console.error("Artist data not found or events is empty.");
-          return alert("il n'ya pas d'artiste à cette adresse"); // Dans le cas où artistData est vide ou malformé
+          return alert("Il n'y a pas d'artiste à cette adresse."); // Dans le cas où artistData est vide ou malformé
         }
       }
       setLoading(false);
@@ -68,18 +70,20 @@ const ArtistPage = () => {
         <div>
           <h1 className="text-4xl font-bold">{artist.name}</h1>
           <p className="text-xl text-slate-600">{artist.genre}</p>
-          <p className="mt-4">{artist.bio}</p>
+          <div className="mt-4">
+            {/* Afficher le bio avec html-react-parser */}
+            {artist.bio ? parse(artist.bio) : <p>Pas de bio disponible.</p>}
+          </div>
         </div>
       </div>
 
       {artist.socialLinks && (
         <div className="mt-8">
-          <h2 className="text-3xl font-semibold">Nous trouver :</h2>
+          <h2 className="text-3xl font-semibold">Liens :</h2>
           <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
             {(() => {
               let socialLinksArray = [];
 
-              // Si c'est une chaîne, tentez de la parser
               if (typeof artist.socialLinks === "string") {
                 try {
                   socialLinksArray = JSON.parse(artist.socialLinks);
@@ -87,11 +91,9 @@ const ArtistPage = () => {
                   console.error("Erreur lors du parsing de socialLinks", error);
                 }
               } else if (Array.isArray(artist.socialLinks)) {
-                // Si c'est déjà un tableau, l'utilisez directement
                 socialLinksArray = artist.socialLinks;
               }
 
-              // Vérifiez si le tableau est bien formé et non vide
               if (socialLinksArray.length > 0) {
                 return socialLinksArray.map(
                   (link: any) =>

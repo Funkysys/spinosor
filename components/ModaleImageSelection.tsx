@@ -16,9 +16,15 @@ const ModaleImageSelection: React.FC<ModaleImageSelectionProps> = ({
 }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-4 rounded-lg shadow-lg max-w-lg w-full">
+      <div className="bg-white p-4 rounded-lg shadow-lg max-w-lg w-full ">
+        <button
+          className="fixed top-5 bg-perso-red-two rounded-lg cursor-pointer focus:outline-none right-5 px-2 py-1 text-white hover:bg-perso-red-one transition-colors"
+          onClick={() => onClose()}
+        >
+          X
+        </button>
         <h2 className="text-lg font-semibold mb-4">{`Sélectionner une image d'artistes`}</h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 h-[100vh] overflow-scroll">
           {galerie.map((imageUrl, index) => (
             <button
               key={index}
@@ -28,7 +34,7 @@ const ModaleImageSelection: React.FC<ModaleImageSelectionProps> = ({
                 onClose();
                 setLoadImage(false);
               }}
-              className="relative overflow-scroll rounded-lg cursor-pointer focus:outline-none"
+              className="relative rounded-lg cursor-pointer focus:outline-none"
             >
               <Image
                 src={imageUrl}
