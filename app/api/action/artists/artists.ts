@@ -143,8 +143,7 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
 export const updateArtist = async (
   id: string,
   formData: FormData,
-  actualImage: string | null,
-  socialLinks: JsonArray
+  actualImage: string | null
 ) => {
   const updateData: {
     name?: string;
@@ -159,25 +158,20 @@ export const updateArtist = async (
 
   let image = "";
 
-  // Vérifiez et mettez à jour le nom
   if (formData.has("name")) {
     updateData.name = formData.get("name") as string;
   }
 
-  // Vérifiez et mettez à jour la bio
   if (formData.has("bio")) {
     updateData.bio = formData.get("bio") as string | null;
   }
 
-  // Vérifiez et mettez à jour le genre
   if (formData.has("genre")) {
     updateData.genre = formData.get("genre") as string | null;
   }
   if (formData.has("videoUrl")) {
     updateData.videoUrl = formData.get("videoUrl") as string | null;
   }
-
-  // Vérifiez et mettez à jour l'URL de l'image
 
   if (imageFile && imageFile?.size > 0) {
     console.log("imageUrl", imageFile);
@@ -206,7 +200,6 @@ export const updateArtist = async (
 
     const buffer = Buffer.from(base64Data);
 
-    // Utilisation d'une promesse pour l'upload
     const uploadResult = await new Promise<{ secure_url: string }>(
       (resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
@@ -287,8 +280,7 @@ export const deleteArtist = async (artistId: string) => {
     return artist;
   }
 
-  // Extraire le public_id de l'image (vérifie que ce n'est pas undefined)
-  const publicId = artist.imageUrl.split("/").pop() || ""; // Fournir une valeur par défaut
+  const publicId = artist.imageUrl.split("/").pop() || "";
 
   if (!publicId) {
     console.error("Public ID de l'image non trouvé.");
