@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
               )}
             </div>
           </div>
-          <button className="btn-secondary md:hidden mt-2">
+          <button className="md:hidden border py-1 px-2 mt-2 rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
             Mentions légales
           </button>
           <div className="flex space-x-4 md:mt-0">
