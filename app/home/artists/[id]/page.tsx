@@ -78,7 +78,7 @@ const ArtistPage = () => {
     <div className="w-[66vw] min-h-[100vh] mx-auto p-8 bg-perso-bg ">
       <button
         onClick={goToNextArtist}
-        className="fixed top-5 right-10 mt-8 bg-green-500 text-black px-4 py-2 rounded-lg hover:bg-green-700 transition"
+        className="md:fixed text-sm mb-5 top-5 right-10  bg-green-500 text-black px-4 py-2 rounded-lg hover:bg-green-700 transition"
       >
         Artiste suivant
       </button>
