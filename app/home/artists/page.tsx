@@ -56,7 +56,7 @@ const ArtistsPage = () => {
             />
           ))
         ) : (
-          <div className="h-[90%] w-[100%] bg-perso-bg flex items-center justify-center">
+          <div className="h-[90vh] w-[100vw] bg-perso-bg flex items-center justify-center">
             <h1 className="text-perso-white-two text-center text-2xl font-semibold">
               Aucun artiste trouvé
             </h1>
