@@ -33,7 +33,9 @@ const Footer: React.FC = () => {
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
             <Link href="/admin">
-              <button className="btn-primary">Admin</button>
+              <button className="btn-secondary hidden md:block py-1 px-2 mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
+                Admin
+              </button>
             </Link>
           )}
           {[
