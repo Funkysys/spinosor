@@ -1,5 +1,4 @@
 import SlideModal from "@/components/SlidePlayer";
-import Link from "next/link";
 import Footer from "../../components/Footer";
 import Navigation from "../../components/Navigation";
 
@@ -13,20 +12,7 @@ export default function RootLayout({
       <Navigation />
       <main className="bg-perso-bg text-perso-white-one">
         {" "}
-        <SlideModal>
-          <iframe
-            style={{ border: 0, width: "350px", height: "470px" }}
-            src="https://bandcamp.com/EmbeddedPlayer/album=766049808/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/"
-            seamless
-          >
-            <Link
-              href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2"
-              target="_blank"
-            >
-              Spinosor Playlist by Spinosor Records
-            </Link>
-          </iframe>{" "}
-        </SlideModal>
+        <SlideModal />
         {children}
       </main>
       <Footer />

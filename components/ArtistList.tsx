@@ -112,6 +112,26 @@ const ArtistList: React.FC<ArtistListProps> = ({
             defaultValue={artist.videoUrl || ""}
             className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
           />
+          <label htmlFor="codePlayer" className="underline mb-3">
+            code_player
+          </label>
+          <input
+            type="text"
+            name="codePlayer"
+            placeholder="Code player like 1755679268"
+            defaultValue={artist.codePlayer || ""}
+            className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+          />
+          <label htmlFor="urlPlayer" className="underline mb-3">
+            Url_Player
+          </label>
+          <input
+            type="text"
+            name="urlPlayer"
+            placeholder="url player "
+            defaultValue={artist.urlPlayer || ""}
+            className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+          />
           <label htmlFor="imageUrl" className="text-sm text-slate-400">
             Image
           </label>

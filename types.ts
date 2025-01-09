@@ -47,6 +47,8 @@ export interface ArtistWithEvents {
   genre?: string | null;
   imageUrl?: string | null;
   videoUrl?: string | null;
+  codePlayer?: string | null;
+  urlPlayer?: string | null;
   socialLinks?: JsonValue;
   events: Event[];
 }

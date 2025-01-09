@@ -52,6 +52,8 @@ export const getArtistsWithEvents = async () => {
       bio: artist.bio,
       genre: artist.genre,
       videoUrl: artist.videoUrl,
+      codePlayer: artist.codePlayer,
+      urlPlayer: artist.urlPlayer,
       imageUrl: artist.imageUrl,
       // Si socialLinks est déjà un objet, inutile de faire un JSON.parse
       socialLinks:
@@ -94,6 +96,8 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
   const videoUrl = formData.get("videoUrl") as string | null;
   const socialLinks = link;
   const imageFile = formData.get("imageFile") as File | null;
+  const codePlayer = formData.get("codePlayer") as string | null;
+  const urlPlayer = formData.get("urlPlayer") as string | null;
 
   let imageUrl = "";
 
@@ -133,6 +137,8 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
       genre,
       imageUrl,
       videoUrl,
+      codePlayer,
+      urlPlayer,
       socialLinks: socialLinks,
     },
   });
@@ -151,6 +157,8 @@ export const updateArtist = async (
     genre?: string | null;
     imageUrl?: File | null;
     videoUrl?: string | null;
+    codePlayer?: string | null;
+    urlPlayer?: string | null;
     socialLinks?: { [key: string]: any } | undefined;
   } = {};
 
@@ -160,6 +168,12 @@ export const updateArtist = async (
 
   if (formData.has("name")) {
     updateData.name = formData.get("name") as string;
+  }
+  if (formData.has("codePlayer")) {
+    updateData.codePlayer = formData.get("codePlayer") as string;
+  }
+  if (formData.has("urlPlayer")) {
+    updateData.urlPlayer = formData.get("urlPlayer") as string;
   }
 
   if (formData.has("bio")) {
@@ -267,6 +281,8 @@ export const updateArtist = async (
       genre: updateData.genre,
       imageUrl: image,
       videoUrl: updateData.videoUrl,
+      codePlayer: updateData.codePlayer,
+      urlPlayer: updateData.urlPlayer,
       socialLinks: updateData.socialLinks,
     },
   });

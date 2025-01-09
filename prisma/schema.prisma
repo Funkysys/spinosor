@@ -93,6 +93,8 @@ model Artist {
   genre       String?
   imageUrl    String?
   videoUrl    String?
+  codePlayer String?
+  urlPlayer  String?
   socialLinks Json?
   events      Event[]  @relation("ArtistEvents") // Assurez-vous que cela est correctement défini
 }

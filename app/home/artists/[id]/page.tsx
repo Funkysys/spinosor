@@ -1,6 +1,7 @@
 "use client";
 
 import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
+import Player from "@/components/Player";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
 import parse from "html-react-parser";
@@ -101,6 +102,10 @@ const ArtistPage = () => {
           </div>
         </div>
       </div>
+
+      {artist.codePlayer && artist.urlPlayer && (
+        <Player codePlayer={artist.codePlayer} urlPlayer={artist.urlPlayer} />
+      )}
 
       {artist.videoUrl && (
         <div className="w-full my-8 flex justify-center">

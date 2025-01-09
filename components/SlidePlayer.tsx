@@ -1,10 +1,11 @@
 "use client";
 
 import clsx from "clsx"; // Vous pouvez utiliser clsx pour gérer les classes conditionnelles si vous utilisez Tailwind CSS
-import React, { useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import { FaMusic } from "react-icons/fa"; // Icône musicale
 
-const SlideModal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const SlideModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,7 +29,18 @@ const SlideModal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         style={{ minWidth: "10%" }} // Assurez-vous que la largeur minimale est respectée
       >
         <div className=" flex items-center justify-center h-full">
-          {children}
+          <iframe
+            style={{ border: 0, width: "350px", height: "470px" }}
+            src="https://bandcamp.com/EmbeddedPlayer/album=766049808/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/"
+            seamless
+          >
+            <Link
+              href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2"
+              target="_blank"
+            >
+              Spinosor Playlist by Spinosor Records
+            </Link>
+          </iframe>{" "}
           <div
             className="md:hidden z-20 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transform-translate-y-1/2 hover:bg-gray-600"
             onClick={() => setIsOpen(!isOpen)}

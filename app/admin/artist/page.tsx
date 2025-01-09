@@ -169,6 +169,24 @@ const ArtistsDashboard: React.FC = () => {
           placeholder="Video link"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
+        <label htmlFor="codePlayer" className="underline mb-3">
+          Code Player
+        </label>
+        <input
+          type="text"
+          name="codePlayer"
+          placeholder="Video link"
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+        />
+        <label htmlFor="urlPlayer" className="underline mb-3">
+          Url Player
+        </label>
+        <input
+          type="text"
+          name="urlPlayer"
+          placeholder="Video link"
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
+        />
         <label htmlFor="Links" className="underline mb-3">
           Links{" "}
         </label>
