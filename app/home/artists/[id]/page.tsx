@@ -144,7 +144,7 @@ const ArtistPage = () => {
                     link.name &&
                     link.name !== "" && (
                       <div key={link.id} className="">
-                        <Link href={link.url}>
+                        <Link href={link.url} target="_blank">
                           <button className="mt-6 bg-blue-300 text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
                             {link.name}
                           </button>

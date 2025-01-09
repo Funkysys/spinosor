@@ -19,7 +19,10 @@ export default function RootLayout({
             src="https://bandcamp.com/EmbeddedPlayer/album=766049808/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/"
             seamless
           >
-            <Link href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2">
+            <Link
+              href="https://spinosor-records.bandcamp.com/album/spinosor-playlist-2"
+              target="_blank"
+            >
               Spinosor Playlist by Spinosor Records
             </Link>
           </iframe>{" "}
