@@ -73,6 +73,7 @@ const ArtistPage = () => {
   if (!artist) {
     return <div>Artist not found</div>;
   }
+  console.log(artist);
 
   return (
     <div className="w-[66vw] min-h-[100vh] mx-auto p-8 bg-perso-bg ">
