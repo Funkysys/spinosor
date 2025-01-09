@@ -1,6 +1,6 @@
 "use client";
 
-import { getArtist } from "@/app/api/action/artists/artists";
+import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
 import parse from "html-react-parser";
@@ -14,6 +14,7 @@ const ArtistPage = () => {
   const [Loading, setLoading] = useState(false);
   const [artist, setArtist] = useState<ArtistWithEvents>();
   const { id } = useParams();
+  const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -33,13 +34,33 @@ const ArtistPage = () => {
           setArtist(artistWithFormattedDates);
         } else {
           console.error("Artist data not found or events is empty.");
-          return alert("Il n'y a pas d'artiste à cette adresse."); // Dans le cas où artistData est vide ou malformé
+          return alert("Il n'y a pas d'artiste à cette adresse.");
         }
       }
       setLoading(false);
     };
     fetchArtist();
   }, [id]);
+
+  useEffect(() => {
+    const fetchArtistsIds = async () => {
+      const artistsIds = await getArtistIds();
+      setArtistsIds(artistsIds);
+    };
+    fetchArtistsIds();
+  }, []);
+
+  const goToNextArtist = () => {
+    if (artistsIds && id) {
+      const currentIndex = artistsIds.findIndex((artist) => artist.id === id);
+      const nextIndex = (currentIndex + 1) % artistsIds.length;
+      const nextArtistId = artistsIds[nextIndex]?.id;
+
+      if (nextArtistId) {
+        router.push(`/home/artists/${nextArtistId}`);
+      }
+    }
+  };
 
   if (Loading) {
     return (
@@ -55,6 +76,12 @@ const ArtistPage = () => {
 
   return (
     <div className="w-[66vw] min-h-[100vh] mx-auto p-8 bg-perso-bg ">
+      <button
+        onClick={goToNextArtist}
+        className="fixed top-5 right-10 mt-8 bg-green-500 text-black px-4 py-2 rounded-lg hover:bg-green-700 transition"
+      >
+        Artiste suivant
+      </button>
       <div className="flex flex-col md:flex-row items-center gap-8">
         {artist.imageUrl && (
           <Image
@@ -69,11 +96,11 @@ const ArtistPage = () => {
           <h1 className="text-4xl font-bold">{artist.name}</h1>
           <p className="text-xl text-slate-600">{artist.genre}</p>
           <div className="mt-4">
-            {/* Afficher le bio avec html-react-parser */}
             {artist.bio ? parse(artist.bio) : <p>Pas de bio disponible.</p>}
           </div>
         </div>
       </div>
+
       {artist.videoUrl && (
         <div className="w-full my-8 flex justify-center">
           <iframe
@@ -128,26 +155,6 @@ const ArtistPage = () => {
                 return <li>Aucun lien social disponible.</li>;
               }
             })()}
-          </ul>
-        </div>
-      )}
-      {artist.events && artist.events.length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-3xl font-semibold">Événements à venir :</h2>
-          <ul className="list-disc ml-5 mt-4 mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2">
-            {artist.events.map(
-              (event) =>
-                new Date(event.date).getTime() > new Date().getTime() && (
-                  <div key={event.id} className="">
-                    <Link href={`/home/events/${event.id}`}>
-                      <button className="mt-6 bg-perso-yellow-one text-black px-4 py-2 rounded-lg hover:bg-perso-yellow-one hover:text-perso-white-two transition">
-                        {event.title} -{" "}
-                        {new Date(event.date).toLocaleDateString()}
-                      </button>
-                    </Link>
-                  </div>
-                )
-            )}
           </ul>
         </div>
       )}

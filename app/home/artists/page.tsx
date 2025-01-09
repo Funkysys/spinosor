@@ -9,14 +9,12 @@ import { useEffect, useState } from "react";
 const ArtistsPage = () => {
   const [artists, setArtists] = useState<ArtistWithEvents[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isMounted, setIsMounted] = useState(false); // État pour vérifier si le composant est monté côté client
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Récupérer les artistes via la server action
   useEffect(() => {
     const fetchArtists = async () => {
       const data = await getArtistsWithEvents();
 
-      // Trier les artistes par ordre alphabétique
       const sortedArtists = data.sort((a, b) => a.name.localeCompare(b.name));
 
       setArtists(sortedArtists);
@@ -24,12 +22,11 @@ const ArtistsPage = () => {
     };
     fetchArtists();
 
-    // Définir `isMounted` à true pour marquer que le composant est monté côté client
     setIsMounted(true);
   }, []);
 
   if (!isMounted) {
-    return null; // Ne pas afficher le contenu tant que le composant n'est pas monté côté client
+    return null;
   }
 
   if (loading) {

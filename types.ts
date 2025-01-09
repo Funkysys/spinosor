@@ -48,7 +48,7 @@ export interface ArtistWithEvents {
   imageUrl?: string | null;
   videoUrl?: string | null;
   socialLinks?: JsonValue;
-  events: Event[]; // Assurez-vous que cela correspond à Event[]
+  events: Event[];
 }
 export interface EventWithArtists {
   id: string;
@@ -60,7 +60,7 @@ export interface EventWithArtists {
   imageUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
-  artists: Artist[]; // Assurez-vous que cela correspond à Artist[]
+  artists: Artist[];
 }
 
 export type Category = {
