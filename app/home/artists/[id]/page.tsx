@@ -119,7 +119,7 @@ const ArtistPage = () => {
       )}
 
       {artist.socialLinks && (
-        <div className="mt-8">
+        <div className="my-10">
           <h2 className="text-3xl font-semibold">Liens :</h2>
           <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
             {(() => {
