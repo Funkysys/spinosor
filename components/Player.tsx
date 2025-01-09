@@ -5,10 +5,10 @@ interface PlayerProps {
 
 const Player: React.FC<PlayerProps> = ({ codePlayer, urlPlayer }) => {
   return (
-    <div className="w-full mt-8 flex justify-center">
+    <div className="relative w-full mt-8 flex justify-center">
       <iframe
-        className="w-[100%]  md:w-[50%] lg:w-[30%]"
-        style={{ border: "0", height: "120px" }}
+        className="w-[100%] xl:w-[40%] bg-perso-bg2"
+        style={{ border: "0", height: "120px", background: "transparent" }}
         src={`https://bandcamp.com/EmbeddedPlayer/album=${codePlayer}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/transparent=true/`}
         seamless
       >

@@ -26,6 +26,7 @@ const config: Config = {
       },
       colors: {
         "perso-bg": "#0E0620",
+        "perso-bg2": "#111222",
         "perso-red-one": "#B40C2C",
         "perso-red-two": "#BE2621",
         "perso-yellow-one": "#DCAE39",

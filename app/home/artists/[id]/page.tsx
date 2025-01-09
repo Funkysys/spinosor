@@ -77,7 +77,7 @@ const ArtistPage = () => {
   console.log(artist);
 
   return (
-    <div className="w-[66vw] min-h-[100vh] mx-auto p-8 bg-perso-bg ">
+    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] mx-auto p-4 md:p-8 bg-perso-bg2 border-x-2 border-sky-950">
       <button
         onClick={goToNextArtist}
         className="md:fixed text-sm mb-5 top-5 right-10  bg-green-500 text-black px-4 py-2 rounded-lg hover:bg-green-700 transition"
@@ -126,7 +126,7 @@ const ArtistPage = () => {
       {artist.socialLinks && (
         <div className="my-10">
           <h2 className="text-3xl font-semibold">Liens :</h2>
-          <ul className="list-disc ml-5 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <ul className="list-disc ml-5 mt-4 flex gap-4">
             {(() => {
               let socialLinksArray = [];
 
@@ -150,7 +150,7 @@ const ArtistPage = () => {
                     link.name !== "" && (
                       <div key={link.id} className="">
                         <Link href={link.url} target="_blank">
-                          <button className="mt-6 bg-blue-300 text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
+                          <button className="mt-6 bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
                             {link.name}
                           </button>
                         </Link>

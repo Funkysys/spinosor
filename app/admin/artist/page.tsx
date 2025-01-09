@@ -175,7 +175,7 @@ const ArtistsDashboard: React.FC = () => {
         <input
           type="text"
           name="codePlayer"
-          placeholder="Video link"
+          placeholder="code player like 1755679268"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="urlPlayer" className="underline mb-3">
@@ -184,7 +184,7 @@ const ArtistsDashboard: React.FC = () => {
         <input
           type="text"
           name="urlPlayer"
-          placeholder="Video link"
+          placeholder="url player"
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="Links" className="underline mb-3">
