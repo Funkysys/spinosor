@@ -39,11 +39,13 @@ const ArtistList: React.FC<ArtistListProps> = ({
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    formData.append("bio", tempBio); // Append the updated bio
+    formData.append("bio", tempBio);
+
     formData.append("socialLinks", JSON.stringify(tempLink));
     onUpdate(artist.id, formData);
     setIsEditing(false);
   };
+  console.log(tempLink);
 
   const handleOnChangeLinkName = (data: any, el: Link) => {
     const updatedLinks = tempLink.map((item) =>

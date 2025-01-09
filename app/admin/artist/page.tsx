@@ -235,7 +235,7 @@ const ArtistsDashboard: React.FC = () => {
               artist={artist}
               onDelete={handleArtistDeletion}
               onUpdate={async (id: string, formData: FormData) => {
-                await updateArtist(id, formData, artist.imageUrl);
+                await updateArtist(id, formData, artist.imageUrl, links);
                 const result = await getArtists();
                 setArtists(result as Artist[]);
               }}

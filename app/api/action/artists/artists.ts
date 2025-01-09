@@ -143,7 +143,8 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
 export const updateArtist = async (
   id: string,
   formData: FormData,
-  actualImage: string | null
+  actualImage: string | null,
+  socialLinks: JsonArray
 ) => {
   const updateData: {
     name?: string;
@@ -236,26 +237,35 @@ export const updateArtist = async (
     image = actualImage || "";
   }
 
-  // Vérifiez et mettez à jour les liens sociaux
   if (formData.has("socialLinks")) {
     const socialLinksString = formData.get("socialLinks") as string | null;
 
-    // Transformation des liens sociaux en un objet clé-valeur
     if (socialLinksString) {
-      const linksArray = socialLinksString
-        .split(",")
-        .map((link) => link.trim());
-      updateData.socialLinks = linksArray.reduce((acc, link) => {
-        const [key, value] = link.split("=>").map((part) => part.trim());
-        acc[key] = value; // Ajoute l'entrée clé-valeur
-        return acc;
-      }, {} as Record<string, string>);
+      try {
+        const linksArray = JSON.parse(socialLinksString);
+
+        if (Array.isArray(linksArray)) {
+          updateData.socialLinks = linksArray
+            .map((link) => {
+              if (link.name && link.url) {
+                return { name: link.name, url: link.url };
+              }
+              return null;
+            })
+            .filter((item) => item !== null);
+        } else {
+          console.error("Le format des liens sociaux n'est pas un tableau");
+          updateData.socialLinks = []; // Valeur par défaut
+        }
+      } catch (error) {
+        console.error("Erreur lors du parsing JSON :", error);
+        updateData.socialLinks = [];
+      }
     } else {
-      updateData.socialLinks = {}; // Assurez-vous que ça soit un objet
+      updateData.socialLinks = [];
     }
   }
 
-  // Effectuer la mise à jour dans la base de données
   return await prisma.artist.update({
     where: { id },
     data: {
