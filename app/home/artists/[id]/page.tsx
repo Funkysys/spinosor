@@ -80,7 +80,7 @@ const ArtistPage = () => {
             className="border-4 border-gray-600 rounded-lg"
             width="1120"
             height="630"
-            src="https://www.youtube.com/embed/Sqzawst0WlE?si=vTWcuLQgxKtE-UVy"
+            src={artist.videoUrl}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
