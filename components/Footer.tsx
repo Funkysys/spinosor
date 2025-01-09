@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
                 />
               </Link>
               <Link href="/home/legal">
-                <button className="btn-secondary hidden md:block mx-5">
+                <button className="btn-secondary hidden md:block mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                   Mentions légales
                 </button>
               </Link>
