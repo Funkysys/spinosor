@@ -45,7 +45,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
     onUpdate(artist.id, formData);
     setIsEditing(false);
   };
-  console.log(tempLink);
 
   const handleOnChangeLinkName = (data: any, el: Link) => {
     const updatedLinks = tempLink.map((item) =>

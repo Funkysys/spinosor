@@ -241,7 +241,7 @@ export const updateArtist = async (
           updateData.socialLinks = linksArray
             .map((link) => {
               if (link.name && link.url) {
-                return { name: link.name, url: link.url };
+                return { id: link.id, name: link.name, url: link.url };
               }
               return null;
             })

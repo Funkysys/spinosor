@@ -138,6 +138,7 @@ const ArtistPage = () => {
               if (socialLinksArray.length > 0) {
                 return socialLinksArray.map(
                   (link: any) =>
+                    link.id &&
                     link.url &&
                     link.url !== "" &&
                     link.name &&
