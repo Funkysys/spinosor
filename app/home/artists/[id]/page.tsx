@@ -8,7 +8,17 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IconType } from "react-icons";
+import {
+  FaBandcamp,
+  FaFacebook,
+  FaInstagram,
+  FaSoundcloud,
+  FaSpotify,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa"; // Importer les icônes nécessaires
 
 const ArtistPage = () => {
   const router = useRouter();
@@ -16,6 +26,16 @@ const ArtistPage = () => {
   const [artist, setArtist] = useState<ArtistWithEvents>();
   const { id } = useParams();
   const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
+
+  const socialIcons: Record<string, IconType> = {
+    Facebook: FaFacebook,
+    Twitter: FaTwitter,
+    Instagram: FaInstagram,
+    YouTube: FaYoutube,
+    Bandcamp: FaBandcamp,
+    Spotify: FaSpotify,
+    Soundcloud: FaSoundcloud,
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -74,7 +94,6 @@ const ArtistPage = () => {
   if (!artist) {
     return <div>Artist not found</div>;
   }
-  console.log(artist);
 
   return (
     <div className="w-[100vw] md:w-[66vw] min-h-[100vh] mx-auto px-4 md:px-8  bg-perso-bg2 border-x-2 border-sky-950">
@@ -124,9 +143,8 @@ const ArtistPage = () => {
       )}
 
       {artist.socialLinks && (
-        <div className="my-10">
-          <h2 className="text-3xl font-semibold">Liens :</h2>
-          <ul className="list-disc ml-5 mt-4 flex gap-4">
+        <div className="w-[100%] flex justify-center ">
+          <ul className="list-none flex gap-4">
             {(() => {
               let socialLinksArray = [];
 
@@ -148,10 +166,28 @@ const ArtistPage = () => {
                     link.url !== "" &&
                     link.name &&
                     link.name !== "" && (
-                      <div key={link.id} className="">
+                      <div key={link.id} className="text-center">
                         <Link href={link.url} target="_blank">
-                          <button className="mt-6 bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
-                            {link.name}
+                          <button className="my-8  bg-perso-yellow-one text-perso-bg px-2 py-2 rounded-full hover:bg-blue-800 hover:text-perso-white-two transition ">
+                            {socialIcons[
+                              link.name.charAt(0).toUpperCase() +
+                                link.name.slice(1).toLowerCase()
+                            ] ? (
+                              React.createElement(
+                                socialIcons[
+                                  link.name.charAt(0).toUpperCase() +
+                                    link.name.slice(1).toLowerCase()
+                                ],
+                                {
+                                  size: 28,
+                                }
+                              )
+                            ) : (
+                              <span>
+                                {link.name.charAt(0).toUpperCase() +
+                                  link.name.slice(1)}
+                              </span>
+                            )}
                           </button>
                         </Link>
                       </div>
