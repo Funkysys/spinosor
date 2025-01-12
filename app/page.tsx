@@ -16,10 +16,10 @@ export default function Home() {
       </div>
       <button
         onClick={() => router.push("/home/artists")}
-        className="font-sans text-2xl bg-perso-white-two hover:bg-perso-yellow-one text-perso-bg hover:text-perso-white-two px-4 py-2 rounded-lg transition duration-400 ease-in-out animate-fade-down animate-once animate-duration-[3000ms] animate-ease-in-out "
+        className="text-2xl bg-perso-white-two hover:bg-perso-yellow-one text-perso-bg hover:text-perso-white-two font-ruda px-4 py-2 rounded-lg transition duration-400 ease-in-out animate-fade-down animate-once animate-duration-[3000ms] animate-ease-in-out "
       >
         {/* Enter the website */}
-        Entrer
+        ENTRER
       </button>
     </main>
   );

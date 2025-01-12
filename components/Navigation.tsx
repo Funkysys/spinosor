@@ -106,7 +106,7 @@ const Navbar = () => {
               : "ml-5 mr-4   hover:text-perso-yellow-one"
           }
         >
-          <Link href="/home/about">A propos</Link>
+          <Link href="/home/about">À propos</Link>
         </li>
         <li
           className={
