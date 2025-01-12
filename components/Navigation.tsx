@@ -17,26 +17,26 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-
-    if (currentScrollY > lastScrollY) {
-      // Scrolling down
-      controls.start({ y: "-100%", transition: { duration: 0.3 } });
-    } else {
-      // Scrolling up
-      controls.start({ y: "0%", transition: { duration: 0.3 } });
-    }
-
-    setLastScrollY(currentScrollY);
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        controls.start({ y: "-100%", transition: { duration: 0.3 } });
+      } else {
+        // Scrolling up
+        controls.start({ y: "0%", transition: { duration: 0.3 } });
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, controls]);
 
   return (
     <motion.nav

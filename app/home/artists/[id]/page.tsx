@@ -77,10 +77,10 @@ const ArtistPage = () => {
   console.log(artist);
 
   return (
-    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] mx-auto p-4 md:p-8 bg-perso-bg2 border-x-2 border-sky-950">
+    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] mx-auto px-4 md:px-8 py-48 bg-perso-bg2 border-x-2 border-sky-950">
       <button
         onClick={goToNextArtist}
-        className="md:fixed text-sm mb-5 top-5 right-10  bg-green-500 text-black px-4 py-2 rounded-lg hover:bg-green-700 transition"
+        className="md:fixed text-sm mb-5 top-48 right-10  bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
       >
         Artiste suivant
       </button>
