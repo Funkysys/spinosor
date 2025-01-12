@@ -21,6 +21,12 @@ const Navbar = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
+      // Close menu on scroll if open
+      if (isOpen) {
+        setIsOpen(false);
+      }
+
+      // Navbar hide/show on scroll
       if (currentScrollY > lastScrollY) {
         // Scrolling down
         controls.start({ y: "-100%", transition: { duration: 0.3 } });
@@ -36,7 +42,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY, controls]);
+  }, [lastScrollY, controls, isOpen]);
 
   return (
     <motion.nav
@@ -65,9 +71,7 @@ const Navbar = () => {
       </div>
 
       {/* Menu pour grands écrans */}
-      <ul
-        className={`hidden md:flex items-center text-xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out`}
-      >
+      <ul className="hidden md:flex items-center text-xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
         <div className="cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mr-5">
           <Image
             src="/assets/images/SPINOSOR.png"

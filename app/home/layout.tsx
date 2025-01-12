@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <>
       <Navigation />
-      <main className="bg-perso-bg text-perso-white-one py-24">
+      <main className="bg-perso-bg text-perso-white-one py-32 md:py-24">
         {" "}
         <SlideModal />
         {children}
