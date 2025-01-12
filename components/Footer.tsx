@@ -12,6 +12,9 @@ import Login from "./Login";
 const Footer: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const { data: session, status } = useSession();
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down" | null>(
+    null
+  );
 
   const fetchUser = useCallback(async () => {
     if (status === "authenticated" && session?.user?.email) {
@@ -24,16 +27,42 @@ const Footer: React.FC = () => {
     fetchUser();
   }, [fetchUser]);
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY) {
+        setScrollDirection("down");
+      } else if (currentScrollY < lastScrollY) {
+        setScrollDirection("up");
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <footer
-      className="fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-all duration-300 group"
+      className={`fixed bottom-0 left-0 w-full bg-perso-bg bg-opacity-60 text-perso-white-two border-t-2 border-t-perso-yellow-one transition-transform duration-300 group ${
+        scrollDirection === "down" ? "translate-y-full" : "translate-y-0"
+      }`}
       aria-label="Footer"
     >
-      <div className="flex flex-col justify-center items-center h-12 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300">
+      {/* Conteneur principal du footer */}
+      <div className="flex flex-col justify-center items-center h-12 md:h-16 group-hover:h-44 md:group-hover:h-40 overflow-hidden transition-all duration-300">
+        {/* Section supérieure : Icônes sociales et lien admin */}
         <div className="flex space-x-6">
           {user?.role === "ADMIN" && (
             <Link href="/admin">
-              <button className="btn-secondary hidden md:block py-1 px-2 mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
+              <button className="btn-secondary py-1 px-2 mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                 Admin
               </button>
             </Link>
@@ -67,6 +96,8 @@ const Footer: React.FC = () => {
             </Link>
           ))}
         </div>
+
+        {/* Section inférieure : Logo, mentions légales, et autres */}
         <div className="hidden group-hover:flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <div className="mr-3 cursor-pointer">
             <div className="flex items-center">
@@ -79,7 +110,7 @@ const Footer: React.FC = () => {
                 />
               </Link>
               <Link href="/home/legal">
-                <button className="btn-secondary hidden md:block py-1 px-2 mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
+                <button className="btn-secondary py-1 px-2 mx-5 border rounded-md border-perso-yellow-one text-perso-yellow-one hover:bg-perso-yellow-two hover:text-perso-white-one text-sm md:text-md transition duration-200">
                   Mentions légales
                 </button>
               </Link>

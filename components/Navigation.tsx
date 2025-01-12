@@ -1,21 +1,48 @@
 "use client";
 
+import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const controls = useAnimation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY) {
+      // Scrolling down
+      controls.start({ y: "-100%", transition: { duration: 0.3 } });
+    } else {
+      // Scrolling up
+      controls.start({ y: "0%", transition: { duration: 0.3 } });
+    }
+
+    setLastScrollY(currentScrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <nav className="flex font-ruda justify-center items-center border-b-2 py-2 border-b-perso-yellow-one bg-perso-bg text-perso-white-two">
+    <motion.nav
+      className="fixed top-0 left-0 right-0 z-50 flex font-ruda justify-center items-center border-b-2 py-2 border-b-perso-yellow-one bg-perso-bg text-perso-white-two"
+      animate={controls}
+    >
       {/* Logo */}
       <div className="md:hidden cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
         <Image
@@ -50,15 +77,6 @@ const Navbar = () => {
             height={80}
           />
         </div>
-        {/* <li
-          className={
-            pathname == "/home"
-              ? "ml-5 font-extrabold  text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4 hover:text-perso-yellow-one"
-          }
-        >
-          <Link href="/home">Accueil</Link>
-        </li> */}
         <li
           className={
             pathname == "/home/artists"
@@ -77,15 +95,6 @@ const Navbar = () => {
         >
           <Link href="/home/events">Événements</Link>
         </li>
-        {/* <li
-          className={
-            pathname == "/home/mersh"
-              ? "ml-5 font-extrabold  text-perso-yellow-one hover:text-perso-yellow-two mr-4"
-              : "ml-5 mr-4   hover:text-perso-yellow-one"
-          }
-        >
-          <Link href="/home/mersh">Mersh</Link>
-        </li> */}
         <li
           className={
             pathname == "/home/about"
@@ -104,25 +113,14 @@ const Navbar = () => {
         >
           <Link href="/home/contact">Contact</Link>
         </li>
-        {/* Lien vers le panier avec une icône */}
-        {/* <li className="ml-5">
-          <Link href="/home/cart">
-            <FaShoppingCart className="text-3xl hover:text-perso-yellow-two transition-colors" />
-          </Link>
-        </li> */}
       </ul>
 
       {/* Menu déroulant pour petits écrans */}
       <ul
         className={`${
           isOpen ? "flex" : "hidden"
-        } fixed flex-col items-center  top-28 left-0 w-full bg-perso-bg bg-opacity-85 text-perso-white-two md:hidden  border-t border-gray-700 text-2xl z-10`}
+        } fixed flex-col items-center top-28 left-0 w-full bg-perso-bg bg-opacity-85 text-perso-white-two md:hidden  border-t border-gray-700 text-2xl z-10`}
       >
-        {/* <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center pb-3">
-          <Link href="/home" onClick={toggleMenu}>
-            Acceuil
-          </Link>
-        </li> */}
         <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/artists" onClick={toggleMenu}>
             Artistes
@@ -133,11 +131,6 @@ const Navbar = () => {
             Événements
           </Link>
         </li>
-        {/* <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
-          <Link href="/home/mersh" onClick={toggleMenu}>
-            Mersh
-          </Link>
-        </li> */}
         <li className="mr-4 border-b-2 border-perso-yellow-two w-full text-center py-3">
           <Link href="/home/about" onClick={toggleMenu}>
             A propos
@@ -148,19 +141,8 @@ const Navbar = () => {
             Contact
           </Link>
         </li>
-        {/* Lien vers le panier pour petits écrans */}
-        {/* <li className="mt-4 text-green-500">
-          <Link href="/home/cart" onClick={toggleMenu}>
-            <FaShoppingCart className="text-3xl" />
-          </Link>
-        </li> */}
       </ul>
-
-      {/* Composant Login */}
-      {/* <div className="hidden md:block ml-10">
-        <Login />
-      </div> */}
-    </nav>
+    </motion.nav>
   );
 };
 
