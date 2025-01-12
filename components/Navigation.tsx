@@ -40,7 +40,7 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 mb-20 right-0 z-50 flex font-ruda justify-center items-center border-b-2 py-2 border-b-perso-yellow-one bg-perso-bg text-perso-white-two"
+      className="fixed top-0 left-0 right-0 z-50 flex font-ruda justify-center items-center border-b-2 py-2 border-b-perso-yellow-one bg-perso-bg text-perso-white-two"
       animate={controls}
     >
       {/* Logo */}
