@@ -99,7 +99,7 @@ const ArtistPage = () => {
     <div className="w-[100vw] md:w-[66vw] min-h-[100vh] mx-auto px-4 md:px-8  bg-perso-bg2 border-x-2 border-sky-950">
       <button
         onClick={goToNextArtist}
-        className="md:fixed text-sm mb-5 top-48 md:right-5 lg:right-10 xl:right-64 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
+        className="md:fixed text-sm mb-5 top-48 md:right-5 lg:right-10 xl:right-52 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
       >
         Artiste suivant
       </button>
