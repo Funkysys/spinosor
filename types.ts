@@ -86,3 +86,12 @@ export type Link = {
   name: string;
   url: string;
 };
+export interface Album {
+  id: string;
+  name: string;
+  coverUrl: string | null;
+  artistId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  links: Link[];
+}

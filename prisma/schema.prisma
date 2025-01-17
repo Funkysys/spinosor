@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -96,7 +90,8 @@ model Artist {
   codePlayer String?
   urlPlayer  String?
   socialLinks Json?
-  events      Event[]  @relation("ArtistEvents") // Assurez-vous que cela est correctement défini
+  events      Event[]  @relation("ArtistEvents") 
+  albums      Album[]  @relation("ArtistAlbums")
 }
 
 model Event {
@@ -109,7 +104,7 @@ model Event {
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  artists     Artist[] @relation("ArtistEvents") // Relation vers Artist
+  artists     Artist[] @relation("ArtistEvents")
 }
 model Merchandise {
   id           String   @id @default(cuid())
@@ -118,7 +113,7 @@ model Merchandise {
   price        Float
   imageUrl     String?
   stock        Int      @default(0)
-  shopifyId    String?  // Pour intégrer Shopify si nécessaire
+  shopifyId    String?  
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -129,4 +124,15 @@ model ContactMessage {
   email       String
   message     String
   createdAt   DateTime @default(now())
+}
+model Album {
+  id          String   @id @default(cuid())
+  title       String
+  imageUrl    String?
+  releaseDate DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  links       Json
+  artistId    String
+  artist      Artist   @relation("ArtistAlbums", fields: [artistId], references: [id])
 }
