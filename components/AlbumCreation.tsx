@@ -12,12 +12,12 @@ export interface AlbumData {
   imageUrl: File | null;
   releaseDate: string;
   links: Prisma.JsonArray;
-  artistId: string;
+  artistId?: string;
 }
 
 interface AlbumCreationProps {
   onAlbumDataChange: (albumData: AlbumData) => void;
-  artistId: string;
+  artistId?: string;
 }
 
 const AlbumCreation: React.FC<AlbumCreationProps> = ({
@@ -37,7 +37,7 @@ const AlbumCreation: React.FC<AlbumCreationProps> = ({
       imageUrl,
       releaseDate,
       links: tempAlbumLinks.map((link) => ({ ...link })) as Prisma.JsonArray,
-      artistId,
+      artistId: artistId!, // add the non-null assertion operator (!) here
     };
 
     if (
