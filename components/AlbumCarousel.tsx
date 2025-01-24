@@ -54,7 +54,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
       return {
         icon: <FaBandcamp className="w-7 h-7" />,
         color: "text-[#7BE0FF]",
-        bg: "bg-black/20"
+        bg: "bg-black/40"
       };
     if (lowercaseUrl.includes('soundcloud')) 
       return {
@@ -119,7 +119,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
               {/* Links Overlay */}
               {hoveredAlbum === album.id && album.links && (
-                <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm rounded-lg flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm rounded-lg flex items-center justify-center p-4">
                   <div className="grid grid-cols-2 gap-4 w-full max-w-[160px]">
                     {Array(4).fill(null).map((_, index) => {
                       const link = (album.links as any[])[index];
@@ -139,7 +139,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                           <div className={`p-1.5 rounded-full ${iconData.bg} ${iconData.color} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
                             {iconData.icon}
                           </div>
-                          <span className="text-xs mt-1.5 text-white opacity-80 group-hover:opacity-100">{capitalize(link.name)}</span>
+                          <span className={`text-xs mt-1.5 text-white opacity-80 group-hover:opacity-100 px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 group-hover:${iconData.color}`}>{capitalize(link.name)}</span>
                         </Link>
                       );
                     })}
