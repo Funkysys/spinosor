@@ -166,3 +166,4 @@ describe('ArtistList Component', () => {
     expect(screen.getByTestId(`mock-album-creation-${mockArtist.id}`)).toBeInTheDocument();
   });
 });
+
