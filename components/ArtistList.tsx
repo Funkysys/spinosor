@@ -13,15 +13,9 @@ import AlbumUpdate from "./AlbumUpdate";
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
-    if (typeof window !== "undefined") {
-      await import("react-quill/dist/quill.snow.css");
-    }
     return RQ;
   },
-  {
-    ssr: false,
-    loading: () => <div className="h-32 bg-gray-700 animate-pulse rounded"></div>,
-  }
+  { ssr: false }
 );
 
 // Types
