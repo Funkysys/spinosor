@@ -6,6 +6,7 @@ import { Belleza, Ruda } from "@next/font/google";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "react-quill/dist/quill.snow.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

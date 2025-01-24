@@ -40,15 +40,18 @@ const ArtistsDashboard: React.FC = () => {
         }
 
         const formattedArtists = artistList.map((artist: any) => ({
-          id: artist.id,
-          name: artist.name,
+          ...artist,
           bio: artist.bio ?? null,
           genre: artist.genre ?? null,
           imageUrl: artist.imageUrl ?? null,
           videoUrl: artist.videoUrl ?? null,
           codePlayer: artist.codePlayer ?? null,
           urlPlayer: artist.urlPlayer ?? null,
-          socialLinks: artist.socialLinks ?? null,
+          socialLinks: artist.socialLinks ? (
+            typeof artist.socialLinks === 'string' 
+              ? artist.socialLinks 
+              : JSON.stringify(artist.socialLinks)
+          ) : null,
           albums: albumList.filter((album) => album.artistId === artist.id),
         }));
 

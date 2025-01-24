@@ -3,7 +3,7 @@
 import { Link } from "@/types";
 import { Prisma } from "@prisma/client";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 import AlbumCreation, { AlbumData } from "./AlbumCreation";
 
@@ -18,6 +18,11 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
   const [bio, setBio] = useState<string>("");
   const [tempLink, setTempLink] = useState<Link[]>([{ id: 1, name: "", url: "" }]);
   const [albumForms, setAlbumForms] = useState<AlbumData[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Gestionnaire des liens sociaux
   const handleOnChangeLinkName = (data: React.ChangeEvent<HTMLInputElement>, el: Link) => {
@@ -77,12 +82,23 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
         />
         <div>
           <label className="block mb-2 text-perso-white-one">Bio de l'artiste</label>
-          {typeof window !== "undefined" && (
-            <ReactQuill
-              value={bio}
-              onChange={setBio}
-              className="bg-perso-bg text-perso-white-one"
-            />
+          {typeof window !== "undefined" && mounted && (
+            <div className="bg-perso-bg rounded">
+              <ReactQuill
+                value={bio}
+                onChange={setBio}
+                theme="snow"
+                modules={{
+                  toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    ['link'],
+                    ['clean']
+                  ],
+                }}
+              />
+            </div>
           )}
         </div>
         <input

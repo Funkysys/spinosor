@@ -9,11 +9,20 @@ import React, { useEffect, useState } from "react";
 import AlbumCreation, { AlbumData } from "./AlbumCreation";
 import AlbumUpdate from "./AlbumUpdate";
 
-// Import ReactQuill dynamically with no SSR
-const ReactQuill = dynamic(() => import("react-quill"), {
-  ssr: false,
-  loading: () => <div className="h-32 bg-gray-700 animate-pulse rounded"></div>,
-});
+// Import ReactQuill dynamiquement avec styles
+const ReactQuill = dynamic(
+  async () => {
+    const { default: RQ } = await import("react-quill");
+    if (typeof window !== "undefined") {
+      await import("react-quill/dist/quill.snow.css");
+    }
+    return RQ;
+  },
+  {
+    ssr: false,
+    loading: () => <div className="h-32 bg-gray-700 animate-pulse rounded"></div>,
+  }
+);
 
 // Types
 interface ArtistListProps {
@@ -121,9 +130,18 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
 
       if (artist.socialLinks) {
         try {
-          const parsedLinks = JSON.parse(artist.socialLinks.toString());
+          // S'assurer que socialLinks est une chaîne JSON valide
+          const linksStr = typeof artist.socialLinks === 'string' 
+            ? artist.socialLinks 
+            : JSON.stringify(artist.socialLinks);
+          
+          const parsedLinks = JSON.parse(linksStr);
           if (Array.isArray(parsedLinks)) {
-            socialLinks = parsedLinks;
+            socialLinks = parsedLinks.map(link => ({
+              id: link.id || Math.random(),
+              name: link.name || "",
+              url: link.url || ""
+            }));
           }
         } catch (error) {
           console.error("Error parsing social links:", error);
@@ -293,17 +311,29 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
 
                 <div>
                   <label className="text-sm text-slate-400">Bio</label>
-                  <ReactQuill
-                    value={artistState.bio}
-                    onChange={(value) =>
-                      setEditStates((prev) => ({
-                        ...prev,
-                        [artist.id]: { ...prev[artist.id], bio: value },
-                      }))
-                    }
-                    className="bg-gray-900 border border-gray-600 rounded"
-                    theme="snow"
-                  />
+                  {mounted && (
+                    <div className="bg-gray-900 rounded">
+                      <ReactQuill
+                        value={artistState.bio}
+                        onChange={(value) =>
+                          setEditStates((prev) => ({
+                            ...prev,
+                            [artist.id]: { ...prev[artist.id], bio: value },
+                          }))
+                        }
+                        theme="snow"
+                        modules={{
+                          toolbar: [
+                            [{ 'header': [1, 2, false] }],
+                            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                            [{'list': 'ordered'}, {'list': 'bullet'}],
+                            ['link'],
+                            ['clean']
+                          ],
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
