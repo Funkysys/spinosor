@@ -1,33 +1,49 @@
 "use client";
 
+import { createAlbum, getAlbums, updateAlbum } from "@/app/api/action/albums/albums";
 import {
   createArtist,
   deleteArtist,
   getArtists,
   updateArtist,
 } from "@/app/api/action/artists/artists";
+import AlbumCreation, { AlbumData } from "@/components/AlbumCreation";
 import ArtistList from "@/components/ArtistList";
-import { Link } from "@/types"; // Assurez-vous que le chemin est correct
-import { Artist, Prisma } from "@prisma/client";
+import { Link } from "@/types";
+import { Album, Artist, Prisma } from "@prisma/client";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import "react-quill/dist/quill.snow.css"; // Styles pour Quill
+import { useCallback, useEffect, useState } from "react";
+import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
+interface ArtistWithAlbums extends Artist {
+  albums: Album[];
+}
+
 const ArtistsDashboard: React.FC = () => {
-  const [artists, setArtists] = useState<Artist[]>([]);
+  const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [selectedArtistId, setSelectedArtistId] = useState<string | null>(null);
   const [links, setLinks] = useState<Prisma.JsonArray>([]);
   const [tempLink, setTempLink] = useState<Link[]>([
     { id: 1, name: "", url: "" },
   ]);
+  const [albumForms, setAlbumForms] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [bio, setBio] = useState<string>(""); // État pour la bio enrichie
+  const [bio, setBio] = useState<string>("");
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const fetchArtists = async () => {
-      const artistList = await getArtists();
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchArtistsAndAlbums = async () => {
+      const [artistList, albumList] = await Promise.all([
+        getArtists(),
+        getAlbums(),
+      ]);
 
       const formattedArtists = artistList.map((artist: any) => ({
         id: artist.id,
@@ -36,18 +52,31 @@ const ArtistsDashboard: React.FC = () => {
         genre: artist.genre ?? null,
         imageUrl: artist.imageUrl ?? null,
         videoUrl: artist.videoUrl ?? null,
+        codePlayer: artist.codePlayer ?? null,
+        urlPlayer: artist.urlPlayer ?? null,
         socialLinks: artist.socialLinks ?? null,
-      })) as Artist[];
+        albums: albumList.filter((album) => album.artistId === artist.id),
+      }));
+
       setArtists(formattedArtists);
+      setAlbums(albumList);
     };
 
-    fetchArtists();
+    fetchArtistsAndAlbums();
   }, []);
-
   const resetForm = () => {
-    setSelectedImage(null);
     setBio("");
   };
+  console.log("artists", artists);
+
+  const handleAlbumDataChange = useCallback(
+    (index: number, albumData: AlbumData) => {
+      const updatedAlbumForms = [...albumForms];
+      updatedAlbumForms[index] = albumData;
+      setAlbumForms(updatedAlbumForms);
+    },
+    [albumForms]
+  );
 
   const handleArtistCreation = async (formData: FormData) => {
     setIsLoading(true);
@@ -61,18 +90,52 @@ const ArtistsDashboard: React.FC = () => {
       reader.readAsArrayBuffer(imageFile);
       reader.onloadend = async () => {
         formData.append("imageFile", reader.result as string);
-        await createArtist(formData, links);
+
+        const artist = await createArtist(formData, links);
+        if (!artist || albumForms.length === 0) {
+          return;
+        }
+        for (const album of albumForms) {
+          const albumFormData = new FormData();
+          albumFormData.append("name", album.title);
+          albumFormData.append("artistId", artist.id);
+          albumFormData.append("releaseDate", album.releaseDate);
+
+          if (album.imageUrl) {
+            albumFormData.append("imageFile", album.imageUrl as File); // Directement le fichier
+            console.log("albumFormData", albumFormData);
+
+            await createAlbum(albumFormData, album.links);
+          }
+        }
+
+        const updatedArtists = await getArtists();
+        setArtists(updatedArtists as ArtistWithAlbums[]);
         resetForm();
-        const result = await getArtists();
-        setArtists(result as Artist[]);
-        setIsLoading(false);
       };
     } else {
-      await createArtist(formData, links);
+      const artist = await createArtist(formData, links);
+      for (const album of albumForms) {
+        const albumFormData = new FormData();
+        albumFormData.append("name", album.title);
+        albumFormData.append("artistId", artist.id);
+        albumFormData.append("releaseDate", album.releaseDate);
+        albumFormData.append("links", JSON.stringify(album.links));
+        if (album.imageUrl) {
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(album.imageUrl as File);
+          reader.onloadend = async () => {
+            albumFormData.append("imageFile", reader.result as string);
+            console.log("albumFormData", albumFormData);
+
+            await createAlbum(albumFormData, album.links);
+          };
+        }
+      }
+
+      const updatedArtists = await getArtists();
+      setArtists(updatedArtists as ArtistWithAlbums[]);
       resetForm();
-      const result = await getArtists();
-      setArtists(result as Artist[]);
-      setIsLoading(false);
     }
   };
 
@@ -80,7 +143,7 @@ const ArtistsDashboard: React.FC = () => {
     setIsLoading(true);
     await deleteArtist(id);
     const result = await getArtists();
-    setArtists(result as Artist[]);
+    setArtists(result as ArtistWithAlbums[]);
     setIsLoading(false);
   };
 
@@ -109,6 +172,12 @@ const ArtistsDashboard: React.FC = () => {
     setTempLink([...tempLink, { id: tempLink.length + 1, name: "", url: "" }]);
   };
 
+  const handleCreateAnotherAlbum = () => {
+    setAlbumForms([...albumForms, {}]); // Ajoute un nouveau formulaire vide
+  };
+
+  console.log("artists", artists);
+
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
       <h1 className="text-3xl font-bold mb-5 text-center">
@@ -135,12 +204,14 @@ const ArtistsDashboard: React.FC = () => {
         <label htmlFor="bio" className="underline mb-3">
           Bio
         </label>
-        <ReactQuill
-          value={bio}
-          onChange={setBio}
-          className="mb-4 bg-gray-900 border border-gray-600 text-perso-white-one rounded"
-          theme="snow"
-        />
+        {isClient && (
+          <ReactQuill
+            value={bio}
+            onChange={setBio}
+            className="mb-4 bg-gray-900 border border-gray-600 text-perso-white-one rounded"
+            theme="snow"
+          />
+        )}
         <label htmlFor="genre" className="underline mb-3">
           Genre
         </label>
@@ -190,6 +261,24 @@ const ArtistsDashboard: React.FC = () => {
         <label htmlFor="Links" className="underline mb-3">
           Links{" "}
         </label>
+        <h3 className="text-lg font-bold mt-5 mb-3">Créer un albums</h3>
+        {albumForms.map((_, index) => (
+          <AlbumCreation
+            key={index}
+            onAlbumDataChange={(albumData) =>
+              handleAlbumDataChange(index, albumData)
+            }
+            artistId={selectedArtistId || ""}
+          />
+        ))}
+
+        <button
+          type="button"
+          onClick={handleCreateAnotherAlbum}
+          className="my-5 bg-perso-yellow-two text-perso-white-two px-4 py-2 rounded hover:bg-perso-yellow-one hover:text-perso-bg"
+        >
+          Créer un autre album
+        </button>
         {tempLink.map((el: Link, index) => (
           <div key={index} className="grid md:grid-cols-2 gap-2 mt-2">
             <div>
@@ -247,6 +336,7 @@ const ArtistsDashboard: React.FC = () => {
       <div className="mt-10">
         <h2 className="text-xl mb-3">Artistes existants</h2>
         <ul>
+          {" "}
           {artists.map((artist) => (
             <ArtistList
               key={artist.id}
@@ -255,8 +345,14 @@ const ArtistsDashboard: React.FC = () => {
               onUpdate={async (id: string, formData: FormData) => {
                 await updateArtist(id, formData, artist.imageUrl);
                 const result = await getArtists();
-                setArtists(result as Artist[]);
+                setArtists(result as ArtistWithAlbums[]);
               }}
+              updateAlbum={async (id: string, formData: FormData, actualImage: string | null) => {
+                await updateAlbum(id, formData, actualImage);
+              }}
+              createAlbum={createAlbum}
+              getArtists={getArtists}
+              setArtists={setArtists}
             />
           ))}
         </ul>
@@ -264,5 +360,4 @@ const ArtistsDashboard: React.FC = () => {
     </div>
   );
 };
-
 export default ArtistsDashboard;

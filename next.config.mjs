@@ -7,7 +7,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://www.spinosor-records.eu/", // Set your origin
+            value: "https://www.spinosor-records.eu/",
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -25,16 +25,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "res.cloudinary.com", // Pour les images Cloudinary
+        hostname: "res.cloudinary.com",
       },
       {
         protocol: "http",
-        hostname: "res.cloudinary.com", // Pour les images Cloudinary
+        hostname: "res.cloudinary.com",
       },
-
       {
         protocol: "https",
-        hostname: "lh3.googleusercontent.com", // Pour les images Google
+        hostname: "lh3.googleusercontent.com",
       },
     ],
   },

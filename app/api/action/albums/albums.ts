@@ -1,4 +1,7 @@
+"use server";
 import cloudinary from "@/lib/cloudinary";
+import { Album } from "@prisma/client";
+import { JsonArray } from "@prisma/client/runtime/library";
 
 export const getAlbums = async () => {
   try {
@@ -47,58 +50,62 @@ export const getAlbumsIds = async () => {
   }
 };
 
-export const createAlbum = async (formData: FormData, artistIds: string[]) => {
-  const imageFile = formData.get("imageUrl") as File | null;
-  let imageUrl = "";
-
-  if (!imageFile) {
-    throw new Error("No image file provided.");
-  }
-
-  const base64Data = await imageFile.arrayBuffer();
-  const buffer = Buffer.from(base64Data);
-
-  const uploadResult = await new Promise<any>((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: "albums" },
-      (error, result) => {
-        if (error)
-          reject(new Error(`Cloudinary upload error: ${error.message}`));
-        else resolve(result);
-      }
-    );
-    uploadStream.end(buffer);
-  });
-
-  imageUrl = uploadResult.secure_url;
-
-  const albumData = {
-    title: formData.get("title") as string,
-    releaseDate: new Date(formData.get("releaseDate") as string),
-    links: JSON.parse(formData.get("links") as string),
-    imageUrl,
-    artist: {
-      connect: { id: artistIds[0] },
-    },
-  };
-
+export const createAlbum = async (formData: FormData, links: JsonArray) => {
   try {
-    const newAlbum = await prisma.album.create({
-      data: albumData,
+    const imageFile = formData.get("imageFile") as File | null;
+    console.log(
+      "Type de imageFile dans createAlbum :",
+      imageFile?.constructor.name
+    );
+
+    let uploadedImageUrl = null;
+
+    if (imageFile) {
+      const base64Image = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(base64Image);
+
+      const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "albums" },
+          (error, result) => {
+            if (error)
+              reject(new Error(`Cloudinary Upload Error: ${error.message}`));
+            else resolve(result);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+      if (uploadResult && "secure_url" in uploadResult) {
+        uploadedImageUrl = uploadResult.secure_url;
+      } else {
+        throw new Error("Upload to Cloudinary failed.");
+      }
+    }
+
+    const title = formData.get("title")?.toString();
+    const artistId = formData.get("artistId")?.toString();
+
+    const album = await prisma.album.create({
+      data: {
+        title: title!,
+        artistId: artistId!,
+        imageUrl: uploadedImageUrl!,
+        releaseDate: new Date(),
+        links,
+      },
     });
-    return newAlbum;
+
+    return album;
   } catch (error) {
-    console.error("Error creating the album:", error);
-    throw error;
+    console.error("Erreur lors de la création de l'album :", error);
+    throw new Error("Erreur lors de la création de l'album");
   }
 };
 
 export const updateAlbum = async (
   id: string,
   formData: FormData,
-  actualImage: string | null,
-  artistIdsToConnect: string[],
-  artistIdsToDisconnect: string[]
+  actualImage: string | null
 ) => {
   const updateData: {
     title?: string;
@@ -164,13 +171,6 @@ export const updateAlbum = async (
 
   updateData.imageUrl = imageUrl;
 
-  if (artistIdsToConnect.length > 0 || artistIdsToDisconnect.length > 0) {
-    updateData.artists = {
-      connect: artistIdsToConnect.map((id) => ({ id })),
-      disconnect: artistIdsToDisconnect.map((id) => ({ id })),
-    };
-  }
-
   try {
     const updatedAlbum = await prisma.album.update({
       where: { id },
@@ -183,10 +183,28 @@ export const updateAlbum = async (
   }
 };
 
-export const deleteAlbum = async (id: string) => {
+export const deleteAlbum = async (album: Album) => {
   try {
+    if (!album.imageUrl) {
+      return album;
+    }
+    const publicId = album.imageUrl
+      .replace(/.*\/upload\/(?:v\d+\/)?/, "")
+      .split(".")[0];
+
+    if (!publicId) {
+      console.error("Public ID de l'image non trouvé.");
+      return album;
+    }
+
+    try {
+      const result = await cloudinary.uploader.destroy(publicId);
+      console.log("Résultat de suppression sur Cloudinary :", result);
+    } catch (error) {
+      console.error("Erreur lors de la suppression sur Cloudinary :", error);
+    }
     const deletedAlbum = await prisma.album.delete({
-      where: { id },
+      where: { id: album.id },
     });
     return deletedAlbum;
   } catch (error) {

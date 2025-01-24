@@ -1,4 +1,4 @@
-import { Artist } from "@prisma/client"; // Assure-toi que ce chemin est correct
+import { Album, Artist } from "@prisma/client"; // Assure-toi que ce chemin est correct
 import { JsonArray, JsonValue } from "@prisma/client/runtime/library";
 
 export interface EventType {
@@ -51,7 +51,9 @@ export interface ArtistWithEvents {
   urlPlayer?: string | null;
   socialLinks?: JsonValue;
   events: Event[];
+  albums?: Album[];
 }
+
 export interface EventWithArtists {
   id: string;
   title: string;
@@ -86,12 +88,10 @@ export type Link = {
   name: string;
   url: string;
 };
-export interface Album {
-  id: string;
-  name: string;
-  coverUrl: string | null;
-  artistId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  links: Link[];
+
+export interface ArtistWithAlbums extends Artist {
+  albums: Album[];
+  events?: Event[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }

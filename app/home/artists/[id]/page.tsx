@@ -2,6 +2,7 @@
 
 import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
 import Player from "@/components/Player";
+import AlbumCarousel from "@/components/AlbumCarousel";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
 import parse from "html-react-parser";
@@ -123,7 +124,17 @@ const ArtistPage = () => {
       </div>
 
       {artist.codePlayer && artist.urlPlayer && (
-        <Player codePlayer={artist.codePlayer} urlPlayer={artist.urlPlayer} />
+        <Player
+          codePlayer={artist.codePlayer}
+          urlPlayer={artist.urlPlayer}
+        />
+      )}
+      
+      {/* Album Carousel */}
+      {artist.albums && artist.albums.length > 0 && (
+        <div className="mt-8">
+          <AlbumCarousel albums={artist.albums} />
+        </div>
       )}
 
       {artist.videoUrl && (

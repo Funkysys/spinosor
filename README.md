@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Spinosor
 
-## Getting Started
+## Description
+Spinosor est une application web moderne construite avec Next.js qui permet de gérer et présenter des albums, des artistes et des événements musicaux.
 
-First, run the development server:
+## Technologies Utilisées
+- Next.js 14
+- TypeScript
+- Prisma
+- NextAuth.js
+- TailwindCSS
+- GSAP & Framer Motion
+- Jest & Testing Library
 
+## Prérequis
+- Node.js (v18 ou supérieur)
+- Yarn
+- Une base de données PostgreSQL
+
+## Installation
+
+1. Cloner le repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [votre-repo-url]
+cd spinosor
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Installer les dépendances
+```bash
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configurer les variables d'environnement
+```bash
+cp .env.example .env.local
+```
+Remplir les variables dans .env.local avec vos propres valeurs.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Initialiser la base de données
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## Learn More
+## Développement
 
-To learn more about Next.js, take a look at the following resources:
+Lancer le serveur de développement :
+```bash
+yarn dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+L'application sera disponible sur [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Tests
 
-## Deploy on Vercel
+Lancer les tests :
+```bash
+yarn test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Lancer les tests en mode watch :
+```bash
+yarn test:watch
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Structure du Projet
+
+```
+spinosor/
+├── app/                    # Pages et routes Next.js
+├── components/            # Composants React réutilisables
+├── context/              # Contextes React
+├── lib/                  # Utilitaires et configurations
+├── prisma/               # Schéma et migrations Prisma
+├── public/               # Assets statiques
+└── types/                # Types TypeScript
+```
+
+## Fonctionnalités Principales
+- Authentification utilisateur
+- Gestion des albums
+- Gestion des artistes
+- Calendrier d'événements
+- Interface administrateur
+- Upload d'images
+- Carrousel dynamique
+
+## Déploiement
+
+L'application est configurée pour être déployée sur Vercel :
+
+```bash
+vercel
+```
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+## Licence
+
+Ce projet est sous licence MIT.

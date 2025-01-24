@@ -2,9 +2,14 @@
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 import { JsonArray } from "@prisma/client/runtime/library";
+import { ArtistWithAlbums } from "@/types";
 
-export const getArtists = async () => {
-  const artists = prisma.artist.findMany();
+export const getArtists = async (): Promise<ArtistWithAlbums[]> => {
+  const artists = await prisma.artist.findMany({
+    include: {
+      albums: true
+    }
+  });
   return artists;
 };
 
@@ -79,7 +84,8 @@ export const getArtist = async (id: string) => {
     const artist = await prisma.artist.findUnique({
       where: { id },
       include: {
-        events: true, // Inclure les événements associés
+        events: true,
+        albums: true, // Include albums as well
       },
     });
     return artist;
