@@ -60,28 +60,28 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-perso-bg2 p-6 rounded-lg">
       <div className="space-y-4">
         <input
           type="text"
           name="name"
           placeholder="Nom de l'artiste"
           required
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <input
           type="text"
           name="genre"
           placeholder="Genre musical"
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <div>
-          <label className="block mb-2">Bio de l'artiste</label>
+          <label className="block mb-2 text-perso-white-one">Bio de l'artiste</label>
           {typeof window !== "undefined" && (
             <ReactQuill
               value={bio}
               onChange={setBio}
-              className="bg-perso-bg-two text-perso-white-one"
+              className="bg-perso-bg text-perso-white-one"
             />
           )}
         </div>
@@ -89,31 +89,31 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
           type="file"
           name="imageFile"
           accept="image/*"
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <input
           type="text"
           name="videoUrl"
           placeholder="URL de la vidéo"
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <input
           type="text"
           name="codePlayer"
           placeholder="Code du player"
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <input
           type="text"
           name="urlPlayer"
           placeholder="URL du player"
-          className="w-full p-2 rounded bg-perso-bg-two text-perso-white-one"
+          className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
       </div>
 
       {/* Liens sociaux */}
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold">Liens sociaux</h3>
+        <h3 className="text-xl font-semibold text-perso-white-one">Liens sociaux</h3>
         {tempLink.map((el) => (
           <div key={el.id} className="flex gap-2">
             <input
@@ -121,21 +121,21 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
               value={el.name}
               onChange={(e) => handleOnChangeLinkName(e, el)}
               placeholder="Nom du réseau social"
-              className="w-1/2 p-2 rounded bg-perso-bg-two"
+              className="w-1/2 p-2 rounded bg-perso-bg text-perso-white-one"
             />
             <input
               type="text"
               value={el.url}
               onChange={(e) => handleOnChangeLinkUrl(e, el)}
               placeholder="URL"
-              className="w-1/2 p-2 rounded bg-perso-bg-two"
+              className="w-1/2 p-2 rounded bg-perso-bg text-perso-white-one"
             />
           </div>
         ))}
         <button
           type="button"
           onClick={addNewLink}
-          className="px-4 py-2 bg-perso-bg-two rounded hover:bg-opacity-80"
+          className="px-4 py-2 bg-blue-600 text-perso-white-one rounded hover:bg-blue-700 transition-colors"
         >
           Ajouter un lien
         </button>
@@ -143,7 +143,7 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
 
       {/* Albums */}
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold">Albums</h3>
+        <h3 className="text-xl font-semibold text-perso-white-one">Albums</h3>
         {albumForms.map((_, index) => (
           <AlbumCreation
             key={index}
@@ -153,19 +153,21 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
         <button
           type="button"
           onClick={handleCreateAnotherAlbum}
-          className="px-4 py-2 bg-perso-bg-two rounded hover:bg-opacity-80"
+          className="px-4 py-2 bg-blue-600 text-perso-white-one rounded hover:bg-blue-700 transition-colors"
         >
           Ajouter un album
         </button>
       </div>
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full py-2 bg-perso-bg-two rounded hover:bg-opacity-80 disabled:opacity-50"
-      >
-        {isLoading ? "Création en cours..." : "Créer l'artiste"}
-      </button>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="px-8 py-2 bg-perso-yellow-one text-perso-bg rounded hover:bg-perso-yellow-two transition-colors disabled:opacity-50"
+        >
+          {isLoading ? "Création en cours..." : "Créer l'artiste"}
+        </button>
+      </div>
     </form>
   );
 };
