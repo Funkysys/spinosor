@@ -1,5 +1,6 @@
 "use server";
 import cloudinary from "@/lib/cloudinary";
+import prisma from "@/lib/connect";
 import { Album } from "@prisma/client";
 import { JsonArray } from "@prisma/client/runtime/library";
 

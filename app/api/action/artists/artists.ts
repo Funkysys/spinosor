@@ -7,16 +7,30 @@ import { ArtistWithAlbums } from "@/types";
 export const getArtists = async (): Promise<ArtistWithAlbums[]> => {
   try {
     console.log("Début de la récupération des artistes");
+    console.log("État de la connexion Prisma:", !!prisma);
+    
+    if (!prisma) {
+      throw new Error("La connexion Prisma n'est pas initialisée");
+    }
+
     const artists = await prisma.artist.findMany({
       include: {
         albums: true
       }
     });
+    
     console.log(`${artists.length} artistes trouvés`);
     return artists;
   } catch (error) {
-    console.error("Erreur lors de la récupération des artistes:", error);
-    throw error; // Propager l'erreur pour la gestion côté client
+    console.error("Erreur détaillée lors de la récupération des artistes:", {
+      error,
+      errorName: error.name,
+      errorMessage: error.message,
+      errorStack: error.stack,
+      prismaExists: !!prisma,
+      nodeEnv: process.env.NODE_ENV
+    });
+    throw error;
   }
 };
 

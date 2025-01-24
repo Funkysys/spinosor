@@ -64,6 +64,7 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
     artistId,
     onAlbumDataChange,
     albumData.createdAt,
+    albumData.id
   ]);
 
   const handleOnChangeAlbumLinkName = (
