@@ -78,7 +78,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
   return (
     <div 
-      className="w-full py-8 bg-gray-900 px-4 relative my-10"
+      className="w-full py-8 bg-gray-900 rounded-lg px-4 relative my-10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
