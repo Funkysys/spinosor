@@ -81,7 +81,7 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
           className="w-full p-2 rounded bg-perso-bg text-perso-white-one"
         />
         <div>
-          <label className="block mb-2 text-perso-white-one">Bio de l'artiste</label>
+          <label className="block mb-2 text-perso-white-one">Bio de l&apos;artiste</label>
           {typeof window !== "undefined" && mounted && (
             <div className="bg-perso-bg rounded">
               <ReactQuill
