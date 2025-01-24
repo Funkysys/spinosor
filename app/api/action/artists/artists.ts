@@ -24,9 +24,9 @@ export const getArtists = async (): Promise<ArtistWithAlbums[]> => {
   } catch (error) {
     console.error("Erreur détaillée lors de la récupération des artistes:", {
       error,
-      errorName: error.name,
-      errorMessage: error.message,
-      errorStack: error.stack,
+      errorName: error instanceof Error ? error.name : 'Unknown error',
+      errorMessage: error instanceof Error ? error.message : String(error),
+      errorStack: error instanceof Error ? error.stack : undefined,
       prismaExists: !!prisma,
       nodeEnv: process.env.NODE_ENV
     });
