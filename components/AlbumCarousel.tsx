@@ -4,7 +4,7 @@ import { Album } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaSpotify, FaBandcamp, FaSoundcloud, FaYoutube } from "react-icons/fa";
 
 interface AlbumCarouselProps {
   albums: Album[];
@@ -40,6 +40,41 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
   // Calculer les albums visibles
   const visibleAlbums = albums.slice(currentIndex, currentIndex + itemsToShow);
+
+  // Fonction pour obtenir l'icône correspondant au type de lien
+  const getLinkIcon = (url: string) => {
+    const lowercaseUrl = url.toLowerCase();
+    if (lowercaseUrl.includes('spotify')) 
+      return {
+        icon: <FaSpotify className="w-7 h-7" />,
+        color: "text-[#2EE65F]",
+        bg: "bg-black/20"
+      };
+    if (lowercaseUrl.includes('bandcamp')) 
+      return {
+        icon: <FaBandcamp className="w-7 h-7" />,
+        color: "text-[#7BE0FF]",
+        bg: "bg-black/20"
+      };
+    if (lowercaseUrl.includes('soundcloud')) 
+      return {
+        icon: <FaSoundcloud className="w-7 h-7" />,
+        color: "text-[#FF7700]",
+        bg: "bg-black/20"
+      };
+    if (lowercaseUrl.includes('youtube')) 
+      return {
+        icon: <FaYoutube className="w-7 h-7" />,
+        color: "text-[#FF0000]",
+        bg: "bg-black/20"
+      };
+    return null;
+  };
+
+  // Fonction pour capitaliser la première lettre
+  const capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
 
   return (
     <div 
@@ -84,18 +119,31 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
               {/* Links Overlay */}
               {hoveredAlbum === album.id && album.links && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex flex-col items-center justify-center p-4">
-                  {(album.links as any[]).map((link, index) => (
-                    <Link
-                      key={index}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-blue-400 mb-2 transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
+                <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm rounded-lg flex items-center justify-center p-4">
+                  <div className="grid grid-cols-2 gap-4 w-full max-w-[160px]">
+                    {Array(4).fill(null).map((_, index) => {
+                      const link = (album.links as any[])[index];
+                      if (!link) return <div key={index} className="flex items-center justify-center" />;
+                      
+                      const iconData = getLinkIcon(link.url);
+                      if (!iconData) return <div key={index} className="flex items-center justify-center" />;
+                      
+                      return (
+                        <Link
+                          key={index}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-col items-center justify-center group"
+                        >
+                          <div className={`p-1.5 rounded-full ${iconData.bg} ${iconData.color} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
+                            {iconData.icon}
+                          </div>
+                          <span className="text-xs mt-1.5 text-white opacity-80 group-hover:opacity-100">{capitalize(link.name)}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -124,7 +172,8 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                 : "bg-gray-500"
             }`}
             onClick={() => setCurrentIndex(idx * itemsToShow)}
-          />       ))}
+          />
+        ))}
       </div>
     </div>
   );

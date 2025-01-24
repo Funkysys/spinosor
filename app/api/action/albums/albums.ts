@@ -107,79 +107,52 @@ export const updateAlbum = async (
   formData: FormData,
   actualImage: string | null
 ) => {
-  const updateData: {
-    title?: string;
-    releaseDate?: Date;
-    links?: object;
-    imageUrl?: string;
-    artists?: {
-      connect?: { id: string }[];
-      disconnect?: { id: string }[];
-    };
-  } = {};
+  try {
+    const imageFile = formData.get("imageFile") as File | null;
+    let uploadedImageUrl = actualImage;
 
-  const imageFile = formData.get("imageUrl") as File | null;
-  let imageUrl = actualImage || "";
+    if (imageFile) {
+      const base64Image = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(base64Image);
 
-  if (formData.has("title")) {
-    updateData.title = formData.get("title") as string;
-  }
-
-  if (formData.has("releaseDate")) {
-    const releaseDateString = formData.get("releaseDate") as string;
-    updateData.releaseDate = new Date(releaseDateString);
-  }
-
-  if (formData.has("links")) {
-    const linksString = formData.get("links") as string;
-    try {
-      updateData.links = JSON.parse(linksString);
-    } catch (error) {
-      throw new Error("Invalid JSON format for links.");
-    }
-  }
-
-  if (imageFile && imageFile.size > 0) {
-    const base64Data = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(base64Data);
-
-    if (actualImage) {
-      const publicId = actualImage.split("/").pop() || "";
-      if (publicId) {
-        try {
-          await cloudinary.uploader.destroy(publicId);
-        } catch (error) {
-          console.error("Error deleting the old image from Cloudinary:", error);
-        }
+      const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "albums" },
+          (error, result) => {
+            if (error)
+              reject(new Error(`Cloudinary Upload Error: ${error.message}`));
+            else resolve(result);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+      if (uploadResult && "secure_url" in uploadResult) {
+        uploadedImageUrl = uploadResult.secure_url;
+      } else {
+        throw new Error("Upload to Cloudinary failed.");
       }
     }
 
-    const uploadResult = await new Promise<any>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: "albums" },
-        (error, result) => {
-          if (error)
-            reject(new Error(`Cloudinary upload error: ${error.message}`));
-          else resolve(result);
-        }
-      );
-      uploadStream.end(buffer);
-    });
+    const title = formData.get("title")?.toString();
+    const artistId = formData.get("artistId")?.toString();
+    const releaseDate = formData.get("releaseDate")?.toString();
+    const links = formData.get("links")?.toString();
 
-    imageUrl = uploadResult.secure_url;
-  }
-
-  updateData.imageUrl = imageUrl;
-
-  try {
-    const updatedAlbum = await prisma.album.update({
+    const album = await prisma.album.update({
       where: { id },
-      data: updateData,
+      data: {
+        title: title!,
+        artistId: artistId!,
+        imageUrl: uploadedImageUrl,
+        releaseDate: releaseDate ? new Date(releaseDate) : undefined,
+        links: links ? JSON.parse(links) : undefined,
+      },
     });
-    return updatedAlbum;
+
+    return album;
   } catch (error) {
-    console.error("Error updating the album:", error);
-    throw error;
+    console.error("Erreur lors de la mise à jour de l'album :", error);
+    throw new Error("Erreur lors de la mise à jour de l'album");
   }
 };
 

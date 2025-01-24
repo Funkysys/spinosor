@@ -67,8 +67,20 @@ const ArtistList: React.FC<ArtistListProps> = ({
           albumFormData.append("artistId", artist.id);
           albumFormData.append("releaseDate", album.releaseDate.toISOString());
 
-          if (album.imageUrl) {
-            albumFormData.append("imageFile", album.imageUrl as unknown as File);
+          // Ajouter les liens à la mise à jour
+          if (album.links) {
+            albumFormData.append("links", JSON.stringify(album.links));
+          }
+
+          if (album.imageUrl && album.imageUrl !== null && typeof album.imageUrl === 'object' && (album.imageUrl as File) instanceof File) {
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(album.imageUrl);
+            reader.onloadend = async () => {
+              albumFormData.append("imageFile", reader.result as string);
+              await updateAlbum(album.id, albumFormData, album.imageUrl);
+            };
+          } else {
+            // Si pas de nouvelle image, mettre à jour avec les autres données
             await updateAlbum(album.id, albumFormData, album.imageUrl);
           }
         }
@@ -102,6 +114,11 @@ const ArtistList: React.FC<ArtistListProps> = ({
         albumFormData.append("artistId", artist.id);
         albumFormData.append("releaseDate", album.releaseDate.toISOString());
         
+        // Ajouter les liens à la mise à jour
+        if (album.links) {
+          albumFormData.append("links", JSON.stringify(album.links));
+        }
+
         if (album.imageUrl && album.imageUrl !== null && typeof album.imageUrl === 'object' && (album.imageUrl as File) instanceof File) {
           const reader = new FileReader();
           reader.readAsArrayBuffer(album.imageUrl);
@@ -109,6 +126,9 @@ const ArtistList: React.FC<ArtistListProps> = ({
             albumFormData.append("imageFile", reader.result as string);
             await updateAlbum(album.id, albumFormData, album.imageUrl);
           };
+        } else {
+          // Si pas de nouvelle image, mettre à jour avec les autres données
+          await updateAlbum(album.id, albumFormData, album.imageUrl);
         }
       }
 
