@@ -40,26 +40,40 @@ const ArtistsDashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchArtistsAndAlbums = async () => {
-      const [artistList, albumList] = await Promise.all([
-        getArtists(),
-        getAlbums(),
-      ]);
+      try {
+        setIsLoading(true);
+        const [artistList, albumList] = await Promise.all([
+          getArtists(),
+          getAlbums(),
+        ]);
 
-      const formattedArtists = artistList.map((artist: any) => ({
-        id: artist.id,
-        name: artist.name,
-        bio: artist.bio ?? null,
-        genre: artist.genre ?? null,
-        imageUrl: artist.imageUrl ?? null,
-        videoUrl: artist.videoUrl ?? null,
-        codePlayer: artist.codePlayer ?? null,
-        urlPlayer: artist.urlPlayer ?? null,
-        socialLinks: artist.socialLinks ?? null,
-        albums: albumList.filter((album) => album.artistId === artist.id),
-      }));
+        if (!artistList) {
+          console.error("La liste des artistes est vide ou null");
+          return;
+        }
 
-      setArtists(formattedArtists);
-      setAlbums(albumList);
+        console.log("Artistes récupérés:", artistList);
+
+        const formattedArtists = artistList.map((artist: any) => ({
+          id: artist.id,
+          name: artist.name,
+          bio: artist.bio ?? null,
+          genre: artist.genre ?? null,
+          imageUrl: artist.imageUrl ?? null,
+          videoUrl: artist.videoUrl ?? null,
+          codePlayer: artist.codePlayer ?? null,
+          urlPlayer: artist.urlPlayer ?? null,
+          socialLinks: artist.socialLinks ?? null,
+          albums: albumList.filter((album) => album.artistId === artist.id),
+        }));
+
+        setArtists(formattedArtists);
+        setAlbums(albumList);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des artistes:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchArtistsAndAlbums();
@@ -67,7 +81,6 @@ const ArtistsDashboard: React.FC = () => {
   const resetForm = () => {
     setBio("");
   };
-  console.log("artists", artists);
 
   const handleAlbumDataChange = useCallback(
     (index: number, albumData: AlbumData) => {
@@ -103,7 +116,6 @@ const ArtistsDashboard: React.FC = () => {
 
           if (album.imageUrl) {
             albumFormData.append("imageFile", album.imageUrl as File); // Directement le fichier
-            console.log("albumFormData", albumFormData);
 
             await createAlbum(albumFormData, album.links);
           }
@@ -126,7 +138,6 @@ const ArtistsDashboard: React.FC = () => {
           reader.readAsArrayBuffer(album.imageUrl as File);
           reader.onloadend = async () => {
             albumFormData.append("imageFile", reader.result as string);
-            console.log("albumFormData", albumFormData);
 
             await createAlbum(albumFormData, album.links);
           };
@@ -176,7 +187,6 @@ const ArtistsDashboard: React.FC = () => {
     setAlbumForms([...albumForms, {}]); // Ajoute un nouveau formulaire vide
   };
 
-  console.log("artists", artists);
 
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">

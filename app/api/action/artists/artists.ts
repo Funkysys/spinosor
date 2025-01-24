@@ -5,12 +5,19 @@ import { JsonArray } from "@prisma/client/runtime/library";
 import { ArtistWithAlbums } from "@/types";
 
 export const getArtists = async (): Promise<ArtistWithAlbums[]> => {
-  const artists = await prisma.artist.findMany({
-    include: {
-      albums: true
-    }
-  });
-  return artists;
+  try {
+    console.log("Début de la récupération des artistes");
+    const artists = await prisma.artist.findMany({
+      include: {
+        albums: true
+      }
+    });
+    console.log(`${artists.length} artistes trouvés`);
+    return artists;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des artistes:", error);
+    throw error; // Propager l'erreur pour la gestion côté client
+  }
 };
 
 export const getArtistIdsAndNames = async () => {
