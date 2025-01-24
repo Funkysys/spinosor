@@ -1,9 +1,23 @@
-import { ArtistWithEvents } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const Card: React.FC<ArtistWithEvents> = ({
+interface CardProps {
+  id: string;
+  name: string;
+  genre?: string;
+  bio?: string;
+  imageUrl?: string;
+  events: Array<{
+    id: string;
+    title: string;
+    date: string;
+    location: string;
+    ticketLink?: string | null;
+  }>;
+}
+
+const Card: React.FC<CardProps> = ({
   id,
   name,
   genre,
