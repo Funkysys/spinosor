@@ -15,18 +15,23 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Trier les albums par date (du plus récent au plus ancien)
+  const sortedAlbums = [...albums].sort((a, b) => 
+    new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
+  );
+
   // Nombre d'albums à afficher à la fois
   const itemsToShow = 4;
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => 
-      prevIndex + itemsToShow >= albums.length ? 0 : prevIndex + 1
+      prevIndex + itemsToShow >= sortedAlbums.length ? 0 : prevIndex + 1
     );
-  }, [albums.length]);
+  }, [sortedAlbums.length]);
 
   const previousSlide = () => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? Math.max(0, albums.length - itemsToShow) : prevIndex - 1
+      prevIndex === 0 ? Math.max(0, sortedAlbums.length - itemsToShow) : prevIndex - 1
     );
   };
 
@@ -39,7 +44,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
   }, [isPaused, nextSlide]);
 
   // Calculer les albums visibles
-  const visibleAlbums = albums.slice(currentIndex, currentIndex + itemsToShow);
+  const visibleAlbums = sortedAlbums.slice(currentIndex, currentIndex + itemsToShow);
 
   // Fonction pour obtenir l'icône correspondant au type de lien
   const getLinkIcon = (url: string) => {
@@ -153,7 +158,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
         </div>
 
         {/* Bouton suivant */}
-        {currentIndex + itemsToShow < albums.length && (
+        {currentIndex + itemsToShow < sortedAlbums.length && (
           <button
             onClick={nextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black bg-opacity-50 p-1 sm:p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
@@ -165,7 +170,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
       {/* Indicateurs de position */}
       <div className="flex justify-center mt-2 sm:mt-4 space-x-1 sm:space-x-2">
-        {Array.from({ length: Math.ceil(albums.length / itemsToShow) }).map((_, idx) => (
+        {Array.from({ length: Math.ceil(sortedAlbums.length / itemsToShow) }).map((_, idx) => (
           <button
             key={idx}
             className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${
