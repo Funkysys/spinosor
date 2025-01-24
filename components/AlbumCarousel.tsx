@@ -78,25 +78,25 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
   return (
     <div 
-      className="w-full py-8 bg-gray-900 rounded-lg px-4 relative my-10"
+      className="w-full py-4 sm:py-8 bg-gray-900 rounded-lg px-2 sm:px-4 relative my-6 sm:my-10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <h2 className="text-2xl font-bold mb-4 text-white px-4">Albums</h2>
+      <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-white px-2 sm:px-4">Albums</h2>
       
       <div className="relative">
         {/* Bouton précédent */}
         {currentIndex > 0 && (
           <button
             onClick={previousSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black bg-opacity-50 p-1 sm:p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
           >
-            <FaChevronLeft size={24} />
+            <FaChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
           </button>
         )}
 
         {/* Carousel */}
-        <div className="flex justify-start items-center space-x-6 p-4 transition-all duration-300 ease-in-out">
+        <div className="flex justify-start items-center space-x-3 sm:space-x-6 p-2 sm:p-4 transition-all duration-300 ease-in-out overflow-hidden">
           {visibleAlbums.map((album) => (
             <div
               key={album.id}
@@ -108,7 +108,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
               onMouseLeave={() => setHoveredAlbum(null)}
             >
               {/* Album Image */}
-              <div className="relative w-48 h-48">
+              <div className="relative w-32 h-32 sm:w-48 sm:h-48">
                 <Image
                   src={album.imageUrl || "/placeholder-album.jpg"}
                   alt={album.title}
@@ -119,8 +119,8 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
 
               {/* Links Overlay */}
               {hoveredAlbum === album.id && album.links && (
-                <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm rounded-lg flex items-center justify-center p-4">
-                  <div className="grid grid-cols-2 gap-4 w-full max-w-[160px]">
+                <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm rounded-lg flex items-center justify-center p-2 sm:p-4">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-[120px] sm:max-w-[160px]">
                     {Array(4).fill(null).map((_, index) => {
                       const link = (album.links as any[])[index];
                       if (!link) return <div key={index} className="flex items-center justify-center" />;
@@ -136,10 +136,12 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                           rel="noopener noreferrer"
                           className="flex flex-col items-center justify-center group"
                         >
-                          <div className={`p-1.5 rounded-full ${iconData.bg} ${iconData.color} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
+                          <div className={`p-1 sm:p-1.5 rounded-full ${iconData.bg} ${iconData.color} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
                             {iconData.icon}
                           </div>
-                          <span className={`text-xs mt-1.5 text-white opacity-80 group-hover:opacity-100 px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 group-hover:${iconData.color}`}>{capitalize(link.name)}</span>
+                          <span className={`text-[10px] sm:text-xs mt-1 sm:mt-1.5 text-white opacity-80 group-hover:opacity-100 px-1.5 sm:px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 group-hover:${iconData.color}`}>
+                            {capitalize(link.name)}
+                          </span>
                         </Link>
                       );
                     })}
@@ -154,19 +156,19 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
         {currentIndex + itemsToShow < albums.length && (
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black bg-opacity-50 p-1 sm:p-2 rounded-full text-white hover:bg-opacity-75 transition-all"
           >
-            <FaChevronRight size={24} />
+            <FaChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
           </button>
         )}
       </div>
 
       {/* Indicateurs de position */}
-      <div className="flex justify-center mt-4 space-x-2">
+      <div className="flex justify-center mt-2 sm:mt-4 space-x-1 sm:space-x-2">
         {Array.from({ length: Math.ceil(albums.length / itemsToShow) }).map((_, idx) => (
           <button
             key={idx}
-            className={`w-2 h-2 rounded-full transition-all ${
+            className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${
               idx === Math.floor(currentIndex / itemsToShow)
                 ? "bg-white"
                 : "bg-gray-500"
