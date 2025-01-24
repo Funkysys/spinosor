@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => {
-    return <img {...props} alt={props.alt || 'Image'} />;
+    return <div data-testid="mock-image" {...props} />;
   },
 }));
 
