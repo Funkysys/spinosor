@@ -86,7 +86,17 @@ export const getArtistsWithEvents = async () => {
         events: true,
       },
     });
-    return artists;
+
+    // Transformer les données pour convertir les dates en chaînes
+    return artists.map(artist => ({
+      ...artist,
+      events: artist.events.map(event => ({
+        ...event,
+        date: event.date.toISOString(),
+        createdAt: event.createdAt.toISOString(),
+        updatedAt: event.updatedAt.toISOString()
+      }))
+    }));
   } catch (error) {
     console.error("Erreur lors de la récupération des artistes :", error);
     return [];
