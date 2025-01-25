@@ -63,43 +63,6 @@ export const getArtistIds = async () => {
   }
 };
 
-export const getArtistsWithEvents = async () => {
-  try {
-    const artists = await prisma.artist.findMany({
-      include: {
-        events: true, // Inclure les événements associés
-      },
-    });
-
-    // Transformer les données avant de les retourner
-    return artists.map((artist) => ({
-      id: artist.id,
-      name: artist.name,
-      bio: artist.bio,
-      genre: artist.genre,
-      videoUrl: artist.videoUrl,
-      codePlayer: artist.codePlayer,
-      urlPlayer: artist.urlPlayer,
-      imageUrl: artist.imageUrl,
-      // Si socialLinks est déjà un objet, inutile de faire un JSON.parse
-      socialLinks:
-        typeof artist.socialLinks === "string"
-          ? JSON.parse(artist.socialLinks)
-          : artist.socialLinks,
-      events: artist.events.map((event) => ({
-        id: event.id,
-        title: event.title,
-        date: event.date.toISOString(), // Conversion de Date en string
-        location: event.location,
-        ticketLink: event.ticketLink || undefined,
-      })),
-    }));
-  } catch (error) {
-    console.error("Erreur lors de la récupération des artistes :", error);
-    return [];
-  }
-};
-
 export const getArtist = async (id: string) => {
   try {
     const artist = await prisma.artist.findUnique({
@@ -116,7 +79,22 @@ export const getArtist = async (id: string) => {
   }
 };
 
+export const getArtistsWithEvents = async () => {
+  try {
+    const artists = await prisma.artist.findMany({
+      include: {
+        events: true,
+      },
+    });
+    return artists;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des artistes :", error);
+    return [];
+  }
+};
+
 export const createArtist = async (formData: FormData, link: JsonArray) => {
+
   const name = formData.get("name") as string;
   const bio = formData.get("bio") as string | null;
   const genre = formData.get("genre") as string | null;
@@ -126,12 +104,15 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
   const codePlayer = formData.get("codePlayer") as string | null;
   const urlPlayer = formData.get("urlPlayer") as string | null;
 
+
   let imageUrl = "";
+
 
   // Uploader l'image sur Cloudinary
   if (imageFile) {
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
+
 
     // Utilisation d'une promesse pour l'upload
     const uploadResult = await new Promise<any>((resolve, reject) => {
@@ -143,11 +124,14 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
           } else {
             resolve(result); // On résout le résultat ici
           }
+
         }
       );
 
+
       uploadStream.end(buffer); // Fin de l'envoi du buffer
     });
+
 
     // Vérifiez si le résultat a un secure_url
     if (uploadResult && "secure_url" in uploadResult) {
@@ -156,6 +140,7 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
       throw new Error("Upload to Cloudinary failed.");
     }
   }
+
 
   const artist = await prisma.artist.create({
     data: {
@@ -178,6 +163,7 @@ export const updateArtist = async (
   formData: FormData,
   actualImage: string | null
 ) => {
+
   const updateData: {
     name?: string;
     bio?: string | null;
@@ -189,9 +175,12 @@ export const updateArtist = async (
     socialLinks?: { [key: string]: any } | undefined;
   } = {};
 
+
   const imageFile = formData.get("imageUrl") as File | null;
 
+
   let image = "";
+
 
   if (formData.has("name")) {
     updateData.name = formData.get("name") as string;
