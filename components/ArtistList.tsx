@@ -1,6 +1,7 @@
 "use client";
 
-import { deleteAlbum } from "@/app/api/action/albums/albums";
+import { deleteAlbum, updateAlbum, createAlbum } from "@/app/api/action/albums/albums";
+import { updateArtist } from "@/app/api/action/artists/artists";
 import { ArtistWithAlbums, Link } from "@/types";
 import { Album } from "@prisma/client";
 import dynamic from "next/dynamic";
@@ -189,43 +190,68 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
       return;
     }
 
-    // Validation des albums existants
-    for (const album of artistState.albumFormsUpdate) {
-      if (!album.title?.trim()) {
-        alert("Le titre de l'album est obligatoire pour tous les albums");
-        return;
+    try {
+      // Filter out incomplete albums
+      const validUpdatedAlbums = artistState.albumFormsUpdate.filter(album => 
+        album.title?.trim() && album.releaseDate && album.imageUrl
+      );
+
+      const validNewAlbums = artistState.albumFormsCreation.filter(album => 
+        album.title?.trim() && album.releaseDate && album.imageUrl
+      );
+
+      // Prepare form data for artist update
+      formData.append("name", name);
+      formData.append("bio", artistState.bio);
+      formData.append("socialLinks", JSON.stringify(artistState.links));
+
+      // Update the artist first
+      await updateArtist(artist.id, formData, artist.imageUrl);
+
+      // Handle album updates
+      for (const album of validUpdatedAlbums) {
+        const albumFormData = new FormData();
+        albumFormData.append("title", album.title);
+        albumFormData.append("releaseDate", album.releaseDate.toISOString());
+        albumFormData.append("links", JSON.stringify(album.links || []));
+        
+        // Update existing albums
+        await updateAlbum(album.id, albumFormData, album.imageUrl);
       }
-      if (!album.releaseDate) {
-        alert("La date de sortie est obligatoire pour tous les albums");
-        return;
+
+      // Handle new albums
+      for (const album of validNewAlbums) {
+        const albumFormData = new FormData();
+        albumFormData.append("title", album.title);
+        albumFormData.append("artistId", artist.id);
+        albumFormData.append("releaseDate", new Date(album.releaseDate).toISOString());
+        
+        if (album.imageUrl) {
+          if (album.imageUrl instanceof File) {
+            // If it's already a File object, use it directly
+            albumFormData.append("imageFile", album.imageUrl);
+          } else {
+            // If it's a URL string, fetch it and convert to File
+            const response = await fetch(album.imageUrl);
+            const blob = await response.blob();
+            const file = new File([blob], "album-image.jpg", { type: "image/jpeg" });
+            albumFormData.append("imageFile", file);
+          }
+        }
+        
+        // Create new albums
+        await createAlbum(albumFormData, album.links || []);
       }
-      if (!album.imageUrl) {
-        alert("L'image est obligatoire pour tous les albums");
-        return;
-      }
+
+      // Reset editing state
+      setEditingId(null);
+      
+      // Refresh the page to show updated data
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating artist:", error);
+      alert("Une erreur est survenue lors de la mise à jour de l'artiste");
     }
-
-    // Validation des nouveaux albums
-    for (const album of artistState.albumFormsCreation) {
-      if (!album.title?.trim()) {
-        alert("Le titre est obligatoire pour les nouveaux albums");
-        return;
-      }
-      if (!album.releaseDate) {
-        alert("La date de sortie est obligatoire pour les nouveaux albums");
-        return;
-      }
-      if (!album.imageUrl) {
-        alert("L'image est obligatoire pour les nouveaux albums");
-        return;
-      }
-    }
-
-    formData.append("bio", artistState.bio);
-    formData.append("socialLinks", JSON.stringify(artistState.links));
-
-    // TODO: Implement the rest of the update logic
-    setEditingId(null);
   };
 
   const handleUpdateAlbum = (album: Album, index: number, artistId: string) => {
