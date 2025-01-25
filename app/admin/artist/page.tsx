@@ -12,6 +12,7 @@ import ArtistList from "@/components/ArtistList";
 import { Album, Artist, Prisma } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ArtistWithAlbums extends Artist {
   albums: Album[];
@@ -24,6 +25,9 @@ interface ArtistWithAlbums extends Artist {
 const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [artistToDelete, setArtistToDelete] = useState<{ id: string; name: string } | null>(null);
+  const router = useRouter();
 
   // Chargement initial des artistes et albums
   useEffect(() => {
@@ -135,36 +139,92 @@ const ArtistsDashboard: React.FC = () => {
     }
   };
 
-  /**
-   * Gère la suppression d'un artiste
-   */
-  const handleArtistDeletion = async (id: string) => {
+  const handleDeleteClick = async (id: string) => {
+    const artist = artists.find(a => a.id === id);
+    if (artist) {
+      setArtistToDelete(artist);
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const handleArtistDeletion = async (artistId: string) => {
+    if (!artistId) return;
+    
     try {
       setIsLoading(true);
-      const artist = artists.find((a) => a.id === id);
-      if (!artist) {
-        toast.error("Artiste non trouvé");
-        return;
-      }
-
-      await deleteArtist(id);
+      await deleteArtist(artistId);
       toast.success("Artiste supprimé avec succès");
-      
-      // Mettre à jour la liste des artistes
-      const updatedArtists = artists.filter((a) => a.id !== id);
-      setArtists(updatedArtists);
+      const updatedArtists = await getArtists();
+      if (updatedArtists) {
+        setArtists(updatedArtists as ArtistWithAlbums[]);
+      }
+      setDeleteDialogOpen(false);
+      setArtistToDelete(null);
     } catch (error) {
-      console.error("Erreur lors de la suppression:", error);
+      console.error("Erreur lors de la suppression de l'artiste:", error);
       toast.error("Erreur lors de la suppression de l'artiste");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const modalStyle = {
+    overlay: {
+      position: 'fixed' as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      zIndex: 1000,
+      display: deleteDialogOpen ? 'flex' : 'none',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    content: {
+      position: 'relative' as const,
+      backgroundColor: 'white',
+      padding: '20px',
+      borderRadius: '8px',
+      maxWidth: '500px',
+      width: '90%',
+    }
+  };
+
+  const DeleteConfirmationModal = () => (
+    <div style={modalStyle.overlay}>
+      <div style={modalStyle.content}>
+        <h2 className="text-lg text-black font-semibold mb-4">Confirmer la suppression</h2>
+        <p className="mb-4 text-black">
+          Êtes-vous sûr de vouloir supprimer l'artiste {artistToDelete?.name} ?
+          Cette action est irréversible.
+        </p>
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => {
+              setDeleteDialogOpen(false);
+              setArtistToDelete(null);
+            }}
+            className="px-4 py-2 text-gray-600 bg-gray-200 border rounded hover:bg-gray-100"
+          >
+            Annuler
+          </button>
+          <button
+            onClick={() => artistToDelete && handleArtistDeletion(artistToDelete.id)}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            disabled={isLoading}
+          >
+            {isLoading ? "Suppression..." : "Supprimer"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
       <h1 className="text-3xl font-bold mb-5 text-center">
-        Gérer les Artistes
+        Gestion des Artistes
       </h1>
 
       {/* Formulaire de création d'artiste */}
@@ -181,10 +241,12 @@ const ArtistsDashboard: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-4">Artistes existants</h2>
         <ArtistList
           artists={artists}
-          onDelete={handleArtistDeletion}
+          onDelete={handleDeleteClick}
           isLoading={isLoading}
         />
       </div>
+
+      <DeleteConfirmationModal />
     </div>
   );
 };
