@@ -89,7 +89,7 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
         <div>
           <label className="text-sm text-slate-400">{`Bio de l'artiste`}</label>
           {typeof window !== "undefined" && mounted && (
-            <div className="bg-gray-700 rounded border border-gray-600">
+            <div className="bg-gray-400 rounded border border-gray-600 text-slate-400">
               <ReactQuill
                 value={bio}
                 onChange={setBio}
