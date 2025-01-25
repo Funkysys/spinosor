@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
 import { useState } from "react";
 import { getUser } from "../api/action/user/user";
+import { toast } from "react-hot-toast";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>();
+  const [isCleaningImages, setIsCleaningImages] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -17,6 +19,27 @@ export default function AdminDashboard() {
     setUser(data);
     if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
     (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
+  };
+
+  const handleCleanupImages = async () => {
+    try {
+      setIsCleaningImages(true);
+      const response = await fetch('/api/cloudinary/cleanup', {
+        method: 'POST'
+      });
+      const result = await response.json();
+      
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        throw new Error(result.error || "Erreur lors du nettoyage");
+      }
+    } catch (error) {
+      console.error("Erreur lors du nettoyage des images:", error);
+      toast.error("Échec du nettoyage des images");
+    } finally {
+      setIsCleaningImages(false);
+    }
   };
 
   if (status === "authenticated" && !user) {
@@ -38,9 +61,31 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-perso-white-two mb-6 border-b-2 border-perso-yellow-one">
-          Tableau de Bord Admin
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-perso-white-two border-b-2 border-perso-yellow-one">
+            Tableau de Bord Admin
+          </h1>
+          <button
+            onClick={handleCleanupImages}
+            disabled={isCleaningImages}
+            className={`px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ${
+              isCleaningImages ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            {isCleaningImages ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Nettoyage en cours...
+              </span>
+            ) : (
+              'Nettoyer les images inutilisées'
+            )}
+          </button>
+        </div>
+        
         <p className="mb-8 text-gray-400">
           Bienvenue <span className="font-semibold">{user?.name}</span>,
           {`vous êtes connecté en tant qu'ADMIN.`}

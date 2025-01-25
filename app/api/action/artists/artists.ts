@@ -220,7 +220,9 @@ export const updateArtist = async (
     if (!actualImage && actualImage !== "") {
       throw new Error("Actual image not found.");
     }
-    const publicId = actualImage.split("/").pop() || ""; // Fournir une valeur par défaut
+    const publicId = actualImage
+    .replace(/.*\/upload\/(?:v\d+\/)?/, "")
+    .split(".")[0];
 
     if (!publicId) {
       console.error("Public ID de l'image non trouvé.");
@@ -323,7 +325,9 @@ export const deleteArtist = async (artistId: string) => {
     return artist;
   }
 
-  const publicId = artist.imageUrl.split("/").pop() || "";
+  const publicId = artist.imageUrl
+  .replace(/.*\/upload\/(?:v\d+\/)?/, "")
+  .split(".")[0];
 
   if (!publicId) {
     console.error("Public ID de l'image non trouvé.");

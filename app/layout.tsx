@@ -5,6 +5,7 @@ import ThemeProviders from "@/providers/ThemeProviders";
 import { Belleza, Ruda } from "@next/font/google";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import "react-quill/dist/quill.snow.css";
 
@@ -39,7 +40,10 @@ export default function RootLayout({
             <body
               className={`${belleza.variable} ${ruda.variable} ${inter.className} min-h-[100vh]`}
             >
-              <ThemeProviders>{children}</ThemeProviders>
+              <ThemeProviders>
+                {children}
+                <Toaster position="top-center" />
+              </ThemeProviders>
             </body>
           </CartProvider>
         </AuthProvider>

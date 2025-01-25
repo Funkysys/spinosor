@@ -11,6 +11,7 @@ import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
 import { Album, Artist, Prisma } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 interface ArtistWithAlbums extends Artist {
   albums: Album[];
@@ -94,30 +95,41 @@ const ArtistsDashboard: React.FC = () => {
 
       // Création de l'artiste
       const artist = await createArtist(formData, links);
+      if (!artist) {
+        throw new Error("Échec de la création de l'artiste");
+      }
+      toast.success("Artiste créé avec succès !");
       
       // Création des albums
       if (artist && albumForms.length > 0) {
-        await Promise.all(
-          albumForms.map(async (album) => {
-            const albumFormData = new FormData();
-            albumFormData.append("name", album.title);
-            albumFormData.append("artistId", artist.id);
-            albumFormData.append("releaseDate", album.releaseDate);
-            albumFormData.append("links", JSON.stringify(album.links));
-
-            if (album.imageUrl) {
-              albumFormData.append("imageFile", album.imageUrl as File);
-              await createAlbum(albumFormData, album.links);
-            }
-          })
-        );
+        try {
+          await Promise.all(
+            albumForms.map(async (album) => {
+              const albumFormData = new FormData();
+              albumFormData.append("artistId", artist.id);
+              albumFormData.append("title", album.title);
+              if (album.imageUrl) {
+                albumFormData.append("imageFile", album.imageUrl);
+              }
+              return createAlbum(albumFormData, album.links);
+            })
+          );
+          toast.success("Albums créés avec succès !");
+        } catch (error) {
+          toast.error("Erreur lors de la création des albums. Veuillez vérifier les informations saisies.");
+          console.error("Erreur création albums:", error);
+        }
       }
 
-      // Mise à jour de la liste des artistes
+      // Rafraîchir la liste des artistes
       const updatedArtists = await getArtists();
-      setArtists(updatedArtists as ArtistWithAlbums[]);
+      if (updatedArtists) {
+        setArtists(updatedArtists as ArtistWithAlbums[]);
+      }
+
     } catch (error) {
-      console.error("Erreur lors de la création de l'artiste:", error);
+      console.error("Erreur lors de la création:", error);
+      toast.error("Une erreur est survenue lors de la création. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -129,11 +141,21 @@ const ArtistsDashboard: React.FC = () => {
   const handleArtistDeletion = async (id: string) => {
     try {
       setIsLoading(true);
+      const artist = artists.find((a) => a.id === id);
+      if (!artist) {
+        toast.error("Artiste non trouvé");
+        return;
+      }
+
       await deleteArtist(id);
-      const result = await getArtists();
-      setArtists(result as ArtistWithAlbums[]);
+      toast.success("Artiste supprimé avec succès");
+      
+      // Mettre à jour la liste des artistes
+      const updatedArtists = artists.filter((a) => a.id !== id);
+      setArtists(updatedArtists);
     } catch (error) {
-      console.error("Erreur lors de la suppression de l'artiste:", error);
+      console.error("Erreur lors de la suppression:", error);
+      toast.error("Erreur lors de la suppression de l'artiste");
     } finally {
       setIsLoading(false);
     }

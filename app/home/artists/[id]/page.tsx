@@ -130,12 +130,6 @@ const ArtistPage = () => {
         />
       )}
       
-      {/* Album Carousel */}
-      {artist.albums && artist.albums.length > 0 && (
-        <div className="mt-8">
-          <AlbumCarousel albums={artist.albums} />
-        </div>
-      )}
 
       {artist.videoUrl && (
         <div className="w-full my-8 flex justify-center">
@@ -149,10 +143,16 @@ const ArtistPage = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-          ></iframe>
+            ></iframe>
         </div>
       )}
 
+      {artist.albums && artist.albums.length > 0 && (
+        <div className="mt-8">
+          <AlbumCarousel albums={artist.albums} />
+        </div>
+      )}
+      
       {artist.socialLinks && (
         <div className="w-[100%] flex justify-center ">
           <ul className="list-none flex gap-4">
