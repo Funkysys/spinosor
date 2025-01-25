@@ -141,10 +141,12 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                           rel="noopener noreferrer"
                           className="flex flex-col items-center justify-center group"
                         >
-                          <div className={`p-1 sm:p-1.5 rounded-full ${iconData.bg} ${iconData.color} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
-                            {iconData.icon}
+                          <div className={`p-1 sm:p-1.5 rounded-full ${iconData?.bg || 'bg-black/40'} ${iconData?.color || 'text-white'} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
+                            {iconData ? iconData.icon : (
+                              <span className="text-xs font-medium px-2">{capitalize(link.name)}</span>
+                            )}
                           </div>
-                          <span className={`text-[10px] sm:text-xs mt-1 sm:mt-1.5 text-white opacity-80 group-hover:opacity-100 px-1.5 sm:px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 group-hover:${iconData.color}`}>
+                          <span className={`text-[10px] sm:text-xs mt-1 sm:mt-1.5 text-white opacity-80 group-hover:opacity-100 px-1.5 sm:px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 ${iconData ? `group-hover:${iconData.color}` : 'group-hover:text-white'}`}>
                             {capitalize(link.name)}
                           </span>
                         </Link>
