@@ -196,8 +196,8 @@ const ArtistsDashboard: React.FC = () => {
       <div style={modalStyle.content}>
         <h2 className="text-lg text-black font-semibold mb-4">Confirmer la suppression</h2>
         <p className="mb-4 text-black">
-          Êtes-vous sûr de vouloir supprimer l'artiste {artistToDelete?.name} ?
-          Cette action est irréversible.
+          {`Êtes-vous sûr de vouloir supprimer l'artiste ${artistToDelete?.name} ?
+          Cette action est irréversible.`}
         </p>
         <div className="flex justify-end gap-2">
           <button
