@@ -127,11 +127,24 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                 <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm rounded-lg flex items-center justify-center p-2 sm:p-4">
                   <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-[120px] sm:max-w-[160px]">
                     {Array(4).fill(null).map((_, index) => {
+                      
                       const link = (album.links as any[])[index];
+                      console.log(link);
                       if (!link) return <div key={index} className="flex items-center justify-center" />;
                       
                       const iconData = getLinkIcon(link.url);
-                      if (!iconData) return <div key={index} className="flex items-center justify-center" />;
+                      if (!iconData) return  <Link
+                      key={index}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center justify-center group"
+                    >
+
+                      <span className={`text-[10px] sm:text-xs mt-1 sm:mt-1.5 text-white opacity-80 group-hover:opacity-100 px-1.5 sm:px-2 py-2 px-3 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 ${iconData ? `group-hover:${iconData.color}` : 'group-hover:text-white'}`}>
+                        {capitalize(link.name)}
+                      </span>
+                    </Link>;
                       
                       return (
                         <Link
@@ -142,9 +155,7 @@ const AlbumCarousel: React.FC<AlbumCarouselProps> = ({ albums }) => {
                           className="flex flex-col items-center justify-center group"
                         >
                           <div className={`p-1 sm:p-1.5 rounded-full ${iconData?.bg || 'bg-black/40'} ${iconData?.color || 'text-white'} transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
-                            {iconData ? iconData.icon : (
-                              <span className="text-xs font-medium px-2">{capitalize(link.name)}</span>
-                            )}
+                            {iconData && iconData.icon }
                           </div>
                           <span className={`text-[10px] sm:text-xs mt-1 sm:mt-1.5 text-white opacity-80 group-hover:opacity-100 px-1.5 sm:px-2 py-0.5 rounded bg-black/40 backdrop-blur-sm transition-colors duration-300 ${iconData ? `group-hover:${iconData.color}` : 'group-hover:text-white'}`}>
                             {capitalize(link.name)}
