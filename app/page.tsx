@@ -12,7 +12,7 @@ export default function Home() {
         Bienvenue chez Spinosor Records
       </h1>
       <div className=" w-[50vh] h-[50vh] md:w-[80vh] md:h-[80vh]  relative animate-fade-up animate-once animate-duration-[3000ms] animate-ease-in-out">
-        <Image src="/assets/images/1.png" alt="Spinosor Records logo" fill />
+        <Image src="/assets/images/spinosor_Logo.svg" alt="Spinosor Records logo" fill />
       </div>
       <button
         onClick={() => router.push("/home/artists")}
