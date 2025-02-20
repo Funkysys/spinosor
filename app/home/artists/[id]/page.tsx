@@ -2,7 +2,7 @@
 
 import {
   getArtistByName,
-  getArtistNames,
+  getArtistIds,
 } from "@/app/api/action/artists/artists";
 import AlbumCarousel from "@/components/AlbumCarousel";
 import Player from "@/components/Player";
@@ -29,9 +29,7 @@ const ArtistPage = () => {
   const [Loading, setLoading] = useState(false);
   const [artist, setArtist] = useState<ArtistWithEvents>();
   const { name } = useParams();
-  const [artistsNames, setArtistsNames] = useState<{ name: string }[] | null>(
-    null
-  );
+  const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
 
   const socialIcons: Record<string, IconType> = {
     Facebook: FaFacebook,
@@ -47,7 +45,7 @@ const ArtistPage = () => {
     setLoading(true);
     const fetchArtist = async () => {
       if (typeof name === "string") {
-        const artistData = await getArtistByName(name.replace(/-/g, " "));
+        const artistData = await getArtistByName(name);
 
         if (artistData && !Array.isArray(artistData) && artistData.events) {
           const artistWithFormattedDates = {
@@ -71,23 +69,22 @@ const ArtistPage = () => {
 
   useEffect(() => {
     const fetchArtistsIds = async () => {
-      const artistsIds = await getArtistNames();
-      setArtistsNames(artistsIds);
+      const artistsIds = await getArtistIds();
+      setArtistsIds(artistsIds);
     };
     fetchArtistsIds();
   }, []);
 
   const goToNextArtist = () => {
-    if (artistsNames && name) {
-      const currentIndex = artistsNames.findIndex(
-        (artist) => artist.name === name.replace(/-/g, " ")
-      );
-      const nextIndex = (currentIndex + 1) % artistsNames.length;
-      const nextArtistName = artistsNames[nextIndex]?.name.replace(/-/g, " ");
+    if (artistsIds && artist.id) {
+      const currentIndex = artistsIds.findIndex((artist) => artist.id === id);
+      const nextIndex = (currentIndex + 1) % artistsIds.length;
+      const nextArtistId = artistsIds[nextIndex]?.id;
+      console.log(artistsIds[nextIndex]);
 
-      if (nextArtistName) {
-        router.push(`/home/artists/${nextArtistName.replace(/\s/g, "-")}`);
-      }
+      //if (nextArtistId) {
+      //router.push(`/home/artists/${nextArtistId}`);
+      //}
     }
   };
 

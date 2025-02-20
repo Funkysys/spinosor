@@ -54,6 +54,7 @@ export const getArtistIds = async () => {
     const artists = await prisma.artist.findMany({
       select: {
         id: true,
+        name: true,
       },
     });
     return artists;
