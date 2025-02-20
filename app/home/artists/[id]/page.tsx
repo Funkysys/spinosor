@@ -1,8 +1,11 @@
 "use client";
 
-import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
-import Player from "@/components/Player";
+import {
+  getArtistByName,
+  getArtistNames,
+} from "@/app/api/action/artists/artists";
 import AlbumCarousel from "@/components/AlbumCarousel";
+import Player from "@/components/Player";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
 import parse from "html-react-parser";
@@ -25,8 +28,10 @@ const ArtistPage = () => {
   const router = useRouter();
   const [Loading, setLoading] = useState(false);
   const [artist, setArtist] = useState<ArtistWithEvents>();
-  const { id } = useParams();
-  const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
+  const { name } = useParams();
+  const [artistsNames, setArtistsNames] = useState<{ name: string }[] | null>(
+    null
+  );
 
   const socialIcons: Record<string, IconType> = {
     Facebook: FaFacebook,
@@ -41,8 +46,8 @@ const ArtistPage = () => {
   useEffect(() => {
     setLoading(true);
     const fetchArtist = async () => {
-      if (typeof id === "string") {
-        const artistData = await getArtist(id);
+      if (typeof name === "string") {
+        const artistData = await getArtistByName(name.replace(/-/g, " "));
 
         if (artistData && !Array.isArray(artistData) && artistData.events) {
           const artistWithFormattedDates = {
@@ -62,24 +67,26 @@ const ArtistPage = () => {
       setLoading(false);
     };
     fetchArtist();
-  }, [id]);
+  }, [name]);
 
   useEffect(() => {
     const fetchArtistsIds = async () => {
-      const artistsIds = await getArtistIds();
-      setArtistsIds(artistsIds);
+      const artistsIds = await getArtistNames();
+      setArtistsNames(artistsIds);
     };
     fetchArtistsIds();
   }, []);
 
   const goToNextArtist = () => {
-    if (artistsIds && id) {
-      const currentIndex = artistsIds.findIndex((artist) => artist.id === id);
-      const nextIndex = (currentIndex + 1) % artistsIds.length;
-      const nextArtistId = artistsIds[nextIndex]?.id;
+    if (artistsNames && name) {
+      const currentIndex = artistsNames.findIndex(
+        (artist) => artist.name === name.replace(/-/g, " ")
+      );
+      const nextIndex = (currentIndex + 1) % artistsNames.length;
+      const nextArtistName = artistsNames[nextIndex]?.name.replace(/-/g, " ");
 
-      if (nextArtistId) {
-        router.push(`/home/artists/${nextArtistId}`);
+      if (nextArtistName) {
+        router.push(`/home/artists/${nextArtistName.replace(/\s/g, "-")}`);
       }
     }
   };
@@ -124,12 +131,8 @@ const ArtistPage = () => {
       </div>
 
       {artist.codePlayer && artist.urlPlayer && (
-        <Player
-          codePlayer={artist.codePlayer}
-          urlPlayer={artist.urlPlayer}
-        />
+        <Player codePlayer={artist.codePlayer} urlPlayer={artist.urlPlayer} />
       )}
-      
 
       {artist.videoUrl && (
         <div className="w-full my-8 flex justify-center">
@@ -143,7 +146,7 @@ const ArtistPage = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-            ></iframe>
+          ></iframe>
         </div>
       )}
 
@@ -152,7 +155,7 @@ const ArtistPage = () => {
           <AlbumCarousel albums={artist.albums} />
         </div>
       )}
-      
+
       {artist.socialLinks && (
         <div className="w-[100%] flex justify-center ">
           <ul className="list-none flex gap-4">
