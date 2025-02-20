@@ -54,22 +54,6 @@ export const getArtistIds = async () => {
     const artists = await prisma.artist.findMany({
       select: {
         id: true,
-        name: true,
-      },
-    });
-    return artists;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des artistes :", error);
-    return [];
-  }
-};
-
-export const getArtistNames = async () => {
-  try {
-    const artists = await prisma.artist.findMany({
-      select: {
-        id: true,
-        name: true,
       },
     });
     return artists;
@@ -83,22 +67,6 @@ export const getArtist = async (id: string) => {
   try {
     const artist = await prisma.artist.findUnique({
       where: { id },
-      include: {
-        events: true,
-        albums: true, // Include albums as well
-      },
-    });
-    return artist;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des artistes :", error);
-    return [];
-  }
-};
-
-export const getArtistByName = async (name: string) => {
-  try {
-    const artist = await prisma.artist.findUnique({
-      where: { name },
       include: {
         events: true,
         albums: true, // Include albums as well

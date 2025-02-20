@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  getArtistByName,
-  getArtistIds,
-} from "@/app/api/action/artists/artists";
+import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
 import AlbumCarousel from "@/components/AlbumCarousel";
 import Player from "@/components/Player";
 import { ArtistWithEvents } from "@/types";
@@ -28,7 +25,7 @@ const ArtistPage = () => {
   const router = useRouter();
   const [Loading, setLoading] = useState(false);
   const [artist, setArtist] = useState<ArtistWithEvents>();
-  const { name } = useParams();
+  const { id } = useParams();
   const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
 
   const socialIcons: Record<string, IconType> = {
@@ -44,8 +41,8 @@ const ArtistPage = () => {
   useEffect(() => {
     setLoading(true);
     const fetchArtist = async () => {
-      if (typeof name === "string") {
-        const artistData = await getArtistByName(name);
+      if (typeof id === "string") {
+        const artistData = await getArtist(id);
 
         if (artistData && !Array.isArray(artistData) && artistData.events) {
           const artistWithFormattedDates = {
@@ -65,7 +62,7 @@ const ArtistPage = () => {
       setLoading(false);
     };
     fetchArtist();
-  }, [name]);
+  }, [id]);
 
   useEffect(() => {
     const fetchArtistsIds = async () => {
@@ -76,15 +73,14 @@ const ArtistPage = () => {
   }, []);
 
   const goToNextArtist = () => {
-    if (artistsIds && artist.id) {
+    if (artistsIds && id) {
       const currentIndex = artistsIds.findIndex((artist) => artist.id === id);
       const nextIndex = (currentIndex + 1) % artistsIds.length;
       const nextArtistId = artistsIds[nextIndex]?.id;
-      console.log(artistsIds[nextIndex]);
 
-      //if (nextArtistId) {
-      //router.push(`/home/artists/${nextArtistId}`);
-      //}
+      if (nextArtistId) {
+        router.push(`/home/artists/${nextArtistId}`);
+      }
     }
   };
 

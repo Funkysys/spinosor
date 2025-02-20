@@ -27,7 +27,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const router = useRouter();
   const handleReadMore = () => {
-    router.push(`/home/artists/${name.replace(/\s/g, "-").toLowerCase()}`);
+    router.push(`/home/artists/${id}`); // Navigate to the dynamic artist page
   };
 
   return (
