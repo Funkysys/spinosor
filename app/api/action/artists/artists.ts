@@ -97,7 +97,7 @@ export const getArtist = async (id: string) => {
 export const getArtistByName = async (name: string) => {
   try {
     const artist = await prisma.artist.findUnique({
-      where: { id: true, name },
+      where: { name },
       include: {
         events: true,
         albums: true, // Include albums as well
