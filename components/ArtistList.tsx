@@ -1,7 +1,7 @@
 "use client";
 
-import { updateArtist } from "@/app/api/action/artists/artists";
-import { createAlbum, deleteAl@/app/api/artists/artistspi/albums/albums";
+import { createAlbum, deleteAlbum, updateAlbum } from "@/app/api/albums/albums";
+import { updateArtist } from "@/app/api/artists/artists";
 import { ArtistWithAlbums, Link } from "@/types";
 import { Album } from "@prisma/client";
 import dynamic from "next/dynamic";
