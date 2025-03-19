@@ -5,6 +5,7 @@ import { createArtist, deleteArtist } from "@/app/api/artists/artists";
 import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
+import ButtonHome from "@/components/ButtonHome";
 import { Album, Artist, Prisma } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -245,6 +246,7 @@ const ArtistsDashboard: React.FC = () => {
       {/* Formulaire de création d'artiste */}
       <div className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Créer un nouvel artiste</h2>
+        <ButtonHome />
         <ArtistCreationForm
           onSubmit={handleArtistCreation}
           isLoading={isLoading}

@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
   const fetchUser = useCallback(async () => {
     if (status === "authenticated" && session?.user?.email) {
       const data = await fetch(
-        `api/user/${session?.user?.email as string}`
+        `/api/user?email=${session?.user?.email as string}`
       ).then((res) => res.json());
       setUser(data);
     }

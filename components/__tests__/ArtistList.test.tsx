@@ -61,6 +61,7 @@ describe("ArtistList Component", () => {
     genre: "Rock",
     videoUrl: null,
     codePlayer: null,
+    slug: "test-artist",
     urlPlayer: null,
     socialLinks: [],
     events: [],
@@ -68,6 +69,7 @@ describe("ArtistList Component", () => {
       {
         id: "1",
         title: "Test Album",
+        slug: "test-album",
         imageUrl: "/test-album.jpg",
         releaseDate: new Date("2024-01-01"),
         artistId: "1",

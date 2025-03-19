@@ -1,6 +1,7 @@
 "use client";
 
 import { createEvent, deleteEvent, updateEvent } from "@/app/api/events/events";
+import ButtonHome from "@/components/ButtonHome";
 import EventList from "@/components/EventList";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
@@ -96,6 +97,7 @@ const EventsDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Événements
       </h1>
+      <ButtonHome />
       {/* Formulaire de création d'événement */}
       <form
         onSubmit={(e) => {

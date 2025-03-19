@@ -4,21 +4,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = req.nextUrl;
-  const id = searchParams.get("id");
+  const slug = searchParams.get("slug");
   try {
-    if (!id && id !== "" && typeof id !== "string") {
+    if (!slug && slug !== "" && typeof slug !== "string") {
       throw new Error("L'identifiant de l'événement est requis.");
     }
 
     const event = await prisma.event.findUnique({
-      where: { id },
+      where: { slug },
       include: {
         artists: true,
       },
     });
 
     if (!event) {
-      throw new Error(`Aucun événement trouvé avec l'identifiant : ${id}`);
+      throw new Error(`Aucun événement trouvé avec l'identifiant : ${slug}`);
     }
 
     return NextResponse.json(event as EventWithArtists, {

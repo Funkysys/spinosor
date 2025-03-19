@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteMessage } from "@/app/api/message/message";
+import ButtonHome from "@/components/ButtonHome";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ export default function MessagesListPage() {
           <h2 className="text-3xl font-semibold  text-slate-400">
             Tous les Messages
           </h2>
+          <ButtonHome />
           <Link
             href={`/admin/`}
             className="bg-red-800 text-white ml-6 px-3 py-2 rounded hover:bg-red-400 hover:text-black transition"

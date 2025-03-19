@@ -15,11 +15,8 @@ const ArtistsPage = () => {
       try {
         setLoading(true);
         const data = await fetch("/api/artists/with-events").then((res) => {
-          console.log(res);
-
           return res.json();
         });
-        console.log(data);
 
         const sortedArtists: ArtistWithEvents[] = data.sort(
           (a: ArtistWithEvents, b: ArtistWithEvents) =>

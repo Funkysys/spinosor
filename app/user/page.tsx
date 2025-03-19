@@ -3,36 +3,33 @@
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>();
   const { data: session, status } = useSession();
   const router = useRouter();
-
   const fetchUser = async () => {
-    const data = await fetch(`api/user/${session?.user?.email as string}`).then(
-      (res) => res.json()
-    );
+    const data = await fetch(
+      `api/user?email=${session?.user?.email as string}`
+    ).then((res) => res.json());
     await setUser(data);
-    if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
-    (await data.role) !== "USER" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
+    if (!data) return router.push("/");
+    (await data.role) !== "USER" && router.push("/");
   };
 
   if (status === "authenticated" && !user) {
     fetchUser();
   }
-  // Si la session est en cours de chargement
   if (status === "loading") {
     return (
       <p className="text-center text-xl font-semibold mt-10">Chargement...</p>
     );
   }
 
-  // Si l'utilisateur n'est pas ADMIN ou non connecté
   if (status === "unauthenticated") {
-    router.push("/"); // Redirection vers la page d'accueil
+    router.push("/");
     return null;
   }
 
@@ -48,7 +45,6 @@ export default function AdminDashboard() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Liste des sections */}
           <Link
             href={`/user/${session?.user?.email}`}
             className="block p-6 bg-perso-white-one shadow-md rounded-lg hover:bg-red-400 transition duration-200"

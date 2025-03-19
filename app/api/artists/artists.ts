@@ -103,8 +103,6 @@ export const updateArtist = async (
   }
 
   if (imageFile && imageFile?.size > 0) {
-    console.log("imageUrl", imageFile);
-
     if (!actualImage && actualImage !== "") {
       throw new Error("Actual image not found.");
     }

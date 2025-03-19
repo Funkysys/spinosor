@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 const EventPage = () => {
   const router = useRouter();
-  const { id } = useParams(); // Récupérer l'id de l'URL
+  const { slug } = useParams();
   const [event, setEvent] = useState<EventWithArtists | null>(null);
   const [formattedDate, setFormattedDate] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
@@ -17,8 +17,8 @@ const EventPage = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const eventData = await fetch(`/api/events/${id}`).then((res) =>
-          res.json()
+        const eventData = await fetch(`/api/events/by-slug?slug=${slug}`).then(
+          (res) => res.json()
         );
 
         if (eventData) {
@@ -33,7 +33,7 @@ const EventPage = () => {
     };
 
     fetchEvent();
-  }, [id, router]);
+  }, [slug, router]);
 
   useEffect(() => {
     if (!event) {
@@ -57,30 +57,26 @@ const EventPage = () => {
       </h1>
 
       <div className="max-w-4xl mx-auto bg-perso-white-two p-8 shadow-md rounded-lg mb-20">
-        {/* Image de l'événement */}
         <div className="mb-6">
           {event.imageUrl && (
             <Image
-              src={event.imageUrl} // Vérifiez que 'imageUrl' est correct
-              alt={event.title} // Utilisez 'title' pour l'attribut alt
+              src={event.imageUrl}
+              alt={event.title}
               width={800}
               height={450}
               className="rounded-lg mx-auto"
             />
           )}
         </div>
-
-        {/* Détails de l'événement */}
         <div className="text-lg mb-4">
           <p>
-            <strong>Date:</strong> {formattedDate} {/* Affichage de la date */}
+            <strong>Date:</strong> {formattedDate}
           </p>
           <p>
-            <strong>Heure:</strong> {formattedTime} {/* Affichage de l'heure */}
+            <strong>Heure:</strong> {formattedTime}
           </p>
           <p>
             <strong>Lieu:</strong> {event.location}{" "}
-            {/* Affichage du lieu de l'événement */}
           </p>
           <p className="mt-4">
             {event.description || "Pas de description disponible."}
@@ -88,23 +84,24 @@ const EventPage = () => {
 
           <div className="mt-3 flex items-center ">
             <strong>Artistes:</strong>{" "}
-            {
-              (event.artists && event.artists.length) > 0 ? (
-                <>
-                  {event.artists.map((artist: Artist) => {
-                    return (
-                      <Link key={artist.id} href={`/home/artists/${artist.id}`}>
-                        <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
-                          {artist.name}
-                        </button>
-                      </Link>
-                    );
-                  })}
-                </>
-              ) : (
-                "Aucun artiste associé"
-              ) // Message si aucun artiste n'est associé
-            }
+            {(event.artists && event.artists.length) > 0 ? (
+              <>
+                {event.artists.map((artist: Artist) => {
+                  return (
+                    <Link
+                      key={artist.id}
+                      href={`/home/artists/slug=${artist.slug}`}
+                    >
+                      <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
+                        {artist.name}
+                      </button>
+                    </Link>
+                  );
+                })}
+              </>
+            ) : (
+              "Aucun artiste associé"
+            )}
           </div>
           {event.ticketLink && (
             <div className="w-full text-center">
@@ -115,10 +112,7 @@ const EventPage = () => {
               </Link>
             </div>
           )}
-          {/* Utilisation d'un message par défaut si la description est manquante */}
         </div>
-
-        {/* Bouton pour retourner à la liste des événements */}
         <div className="mt-8 text-center">
           <button
             onClick={() => router.push("/home/events")}

@@ -14,7 +14,7 @@ export default function MessageDetailPage() {
   useEffect(() => {
     const fetchMessage = async () => {
       try {
-        const response = await fetch(`/api/message/${params.id}`); // Récupération du message
+        const response = await fetch(`/api/message/by-id?id=${params.id}`); // Récupération du message
         if (!response.ok) {
           setError(true);
         } else {

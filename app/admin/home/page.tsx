@@ -6,6 +6,7 @@ import {
   updateBanner,
 } from "@/app/api/banner/banner";
 import BannerList from "@/components/BannerList";
+import ButtonHome from "@/components/ButtonHome";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
@@ -143,7 +144,7 @@ const BannerDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold mb-5 text-center">
         Gérer les Bannières
       </h1>
-
+      <ButtonHome />
       {/* Formulaire de création de bannière */}
       <form
         onSubmit={(e) => {

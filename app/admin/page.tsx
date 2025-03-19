@@ -1,5 +1,6 @@
 "use client";
 
+import ButtonHome from "@/components/ButtonHome";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -14,7 +15,9 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   const fetchUser = async () => {
-    const response = await fetch(`/api/user/${session?.user?.email as string}`);
+    const response = await fetch(
+      `/api/user?email=${session?.user?.email as string}`
+    );
     const data = await response.json();
     setUser(data);
     if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
@@ -101,7 +104,7 @@ export default function AdminDashboard() {
           Bienvenue <span className="font-semibold">{user?.name}</span>,
           {`vous êtes connecté en tant qu'ADMIN.`}
         </p>
-
+        <ButtonHome />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Liste des sections */}
           <Link
