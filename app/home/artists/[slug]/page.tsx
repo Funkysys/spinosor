@@ -1,9 +1,5 @@
 "use client";
 
-<<<<<<< HEAD:app/home/artists/[slug]/page.tsx
-=======
-import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
->>>>>>> 66583b9517d3afd192beff8250b94c722125c445:app/home/artists/[id]/page.tsx
 import AlbumCarousel from "@/components/AlbumCarousel";
 import Player from "@/components/Player";
 import { ArtistWithEvents } from "@/types";
