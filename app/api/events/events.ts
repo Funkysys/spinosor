@@ -95,6 +95,7 @@ export const createEvent = async (formData: FormData) => {
       imageUrl,
       date,
       ticketLink,
+      slug: title.toLowerCase().replace(/ /g, "-"),
       artists: {
         connect: artistIds.map((id) => ({ id })),
       },
@@ -109,10 +110,14 @@ export const updateEvent = async (id: string, formData: FormData) => {
     location?: string;
     date?: Date;
     ticketLink?: string | null;
+    slug?: string;
   } = {};
 
   if (formData.has("title")) {
     updateData.title = formData.get("title") as string;
+    updateData.slug = (formData.get("title") as string)
+      .toLowerCase()
+      .replace(/ /g, "-");
   }
 
   if (formData.has("description")) {

@@ -69,6 +69,7 @@ export const createBanner = async (formData: FormData) => {
       isSquare,
       imageUrl,
       isActive,
+      slug: title.toLowerCase().replace(/ /g, "-"),
     },
   });
 
@@ -113,11 +114,15 @@ export const updateBanner = async (formData: FormData) => {
     link?: string;
     isActive?: boolean;
     isSquare?: boolean;
+    slug?: string;
   } = {};
 
   // Vérification de la présence des champs avant de les ajouter à updateData
   if (formData.has("title")) {
     updateData.title = formData.get("title") as string;
+    updateData.slug = updateData.title
+      .toLowerCase()
+      .replace(/ /g, "-") as string;
   }
 
   if (formData.has("link")) {

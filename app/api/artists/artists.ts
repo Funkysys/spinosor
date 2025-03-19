@@ -305,6 +305,7 @@ export const updateArtist = async (
       codePlayer: updateData.codePlayer,
       urlPlayer: updateData.urlPlayer,
       socialLinks: updateData.socialLinks,
+      slug: updateData.name?.toLowerCase().replace(" ", "-").toLowerCase(),
     },
   });
 };

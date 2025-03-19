@@ -97,6 +97,7 @@ export const createAlbum = async (formData: FormData, links: JsonArray) => {
         imageUrl: uploadedImageUrl!,
         releaseDate: new Date(),
         links,
+        slug: title!.toLowerCase().replace(/ /g, "-"),
       },
     });
 
@@ -151,6 +152,7 @@ export const updateAlbum = async (
         imageUrl: uploadedImageUrl,
         releaseDate: releaseDate ? new Date(releaseDate) : undefined,
         links: links ? JSON.parse(links) : undefined,
+        slug: title!.toLowerCase().replace(/ /g, "-"),
       },
     });
 
