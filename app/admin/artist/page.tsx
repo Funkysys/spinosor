@@ -4,7 +4,7 @@ import {
   createArtist,
   deleteArtist,
   getArtists,
-} from "@/app/api/action/artists/artists";
+} from "@/app/api/artists/artists";
 import { createAlbum, getAlbums } from "@/app/api/albums/albums";
 import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
