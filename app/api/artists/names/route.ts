@@ -1,7 +1,7 @@
 import prisma from "@/lib/connect";
 import { NextResponse } from "next/server";
 
-export const GET_ARTISTS_IDS = async () => {
+export const GET = async () => {
   try {
     const artists = await prisma.artist.findMany({
       select: {
