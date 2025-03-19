@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUser, getUser, updateUser } from "@/app/api/user/user";
+import { deleteUser, updateUser } from "@/app/api/user/user";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
@@ -18,7 +18,9 @@ export default function UserPage() {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const data = await getUser(email);
+        const data = await fetch(`api/user/${email as string}`).then((res) =>
+          res.json()
+        );
         await setUserData(data);
 
         if (!data) return; // Redirection si l'utilisateur n'est pas trouvé

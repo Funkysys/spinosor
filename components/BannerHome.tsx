@@ -1,6 +1,5 @@
 "use client";
 
-import { getActiveBanners } from "@/app/api/banner/banner"; // Importation de l'action server
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +16,10 @@ const BannerHome = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const activeBanners = await getActiveBanners();
+        const activeBanners = await fetch("/api/banner/active").then((res) =>
+          res.json()
+        );
+
         setBanners(activeBanners);
       } catch (error) {
         console.error("Erreur lors de la récupération des bannières :", error);

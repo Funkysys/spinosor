@@ -1,6 +1,5 @@
 "use client";
 
-import { getUser } from "@/app/api/user/user";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -18,7 +17,9 @@ const Footer: React.FC = () => {
 
   const fetchUser = useCallback(async () => {
     if (status === "authenticated" && session?.user?.email) {
-      const data = await getUser(session.user.email);
+      const data = await fetch(
+        `api/user/${session?.user?.email as string}`
+      ).then((res) => res.json());
       setUser(data);
     }
   }, [status, session?.user?.email]);
