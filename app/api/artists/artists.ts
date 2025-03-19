@@ -1,8 +1,8 @@
 "use server";
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
-import { JsonArray } from "@prisma/client/runtime/library";
 import { ArtistWithAlbums } from "@/types";
+import { JsonArray } from "@prisma/client/runtime/library";
 
 //TO DO : CHANGE IMPORTS FOR METHOD GET IN ROUTES
 
@@ -124,6 +124,7 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
 
+    // Utilisation d'une promesse pour l'upload
     const uploadResult = await new Promise<any>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: "artists" },
@@ -139,6 +140,7 @@ export const createArtist = async (formData: FormData, link: JsonArray) => {
       uploadStream.end(buffer); // Fin de l'envoi du buffer
     });
 
+    // Vérifiez si le résultat a un secure_url
     if (uploadResult && "secure_url" in uploadResult) {
       imageUrl = uploadResult.secure_url;
     } else {
