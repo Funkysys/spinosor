@@ -7,15 +7,6 @@ interface Link {
   url: string;
 }
 
-// export interface AlbumData {
-//   id: string;
-//   title: string;
-//   imageUrl: File | null;
-//   releaseDate: string;
-//   links: Prisma.JsonArray;
-//   artistId: string;
-// }
-
 interface AlbumCreationProps {
   onAlbumDataChange: (albumData: Album) => void;
   artistId: string;
@@ -47,6 +38,7 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
       updatedAt: new Date(),
       links: tempAlbumLinks.map((link) => ({ ...link })) as Prisma.JsonArray,
       artistId,
+      slug: albumData.slug,
     };
 
     if (
@@ -64,7 +56,8 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
     artistId,
     onAlbumDataChange,
     albumData.createdAt,
-    albumData.id
+    albumData.id,
+    albumData.slug,
   ]);
 
   const handleOnChangeAlbumLinkName = (

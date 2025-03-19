@@ -1,4 +1,5 @@
 import prisma from "@/lib/connect";
+import { NextResponse } from "next/server";
 
 // Récupérer tous les messages
 export const GET = async () => {
@@ -6,10 +7,13 @@ export const GET = async () => {
     const messages = await prisma.contactMessage.findMany({
       orderBy: { createdAt: "desc" }, // Optionnel: trier par date de création
     });
-    return messages;
+
+    return NextResponse.json(messages);
   } catch (error) {
-    console.error("Erreur lors de la récupération des messages :", error);
-    return [];
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération des messages" },
+      { status: 500 }
+    );
   }
 };
 
