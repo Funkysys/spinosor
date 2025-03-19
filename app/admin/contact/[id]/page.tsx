@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteMessage, getMessage } from "@/app/api/message/message";
+import { deleteMessage } from "@/app/api/message/message";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
@@ -14,10 +14,11 @@ export default function MessageDetailPage() {
   useEffect(() => {
     const fetchMessage = async () => {
       try {
-        const fetchedMessage = await getMessage(String(params.id)); // Récupération du message
-        if (!fetchedMessage) {
+        const response = await fetch(`/api/message/${params.id}`); // Récupération du message
+        if (!response.ok) {
           setError(true);
         } else {
+          const fetchedMessage = await response.json();
           setMessage(fetchedMessage);
         }
       } catch (err) {

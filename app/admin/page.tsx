@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { getUser } from "../api/user/user";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>();
@@ -15,7 +14,8 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   const fetchUser = async () => {
-    const data = await getUser(session?.user?.email as string);
+    const response = await fetch(`/api/user/${session?.user?.email as string}`);
+    const data = await response.json();
     setUser(data);
     if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
     (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN

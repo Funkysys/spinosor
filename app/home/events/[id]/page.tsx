@@ -1,6 +1,5 @@
 "use client";
 
-import { getEvent } from "@/app/api/events/events";
 import { EventWithArtists } from "@/types";
 import { Artist } from "@prisma/client";
 import Image from "next/image";
@@ -18,7 +17,9 @@ const EventPage = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const eventData = await getEvent(String(id));
+        const eventData = await fetch(`/api/events/${id}`).then((res) =>
+          res.json()
+        );
 
         if (eventData) {
           setEvent(eventData as EventWithArtists);

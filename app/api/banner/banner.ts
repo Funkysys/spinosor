@@ -3,19 +3,6 @@
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 
-export const getActiveBanners = async () => {
-  const banners = await prisma.banner.findMany({
-    where: { isActive: true },
-  });
-
-  return banners;
-};
-
-export const getBanners = async () => {
-  const banners = await prisma.banner.findMany();
-  return banners;
-};
-
 export const createBanner = async (formData: FormData) => {
   const title = formData.get("title") as string;
   const link = formData.get("link") as string;

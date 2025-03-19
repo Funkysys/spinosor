@@ -83,10 +83,10 @@ const ArtistPage = () => {
         (artist) => artist.slug === slug
       );
       const nextIndex = (currentIndex + 1) % artistesSlug.length;
-      const nextArtistId = artistesSlug[nextIndex]?.slug;
+      const nextArtistSlug = artistesSlug[nextIndex]?.slug;
 
-      if (nextArtistId) {
-        router.push(`/home/artists/${nextArtistId}`);
+      if (nextArtistSlug) {
+        router.push(`/home/artists/${nextArtistSlug}`);
       }
     }
   };

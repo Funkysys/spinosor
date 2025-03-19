@@ -1,4 +1,3 @@
-import { getArtists } from "@/app/api/events/events";
 import { Artist as ArtistType, Event as EventType } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +25,7 @@ const EventList: React.FC<EventListProps> = ({
   useEffect(() => {
     setLoading(true);
     const fetchArtists = async () => {
-      const artistList = await getArtists();
+      const artistList = await fetch("/api/artists").then((res) => res.json());
       setUpdateArtists(artistList);
       setLoading(false);
     };

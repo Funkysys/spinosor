@@ -1,50 +1,6 @@
 "use server";
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
-import { EventWithArtists } from "@/types";
-
-export const getEvent = async (id: string) => {
-  try {
-    const event = await prisma.event.findUnique({
-      where: { id },
-      include: {
-        artists: true, // Inclure les événements associés
-      },
-    });
-    return event as EventWithArtists;
-  } catch (error) {
-    console.error("Erreur lors de la récupération de :", error);
-    return [];
-  }
-};
-
-export const getEventstIdsAndNames = async () => {
-  try {
-    const events = await prisma.event.findMany({
-      select: {
-        id: true,
-        title: true,
-      },
-    });
-    return events;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des artistes :", error);
-    return [];
-  }
-};
-
-export const getEvents = async () => {
-  const events = await prisma.event.findMany({
-    include: {
-      artists: true, // Inclut les artistes dans les résultats
-    },
-  });
-  return events;
-};
-
-export const getArtists = async () => {
-  return await prisma.artist.findMany();
-};
 
 export const createEvent = async (formData: FormData) => {
   const title = formData.get("title") as string;

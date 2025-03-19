@@ -1,6 +1,5 @@
 "use client";
 
-import { getEvents } from "@/app/api/events/events";
 import { Event } from "@prisma/client";
 import { useRouter } from "next/navigation"; // Utilisé pour la navigation
 import { useEffect, useState } from "react";
@@ -13,7 +12,7 @@ const EventsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const data = await getEvents();
+      const data = await fetch("/api/events").then((res) => res.json());
       setEventsData(data);
       setLoading(false);
     };

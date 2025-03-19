@@ -395,8 +395,9 @@ const ArtistList: React.FC<ArtistListProps> = ({
                 <div>
                   <label className="text-sm text-slate-400">Bio</label>
                   {mounted && (
-                    <div className="bg-gray-900 rounded">
+                    <div className="bg-gray-400 rounded border border-gray-600">
                       <ReactQuill
+                        className="text-slate-900"
                         value={artistState.bio}
                         onChange={(value) =>
                           setEditStates((prev) => ({
@@ -404,7 +405,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
                             [artist.id]: { ...prev[artist.id], bio: value },
                           }))
                         }
-                        className="bg-gray-700 text-white"
                         data-testid="bio-editor"
                       />
                     </div>

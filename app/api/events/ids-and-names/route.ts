@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
   try {
     const events = await prisma.event.findMany({
-      include: {
-        artists: true, // Inclut les artistes dans les résultats
+      select: {
+        id: true,
+        title: true,
       },
     });
     return NextResponse.json(events, {

@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  createArtist,
-  deleteArtist,
-  getArtists,
-} from "@/app/api/artists/artists";
-import { createAlbum, getAlbums } from "@/app/api/albums/albums";
+import { createAlbum } from "@/app/api/albums/albums";
+import { createArtist, deleteArtist } from "@/app/api/artists/artists";
 import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
@@ -37,31 +33,36 @@ const ArtistsDashboard: React.FC = () => {
     const fetchArtistsAndAlbums = async () => {
       try {
         setIsLoading(true);
-        const [artistList, albumList] = await Promise.all([
-          getArtists(),
-          getAlbums(),
-        ]);
+        //fetch artistList and albumList
+        const artistList = await fetch("/api/artists").then((res) =>
+          res.json()
+        );
+        const albumList = await fetch("/api/albums").then((res) => res.json());
 
         if (!artistList) {
           console.error("La liste des artistes est vide ou null");
           return;
         }
 
-        const formattedArtists = artistList.map((artist: any) => ({
-          ...artist,
-          bio: artist.bio ?? null,
-          genre: artist.genre ?? null,
-          imageUrl: artist.imageUrl ?? null,
-          videoUrl: artist.videoUrl ?? null,
-          codePlayer: artist.codePlayer ?? null,
-          urlPlayer: artist.urlPlayer ?? null,
-          socialLinks: artist.socialLinks
-            ? typeof artist.socialLinks === "string"
-              ? artist.socialLinks
-              : JSON.stringify(artist.socialLinks)
-            : null,
-          albums: albumList.filter((album) => album.artistId === artist.id),
-        }));
+        const formattedArtists: ArtistWithAlbums[] = artistList.map(
+          (artist: Artist) => ({
+            ...artist,
+            bio: artist.bio ?? null,
+            genre: artist.genre ?? null,
+            imageUrl: artist.imageUrl ?? null,
+            videoUrl: artist.videoUrl ?? null,
+            codePlayer: artist.codePlayer ?? null,
+            urlPlayer: artist.urlPlayer ?? null,
+            socialLinks: artist.socialLinks
+              ? typeof artist.socialLinks === "string"
+                ? artist.socialLinks
+                : JSON.stringify(artist.socialLinks)
+              : null,
+            albums: albumList.filter(
+              (album: Album) => album.artistId === artist.id
+            ),
+          })
+        );
 
         setArtists(formattedArtists);
       } catch (error) {
@@ -131,7 +132,9 @@ const ArtistsDashboard: React.FC = () => {
       }
 
       // Rafraîchir la liste des artistes
-      const updatedArtists = await getArtists();
+      const updatedArtists = await fetch("/api/artists").then((res) =>
+        res.json()
+      );
       if (updatedArtists) {
         setArtists(updatedArtists as ArtistWithAlbums[]);
       }
@@ -160,7 +163,9 @@ const ArtistsDashboard: React.FC = () => {
       setIsLoading(true);
       await deleteArtist(artistId);
       toast.success("Artiste supprimé avec succès");
-      const updatedArtists = await getArtists();
+      const updatedArtists = await fetch("/api/artists").then((res) =>
+        res.json()
+      );
       if (updatedArtists) {
         setArtists(updatedArtists as ArtistWithAlbums[]);
       }

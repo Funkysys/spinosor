@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteMessage, getMessages } from "@/app/api/message/message";
+import { deleteMessage } from "@/app/api/message/message";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,7 +9,9 @@ export default function MessagesListPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   useEffect(() => {
     const fetchMessages = async () => {
-      const messagesData = await getMessages();
+      const messagesData = await fetch("/api/messages").then((res) =>
+        res.json()
+      );
       return setMessages(messagesData);
     };
     fetchMessages();

@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createEvent,
-  deleteEvent,
-  getArtists,
-  getEvents,
-  updateEvent,
-} from "@/app/api/events/events";
-import { getArtistImages } from "@/app/api/services/getArtistsImages";
+import { createEvent, deleteEvent, updateEvent } from "@/app/api/events/events";
 import EventList from "@/components/EventList";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
@@ -27,12 +20,12 @@ const EventsDashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const result = await getEvents();
+      const result = await fetch("/api/events").then((res) => res.json());
       setEvents(result);
     };
 
     const fetchArtists = async () => {
-      const artistList = await getArtists();
+      const artistList = await fetch("/api/artists").then((res) => res.json());
       setArtists(artistList);
     };
 
@@ -58,7 +51,7 @@ const EventsDashboard: React.FC = () => {
           formData.append("imageFile", reader.result as string);
           await createEvent(formData);
           resetForm();
-          const result = await getEvents();
+          const result = await fetch("/api/events").then((res) => res.json());
           setEvents(result as EventType[]);
           setIsLoading(false);
         };
@@ -66,7 +59,7 @@ const EventsDashboard: React.FC = () => {
     }
     await createEvent(formData);
     resetForm();
-    const result = await getEvents();
+    const result = await fetch("/api/events").then((res) => res.json());
     setEvents(result as EventType[]);
     setIsLoading(false);
   };
@@ -78,7 +71,7 @@ const EventsDashboard: React.FC = () => {
   const handleEventDeletion = async (id: string) => {
     setIsLoading(true);
     await deleteEvent(id);
-    const result = await getEvents();
+    const result = await fetch("/api/events").then((res) => res.json());
     setEvents(result);
     setIsLoading(false);
   };
@@ -90,7 +83,9 @@ const EventsDashboard: React.FC = () => {
     setShowModal(value);
     if (string === "artistes") {
       const fetchGalerie = async () => {
-        const images = await getArtistImages();
+        const images = await fetch("/api/artists-img").then((res) =>
+          res.json()
+        );
         setGalerie(images);
       };
       fetchGalerie();
@@ -251,7 +246,9 @@ const EventsDashboard: React.FC = () => {
               onDelete={handleEventDeletion}
               onUpdate={async (id: string, formData: FormData) => {
                 await updateEvent(id, formData);
-                const result = await getEvents();
+                const result = await fetch("/api/events").then((res) =>
+                  res.json()
+                );
                 setEvents(result);
               }}
             />

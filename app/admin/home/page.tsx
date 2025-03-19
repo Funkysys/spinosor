@@ -1,15 +1,10 @@
 "use client";
 
-import { getArtistIdsAndNames } from "@/app/api/artists/artists";
 import {
   createBanner,
   deleteBanner,
-  getBanners,
   updateBanner,
 } from "@/app/api/banner/banner";
-import { getEventstIdsAndNames } from "@/app/api/events/events";
-import { getArtistImages } from "@/app/api/services/getArtistsImages";
-import { getEventsImages } from "@/app/api/services/getEventsImages";
 import BannerList from "@/components/BannerList";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
 import { Banner as BannerType } from "@prisma/client";
@@ -28,13 +23,17 @@ const BannerDashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchBanners = async () => {
-      const result = await getBanners();
+      const result = await fetch("/api/banners").then((res) => res.json());
       setBanners(result);
     };
     fetchBanners();
     const fetchArtistAndEvents = async () => {
-      const artists = await getArtistIdsAndNames();
-      const events = await getEventstIdsAndNames();
+      const artists = await fetch("/api/artists/ids-and-names").then((res) =>
+        res.json()
+      );
+      const events = await fetch("/api/events/ids-and-names").then((res) =>
+        res.json()
+      );
       setArtists(artists);
       setEvents(events);
     };
@@ -81,7 +80,9 @@ const BannerDashboard: React.FC = () => {
           try {
             await createBanner(formData);
             resetForm();
-            const result = await getBanners();
+            const result = await fetch("/api/banners").then((res) =>
+              res.json()
+            );
             setBanners(result);
           } catch (error) {
             console.error("Erreur lors de la création de la bannière :", error);
@@ -99,7 +100,7 @@ const BannerDashboard: React.FC = () => {
     try {
       await createBanner(formData);
       resetForm();
-      const result = await getBanners();
+      const result = await fetch("/api/banners").then((res) => res.json());
       setBanners(result);
     } catch (error) {
       console.error("Erreur lors de la création de la bannière :", error);
@@ -113,7 +114,7 @@ const BannerDashboard: React.FC = () => {
     const formData = new FormData();
     formData.append("id", id);
     await deleteBanner(formData);
-    const result = await getBanners();
+    const result = await fetch("/api/banners").then((res) => res.json());
     setBanners(result);
     setIsLoading(false);
   };
@@ -121,14 +122,16 @@ const BannerDashboard: React.FC = () => {
     setShowModal(value);
     if (string === "artistes") {
       const fetchGalerie = async () => {
-        const images = await getArtistImages();
+        const images = await fetch("/api/artists-img").then((res) =>
+          res.json()
+        );
         setGalerie(images);
       };
       fetchGalerie();
     }
     if (string === "events") {
       const fetchGalerie = async () => {
-        const images = await getEventsImages();
+        const images = await fetch("/api/events-img").then((res) => res.json());
         setGalerie(images);
       };
       fetchGalerie();
@@ -284,7 +287,9 @@ const BannerDashboard: React.FC = () => {
               onDelete={handleBannerDeletion}
               onUpdate={async (formData: FormData) => {
                 await updateBanner(formData);
-                const result = await getBanners();
+                const result = await fetch("/api/banners").then((res) =>
+                  res.json()
+                );
                 setBanners(result);
               }}
             />

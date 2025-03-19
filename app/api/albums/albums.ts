@@ -4,57 +4,6 @@ import prisma from "@/lib/connect";
 import { Album } from "@prisma/client";
 import { JsonArray } from "@prisma/client/runtime/library";
 
-//TO DO : CHANGE IMPORTS FOR METHOD GET IN ROUTES
-
-export const getAlbums = async () => {
-  try {
-    const albums = await prisma.album.findMany();
-    return albums;
-  } catch (error) {
-    console.error("Error getting the albums:", error);
-    throw error;
-  }
-};
-
-export const getAlbum = async (id: string) => {
-  try {
-    const album = await prisma.album.findUnique({
-      where: { id },
-      include: { artist: true },
-    });
-    return album;
-  } catch (error) {
-    console.error("Error getting the album:", error);
-    throw error;
-  }
-};
-
-export const getAlbumsByArtistId = async (artistId: string) => {
-  try {
-    const albums = await prisma.album.findMany({
-      where: { artistId },
-    });
-    return albums;
-  } catch (error) {
-    console.error("Error getting the albums by artist ID:", error);
-    throw error;
-  }
-};
-
-export const getAlbumsIds = async () => {
-  try {
-    const albums = await prisma.album.findMany({
-      select: { id: true },
-    });
-    return albums.map((album) => album.id);
-  } catch (error) {
-    console.error("Error getting the albums IDs:", error);
-    throw error;
-  }
-};
-
-// ---------------------------------------------------------------------------------------------------------
-
 export const createAlbum = async (formData: FormData, links: JsonArray) => {
   try {
     const imageFile = formData.get("imageFile") as File | null;

@@ -3,16 +3,6 @@
 import prisma from "@/lib/connect";
 import { Prisma, Role } from "@prisma/client";
 
-export const getUser = async (email: string) => {
-  return await prisma.user.findUnique({
-    where: { email },
-  });
-};
-
-export const getUsers = async () => {
-  return await prisma.user.findMany();
-};
-
 export const updateRole = async (email: string, role: Role) => {
   const post = await prisma.user.update({
     where: { email },

@@ -5,7 +5,7 @@ export const GET = async () => {
   try {
     const artists = await prisma.artist.findMany({
       select: {
-        name: true,
+        slug: true,
       },
     });
     return NextResponse.json(artists);

@@ -3,20 +3,30 @@
 import { Link } from "@/types";
 import { Prisma } from "@prisma/client";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import AlbumCreation, { AlbumData } from "./AlbumCreation";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface ArtistCreationFormProps {
-  onSubmit: (formData: FormData, links: Prisma.JsonArray, bio: string, albumForms: AlbumData[]) => Promise<void>;
+  onSubmit: (
+    formData: FormData,
+    links: Prisma.JsonArray,
+    bio: string,
+    albumForms: AlbumData[]
+  ) => Promise<void>;
   isLoading: boolean;
 }
 
-const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoading }) => {
+const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({
+  onSubmit,
+  isLoading,
+}) => {
   const [bio, setBio] = useState<string>("");
-  const [tempLink, setTempLink] = useState<Link[]>([{ id: 1, name: "", url: "" }]);
+  const [tempLink, setTempLink] = useState<Link[]>([
+    { id: 1, name: "", url: "" },
+  ]);
   const [albumForms, setAlbumForms] = useState<AlbumData[]>([]);
   const [mounted, setMounted] = useState(false);
 
@@ -25,14 +35,20 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
   }, []);
 
   // Gestionnaire des liens sociaux
-  const handleOnChangeLinkName = (data: React.ChangeEvent<HTMLInputElement>, el: Link) => {
+  const handleOnChangeLinkName = (
+    data: React.ChangeEvent<HTMLInputElement>,
+    el: Link
+  ) => {
     const tempLinkName = tempLink.map((item) =>
       item.id === el.id ? { ...item, name: data.target.value } : item
     );
     setTempLink(tempLinkName);
   };
 
-  const handleOnChangeLinkUrl = (data: React.ChangeEvent<HTMLInputElement>, el: Link) => {
+  const handleOnChangeLinkUrl = (
+    data: React.ChangeEvent<HTMLInputElement>,
+    el: Link
+  ) => {
     const tempLinkUrl = tempLink.map((item) =>
       item.id === el.id ? { ...item, url: data.target.value } : item
     );
@@ -65,7 +81,10 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-gray-800 p-6 rounded-lg shadow-lg">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 bg-gray-800 p-6 rounded-lg shadow-lg"
+    >
       <div className="space-y-4">
         <div>
           <label className="text-sm text-slate-400">{`Nom de l'artiste`}</label>
@@ -89,18 +108,19 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({ onSubmit, isLoa
         <div>
           <label className="text-sm text-slate-400">{`Bio de l'artiste`}</label>
           {typeof window !== "undefined" && mounted && (
-            <div className="bg-gray-400 rounded border border-gray-600 text-slate-800">
+            <div className="bg-gray-400 rounded border border-gray-600">
               <ReactQuill
+                className="text-slate-900"
                 value={bio}
                 onChange={setBio}
                 theme="snow"
                 modules={{
                   toolbar: [
-                    [{ 'header': [1, 2, false] }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    ['link'],
-                    ['clean']
+                    [{ header: [1, 2, false] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link"],
+                    ["clean"],
                   ],
                 }}
               />
