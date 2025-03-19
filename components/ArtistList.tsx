@@ -412,6 +412,36 @@ const ArtistList: React.FC<ArtistListProps> = ({
                     className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
                   />
                 </div>
+                <div>
+                  <label className="text-sm text-slate-400">{`URL de la vidéo`}</label>
+                  <input
+                    type="text"
+                    name="videoUrl"
+                    defaultValue={artist.videoUrl || ""}
+                    placeholder="URL de la vidéo"
+                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-slate-400">{`Code du player`}</label>
+                  <input
+                    type="text"
+                    name="codePlayer"
+                    defaultValue={artist.codePlayer || ""}
+                    placeholder="Code du player"
+                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-slate-400">{`URL du player`}</label>
+                  <input
+                    type="text"
+                    name="urlPlayer"
+                    defaultValue={artist.urlPlayer || ""}
+                    placeholder="URL du player"
+                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+                  />
+                </div>
 
                 <div className="mt-4">
                   <h4 className="text-lg font-bold mb-2">Albums</h4>

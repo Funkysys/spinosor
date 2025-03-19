@@ -43,7 +43,7 @@ const ArtistPage = () => {
     setLoading(true);
     const fetchArtist = async () => {
       if (typeof slug === "string") {
-        const artistData = await fetch(`/api/artists/by-id?id=${slug}`, {
+        const artistData = await fetch(`/api/artists/by-slug?slug=${slug}`, {
           method: "GET",
         }).then((res) => res.json());
 
