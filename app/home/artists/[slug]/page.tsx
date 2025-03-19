@@ -1,8 +1,7 @@
 "use client";
 
-import { getArtist, getArtistIds } from "@/app/api/action/artists/artists";
-import Player from "@/components/Player";
 import AlbumCarousel from "@/components/AlbumCarousel";
+import Player from "@/components/Player";
 import { ArtistWithEvents } from "@/types";
 import { Event } from "@prisma/client";
 import parse from "html-react-parser";
@@ -19,14 +18,16 @@ import {
   FaSpotify,
   FaTwitter,
   FaYoutube,
-} from "react-icons/fa"; // Importer les icônes nécessaires
+} from "react-icons/fa";
 
 const ArtistPage = () => {
   const router = useRouter();
   const [Loading, setLoading] = useState(false);
   const [artist, setArtist] = useState<ArtistWithEvents>();
-  const { id } = useParams();
-  const [artistsIds, setArtistsIds] = useState<{ id: string }[] | null>(null);
+  const { slug } = useParams();
+  const [artistesSlug, setArtistesSlug] = useState<{ slug: string }[] | null>(
+    null
+  );
 
   const socialIcons: Record<string, IconType> = {
     Facebook: FaFacebook,
@@ -41,8 +42,10 @@ const ArtistPage = () => {
   useEffect(() => {
     setLoading(true);
     const fetchArtist = async () => {
-      if (typeof id === "string") {
-        const artistData = await getArtist(id);
+      if (typeof slug === "string") {
+        const artistData = await fetch(`/api/artists/by-id?id=${slug}`, {
+          method: "GET",
+        }).then((res) => res.json());
 
         if (artistData && !Array.isArray(artistData) && artistData.events) {
           const artistWithFormattedDates = {
@@ -62,21 +65,25 @@ const ArtistPage = () => {
       setLoading(false);
     };
     fetchArtist();
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
-    const fetchArtistsIds = async () => {
-      const artistsIds = await getArtistIds();
-      setArtistsIds(artistsIds);
+    const fetchArtistsNames = async () => {
+      const artistesSlug = await fetch(`/api/artists/slugs`, {
+        method: "GET",
+      }).then((res) => res.json());
+      setArtistesSlug(artistesSlug);
     };
-    fetchArtistsIds();
+    fetchArtistsNames();
   }, []);
 
   const goToNextArtist = () => {
-    if (artistsIds && id) {
-      const currentIndex = artistsIds.findIndex((artist) => artist.id === id);
-      const nextIndex = (currentIndex + 1) % artistsIds.length;
-      const nextArtistId = artistsIds[nextIndex]?.id;
+    if (artistesSlug && slug) {
+      const currentIndex = artistesSlug.findIndex(
+        (artist) => artist.slug === slug
+      );
+      const nextIndex = (currentIndex + 1) % artistesSlug.length;
+      const nextArtistId = artistesSlug[nextIndex]?.slug;
 
       if (nextArtistId) {
         router.push(`/home/artists/${nextArtistId}`);
@@ -97,7 +104,7 @@ const ArtistPage = () => {
   }
 
   return (
-    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-4 md:px-8  bg-perso-bg2 border-x-2 border-sky-950">
+    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 bg-perso-bg2 border-x-2 border-sky-950">
       <button
         onClick={goToNextArtist}
         className=" md:w-auto md:fixed text-sm mb-5 md:top-32 md:right-8 lg:right-12 xl:right-48 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
@@ -124,12 +131,8 @@ const ArtistPage = () => {
       </div>
 
       {artist.codePlayer && artist.urlPlayer && (
-        <Player
-          codePlayer={artist.codePlayer}
-          urlPlayer={artist.urlPlayer}
-        />
+        <Player codePlayer={artist.codePlayer} urlPlayer={artist.urlPlayer} />
       )}
-      
 
       {artist.videoUrl && (
         <div className="w-full my-8 flex justify-center">
@@ -143,7 +146,7 @@ const ArtistPage = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
-            ></iframe>
+          ></iframe>
         </div>
       )}
 
@@ -152,7 +155,7 @@ const ArtistPage = () => {
           <AlbumCarousel albums={artist.albums} />
         </div>
       )}
-      
+
       {artist.socialLinks && (
         <div className="w-[100%] flex justify-center ">
           <ul className="list-none flex gap-4">

@@ -4,6 +4,7 @@ import { JsonArray, JsonValue } from "@prisma/client/runtime/library";
 export interface EventType {
   id: string;
   title: string;
+  slug: string;
   description: string | null;
   location: string;
   date: Date;
@@ -17,6 +18,7 @@ export interface EventType {
 export interface ArtistType {
   id: string;
   name: string | null | undefined;
+  slug: string | null | undefined;
   bio: string | null | undefined;
   genre: string | null | undefined;
   imageUrl: string | null | undefined;
@@ -27,6 +29,7 @@ export interface ArtistType {
 export interface Event {
   id: string;
   title: string;
+  slug: string;
   date: string; // Assurez-vous que cela correspond à la structure attendue
   location: string;
   ticketLink?: string | null;
@@ -43,6 +46,7 @@ export interface SocialLink {
 export interface ArtistWithEvents {
   id: string;
   name: string;
+  slug: string;
   bio?: string | null;
   genre?: string | null;
   imageUrl?: string | null;
@@ -57,6 +61,7 @@ export interface ArtistWithEvents {
 export interface EventWithArtists {
   id: string;
   title: string;
+  slug: string;
   description: string | null;
   location: string;
   date: Date;
@@ -92,6 +97,6 @@ export type Link = {
 export interface ArtistWithAlbums extends Artist {
   albums: Album[];
   events?: Event[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

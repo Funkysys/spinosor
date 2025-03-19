@@ -1,6 +1,6 @@
 "use client";
 
-import { getEvents } from "@/app/api/action/events/events";
+import { getEvents } from "@/app/api/events/events";
 import { Event } from "@prisma/client";
 import { useRouter } from "next/navigation"; // Utilisé pour la navigation
 import { useEffect, useState } from "react";

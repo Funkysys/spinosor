@@ -1,6 +1,5 @@
 "use client";
 
-import { getArtistsWithEvents } from "@/app/api/action/artists/artists";
 import Card from "@/components/Card";
 import CardContainer from "@/components/CardContainer";
 import { ArtistWithEvents } from "@/types";
@@ -15,12 +14,23 @@ const ArtistsPage = () => {
     const fetchArtists = async () => {
       try {
         setLoading(true);
-        const data = await getArtistsWithEvents();
-        const sortedArtists = data.sort((a, b) => a.name.localeCompare(b.name));
+        const data = await fetch("/api/artists/with-events").then((res) => {
+          console.log(res);
+
+          return res.json();
+        });
+        console.log(data);
+
+        const sortedArtists: ArtistWithEvents[] = data.sort(
+          (a: ArtistWithEvents, b: ArtistWithEvents) =>
+            a.name.localeCompare(b.name)
+        );
         setArtists(sortedArtists);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-        console.error('Erreur lors du chargement des artistes:', err);
+        setError(
+          err instanceof Error ? err.message : "Une erreur est survenue"
+        );
+        console.error("Erreur lors du chargement des artistes:", err);
       } finally {
         setLoading(false);
       }
@@ -54,12 +64,13 @@ const ArtistsPage = () => {
               key={artist.id}
               id={artist.id}
               name={artist.name}
+              slug={artist.slug}
               genre={artist.genre || "Non spécifié"}
               imageUrl={artist.imageUrl || "/assets/images/default_artist.jpg"}
               bio={artist.bio || ""}
-              events={(artist.events || []).map(event => ({
+              events={(artist.events || []).map((event) => ({
                 ...event,
-                ticketLink: event.ticketLink || undefined
+                ticketLink: event.ticketLink || undefined,
               }))}
             />
           ))

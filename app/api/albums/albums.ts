@@ -4,6 +4,8 @@ import prisma from "@/lib/connect";
 import { Album } from "@prisma/client";
 import { JsonArray } from "@prisma/client/runtime/library";
 
+//TO DO : CHANGE IMPORTS FOR METHOD GET IN ROUTES
+
 export const getAlbums = async () => {
   try {
     const albums = await prisma.album.findMany();
@@ -50,6 +52,8 @@ export const getAlbumsIds = async () => {
     throw error;
   }
 };
+
+// ---------------------------------------------------------------------------------------------------------
 
 export const createAlbum = async (formData: FormData, links: JsonArray) => {
   try {

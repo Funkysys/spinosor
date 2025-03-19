@@ -1,7 +1,7 @@
 "use client";
 
-import { deleteAlbum, updateAlbum, createAlbum } from "@/app/api/action/albums/albums";
 import { updateArtist } from "@/app/api/action/artists/artists";
+import { createAlbum, deleteAl@/app/api/artists/artistspi/albums/albums";
 import { ArtistWithAlbums, Link } from "@/types";
 import { Album } from "@prisma/client";
 import dynamic from "next/dynamic";
@@ -39,7 +39,10 @@ interface EditStates {
 
 // Components
 const LoadingState = () => (
-  <div className="animate-pulse p-4 bg-gray-800 rounded-lg">
+  <div
+    data-testid="loading-state"
+    className="animate-pulse p-4 bg-gray-800 rounded-lg"
+  >
     <div className="h-6 bg-gray-700 rounded w-3/4 mb-4"></div>
     <div className="h-4 bg-gray-700 rounded w-1/2"></div>
   </div>
@@ -58,7 +61,10 @@ const SocialLinks: React.FC<{
     <h4 className="text-lg font-semibold mb-2">Liens sociaux</h4>
     {links.length > 0 ? (
       links.map((link) => (
-        <div key={link.id} className={isEditing ? "grid md:grid-cols-2 gap-2 mb-4" : "mb-2"}>
+        <div
+          key={link.id}
+          className={isEditing ? "grid md:grid-cols-2 gap-2 mb-4" : "mb-2"}
+        >
           {isEditing ? (
             <>
               <div>
@@ -85,6 +91,7 @@ const SocialLinks: React.FC<{
                     type="button"
                     onClick={() => onRemove?.(link.id)}
                     className="ml-2 text-red-500"
+                    data-testid={`remove-link-${link.id}`}
                   >
                     x
                   </button>
@@ -92,7 +99,8 @@ const SocialLinks: React.FC<{
               </div>
             </>
           ) : (
-            link.url && link.name && (
+            link.url &&
+            link.name && (
               <a
                 href={link.url}
                 target="_blank"
@@ -112,7 +120,11 @@ const SocialLinks: React.FC<{
 );
 
 // Main Component
-const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading }) => {
+const ArtistList: React.FC<ArtistListProps> = ({
+  artists,
+  onDelete,
+  isLoading,
+}) => {
   const [mounted, setMounted] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStates, setEditStates] = useState<EditStates>({});
@@ -126,16 +138,17 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
       if (artist.socialLinks) {
         try {
           // S'assurer que socialLinks est une chaîne JSON valide
-          const linksStr = typeof artist.socialLinks === 'string' 
-            ? artist.socialLinks 
-            : JSON.stringify(artist.socialLinks);
-          
+          const linksStr =
+            typeof artist.socialLinks === "string"
+              ? artist.socialLinks
+              : JSON.stringify(artist.socialLinks);
+
           const parsedLinks = JSON.parse(linksStr);
           if (Array.isArray(parsedLinks)) {
-            socialLinks = parsedLinks.map(link => ({
+            socialLinks = parsedLinks.map((link) => ({
               id: link.id || Math.random(),
               name: link.name || "",
-              url: link.url || ""
+              url: link.url || "",
             }));
           }
         } catch (error) {
@@ -162,20 +175,34 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
     return <LoadingState />;
   }
 
+  if (artists.length === 0 && !isLoading) {
+    return (
+      <p
+        data-testid="empty-artists-message"
+        className="text-center text-gray-500"
+      >
+        Aucun artiste trouvé.
+      </p>
+    );
+  }
+
   // Handlers
   const handleStartEditing = (artist: ArtistWithAlbums) => {
     setEditingId(artist.id);
   };
 
-  const handleUpdateArtist = async (e: React.FormEvent, artist: ArtistWithAlbums) => {
+  const handleUpdateArtist = async (
+    e: React.FormEvent,
+    artist: ArtistWithAlbums
+  ) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const artistState = editStates[artist.id];
 
     // Validation des champs de l'artiste
-    const name = formData.get('title') as string;
-    const genre = formData.get('genre') as string;
-    const imageFile = formData.get('imageUrl') as File;
+    const name = formData.get("title") as string;
+    const genre = formData.get("genre") as string;
+    const imageFile = formData.get("imageUrl") as File;
 
     if (!name?.trim()) {
       alert("Le nom de l'artiste est obligatoire");
@@ -192,12 +219,12 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
 
     try {
       // Filter out incomplete albums
-      const validUpdatedAlbums = artistState.albumFormsUpdate.filter(album => 
-        album.title?.trim() && album.releaseDate && album.imageUrl
+      const validUpdatedAlbums = artistState.albumFormsUpdate.filter(
+        (album) => album.title?.trim() && album.releaseDate && album.imageUrl
       );
 
-      const validNewAlbums = artistState.albumFormsCreation.filter(album => 
-        album.title?.trim() && album.releaseDate && album.imageUrl
+      const validNewAlbums = artistState.albumFormsCreation.filter(
+        (album) => album.title?.trim() && album.releaseDate && album.imageUrl
       );
 
       // Prepare form data for artist update
@@ -214,7 +241,7 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
         albumFormData.append("title", album.title);
         albumFormData.append("releaseDate", album.releaseDate.toISOString());
         albumFormData.append("links", JSON.stringify(album.links || []));
-        
+
         // Update existing albums
         await updateAlbum(album.id, albumFormData, album.imageUrl);
       }
@@ -224,8 +251,11 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
         const albumFormData = new FormData();
         albumFormData.append("title", album.title);
         albumFormData.append("artistId", artist.id);
-        albumFormData.append("releaseDate", new Date(album.releaseDate).toISOString());
-        
+        albumFormData.append(
+          "releaseDate",
+          new Date(album.releaseDate).toISOString()
+        );
+
         if (album.imageUrl) {
           if (album.imageUrl instanceof File) {
             // If it's already a File object, use it directly
@@ -234,18 +264,20 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
             // If it's a URL string, fetch it and convert to File
             const response = await fetch(album.imageUrl);
             const blob = await response.blob();
-            const file = new File([blob], "album-image.jpg", { type: "image/jpeg" });
+            const file = new File([blob], "album-image.jpg", {
+              type: "image/jpeg",
+            });
             albumFormData.append("imageFile", file);
           }
         }
-        
+
         // Create new albums
         await createAlbum(albumFormData, album.links || []);
       }
 
       // Reset editing state
       setEditingId(null);
-      
+
       // Refresh the page to show updated data
       window.location.reload();
     } catch (error) {
@@ -272,7 +304,9 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
       ...prev,
       [artistId]: {
         ...prev[artistId],
-        albumFormsUpdate: prev[artistId].albumFormsUpdate.filter((a) => a.id !== album.id),
+        albumFormsUpdate: prev[artistId].albumFormsUpdate.filter(
+          (a) => a.id !== album.id
+        ),
       },
     }));
   };
@@ -296,7 +330,11 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
     }));
   };
 
-  const handleAlbumCreationChange = (data: AlbumData, index: number, artistId: string) => {
+  const handleAlbumCreationChange = (
+    data: AlbumData,
+    index: number,
+    artistId: string
+  ) => {
     setEditStates((prev) => ({
       ...prev,
       [artistId]: {
@@ -318,7 +356,11 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
         return (
           <div key={artist.id} className="bg-gray-800 p-6 rounded-lg shadow-lg">
             {editingId === artist.id ? (
-              <form onSubmit={(e) => handleUpdateArtist(e, artist)} className="space-y-4">
+              <form
+                onSubmit={(e) => handleUpdateArtist(e, artist)}
+                className="space-y-4"
+                data-testid="artist-form"
+              >
                 <div>
                   <label className="text-sm text-slate-400">Nom</label>
                   <input
@@ -326,6 +368,20 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                     defaultValue={artist.name}
                     required
                     className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
+                    data-testid="artist-name-input"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-slate-400">Genre</label>
+                  <input
+                    type="text"
+                    name="genre"
+                    defaultValue={artist.genre || ""}
+                    required
+                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
+                    data-testid="artist-genre-input"
+                    aria-label="genre"
                   />
                 </div>
 
@@ -341,28 +397,11 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                             [artist.id]: { ...prev[artist.id], bio: value },
                           }))
                         }
-                        theme="snow"
-                        modules={{
-                          toolbar: [
-                            [{ 'header': [1, 2, false] }],
-                            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                            [{'list': 'ordered'}, {'list': 'bullet'}],
-                            ['link'],
-                            ['clean']
-                          ],
-                        }}
+                        className="bg-gray-700 text-white"
+                        data-testid="bio-editor"
                       />
                     </div>
                   )}
-                </div>
-
-                <div>
-                  <label className="text-sm text-slate-400">Genre</label>
-                  <input
-                    name="genre"
-                    defaultValue={artist.genre || ""}
-                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
-                  />
                 </div>
 
                 <div>
@@ -382,12 +421,15 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                         <AlbumUpdate
                           albumData={album}
                           artistId={artist.id}
-                          onAlbumDataChange={(data) => handleUpdateAlbum(data, index, artist.id)}
+                          onAlbumDataChange={(data) =>
+                            handleUpdateAlbum(data, index, artist.id)
+                          }
                         />
                         <button
                           type="button"
                           onClick={() => handleDeleteAlbum(album, artist.id)}
                           className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                          data-testid={`delete-album-${album.id}`}
                         >
                           Supprimer
                         </button>
@@ -399,7 +441,9 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                         <AlbumCreation
                           key={index}
                           artistId={artist.id}
-                          onAlbumDataChange={(data) => handleAlbumCreationChange(data, index, artist.id)}
+                          onAlbumDataChange={(data) =>
+                            handleAlbumCreationChange(data, index, artist.id)
+                          }
                         />
                       </div>
                     ))}
@@ -409,6 +453,7 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                     type="button"
                     onClick={() => handleAddNewAlbum(artist.id)}
                     className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                    data-testid="add-album-button"
                   >
                     Ajouter un album
                   </button>
@@ -422,7 +467,9 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                       ...prev,
                       [artist.id]: {
                         ...prev[artist.id],
-                        links: prev[artist.id].links.filter((link) => link.id !== id),
+                        links: prev[artist.id].links.filter(
+                          (link) => link.id !== id
+                        ),
                       },
                     }))
                   }
@@ -433,7 +480,9 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                         [artist.id]: {
                           ...prev[artist.id],
                           links: prev[artist.id].links.map((l) =>
-                            l.id === link.id ? { ...l, name: e.target.value } : l
+                            l.id === link.id
+                              ? { ...l, name: e.target.value }
+                              : l
                           ),
                         },
                       })),
@@ -454,8 +503,9 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                   <button
                     type="submit"
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    data-testid="save-button"
                   >
-                    Sauvegarder
+                    Enregistrer
                   </button>
                   <button
                     type="button"
@@ -510,12 +560,14 @@ const ArtistList: React.FC<ArtistListProps> = ({ artists, onDelete, isLoading })
                   <button
                     onClick={() => onDelete(artist.id)}
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    data-testid="delete-artist-button"
                   >
                     Supprimer
                   </button>
                   <button
                     onClick={() => handleStartEditing(artist)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                    data-testid="edit-artist-button"
                   >
                     Modifier
                   </button>

@@ -6,7 +6,7 @@ import {
   getArtists,
   getEvents,
   updateEvent,
-} from "@/app/api/action/events/events";
+} from "@/app/api/events/events";
 import { getArtistImages } from "@/app/api/services/getArtistsImages";
 import EventList from "@/components/EventList";
 import ModaleImageSelection from "@/components/ModaleImageSelection";

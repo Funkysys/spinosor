@@ -8,12 +8,14 @@ interface CardProps {
   genre?: string;
   bio?: string;
   imageUrl?: string;
+  slug: string;
   events: Array<{
     id: string;
     title: string;
     date: string;
     location: string;
     ticketLink?: string | null;
+    slug: string;
   }>;
 }
 
@@ -24,21 +26,21 @@ const Card: React.FC<CardProps> = ({
   bio,
   imageUrl,
   events,
+  slug,
 }) => {
   const router = useRouter();
   const handleReadMore = () => {
-    router.push(`/home/artists/${id}`); // Navigate to the dynamic artist page
+    router.push(`/home/artists/${slug}`);
   };
 
   return (
     <div className="relative max-h-[50vh] bg-slate-300 rounded overflow-hidden shadow-lg group">
       {imageUrl && (
         <div className="relative w-full aspect-square">
-          {/* Conteneur carré grâce à aspect-square */}
           <Image
             className="object-cover"
             src={imageUrl}
-            alt={name}
+            alt={`image du projet ${name.toLowerCase().replace(" ", "-")}`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
           />

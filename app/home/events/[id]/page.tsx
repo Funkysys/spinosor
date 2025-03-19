@@ -1,6 +1,6 @@
 "use client";
 
-import { getEvent } from "@/app/api/action/events/events";
+import { getEvent } from "@/app/api/events/events";
 import { EventWithArtists } from "@/types";
 import { Artist } from "@prisma/client";
 import Image from "next/image";

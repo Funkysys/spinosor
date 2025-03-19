@@ -1,6 +1,6 @@
 "use client";
 
-import { createMessage } from "@/app/api/action/message/message"; // Import de la fonction createMessage
+import { createMessage } from "@/app/api/message/message"; // Import de la fonction createMessage
 import React, { useState, useTransition } from "react";
 
 const ContactPage: React.FC = () => {

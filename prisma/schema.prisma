@@ -74,6 +74,7 @@ model Banner {
   title     String
   link  String
   imageUrl  String
+  slug      String   @unique
   isActive  Boolean  @default(false)
   isSquare  Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -90,13 +91,17 @@ model Artist {
   codePlayer String?
   urlPlayer  String?
   socialLinks Json?
+  slug        String  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   events      Event[]  @relation("ArtistEvents") 
   albums      Album[]  @relation("ArtistAlbums")
 }
 
 model Event {
   id          String   @id @default(uuid())
-  title       String
+  title       String 
+  slug      String   @unique
   description String?
   location    String
   date        DateTime
@@ -109,6 +114,7 @@ model Event {
 model Merchandise {
   id           String   @id @default(cuid())
   title        String
+  slug      String   @unique
   description  String?
   price        Float
   imageUrl     String?
@@ -130,6 +136,7 @@ model Album {
   title       String
   imageUrl    String?
   releaseDate DateTime
+  slug      String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   links       Json

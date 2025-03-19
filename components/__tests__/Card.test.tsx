@@ -39,8 +39,8 @@ describe('Card Component', () => {
   });
 
   it('renders card image with correct alt text', () => {
-    render(<Card {...mockProps} />);
-    const image = screen.getByAltText(mockProps.name);
-    expect(image).toBeInTheDocument();
+    render(<Card id="1"  events={[]}  name="Test Artist" imageUrl="/test-image.jpg" />);
+    const image = screen.getByTestId('mock-image');
+    expect(image).toHaveAttribute('alt', 'image du projet Test Artist');
   });
 });

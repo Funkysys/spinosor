@@ -1,6 +1,6 @@
 "use client";
 
-import { getActiveBanners } from "@/app/api/action/banner/banner"; // Importation de l'action server
+import { getActiveBanners } from "@/app/api/banner/banner"; // Importation de l'action server
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,13 +1,13 @@
 "use client";
 
-import { getArtistIdsAndNames } from "@/app/api/action/artists/artists";
 import {
   createBanner,
   deleteBanner,
   getBanners,
   updateBanner,
 } from "@/app/api/action/banner/banner";
-import { getEventstIdsAndNames } from "@/app/api/action/events/events";
+import {@/app/api/banner/banner"@/app/api/action/events/events";
+import { getArtistIdsAndNames } from "@@/app/api/events/events
 import { getArtistImages } from "@/app/api/services/getArtistsImages";
 import { getEventsImages } from "@/app/api/services/getEventsImages";
 import BannerList from "@/components/BannerList";

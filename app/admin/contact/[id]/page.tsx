@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteMessage, getMessage } from "@/app/api/action/message/message";
+import { deleteMessage, getMessage } from "@/app/api/message/message";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";

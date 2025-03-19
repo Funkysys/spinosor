@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
 import { useState } from "react";
-import { getUser } from "../api/action/user/user";
+import { getUser } from "../api/user/user";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>();

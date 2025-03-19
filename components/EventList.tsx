@@ -1,4 +1,4 @@
-import { getArtists } from "@/app/api/action/events/events";
+import { getArtists } from "@/app/api/events/events";
 import { Artist as ArtistType, Event as EventType } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";

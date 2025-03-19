@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUser, getUser, updateUser } from "@/app/api/action/user/user";
+import { deleteUser, getUser, updateUser } from "@/app/api/user/user";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";

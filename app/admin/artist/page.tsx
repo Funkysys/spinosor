@@ -1,18 +1,18 @@
 "use client";
 
-import { createAlbum, getAlbums } from "@/app/api/action/albums/albums";
 import {
   createArtist,
   deleteArtist,
   getArtists,
 } from "@/app/api/action/artists/artists";
+import { createAlbum, getAlbums } from "@/app/api/albums/albums";
 import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
 import { Album, Artist, Prisma } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 interface ArtistWithAlbums extends Artist {
   albums: Album[];
@@ -26,7 +26,10 @@ const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [artistToDelete, setArtistToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [artistToDelete, setArtistToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   const router = useRouter();
 
   // Chargement initial des artistes et albums
@@ -52,11 +55,11 @@ const ArtistsDashboard: React.FC = () => {
           videoUrl: artist.videoUrl ?? null,
           codePlayer: artist.codePlayer ?? null,
           urlPlayer: artist.urlPlayer ?? null,
-          socialLinks: artist.socialLinks ? (
-            typeof artist.socialLinks === 'string' 
-              ? artist.socialLinks 
+          socialLinks: artist.socialLinks
+            ? typeof artist.socialLinks === "string"
+              ? artist.socialLinks
               : JSON.stringify(artist.socialLinks)
-          ) : null,
+            : null,
           albums: albumList.filter((album) => album.artistId === artist.id),
         }));
 
@@ -83,12 +86,12 @@ const ArtistsDashboard: React.FC = () => {
     try {
       setIsLoading(true);
       formData.append("bio", bio);
-      
+
       const imageFile = formData.get("imageFile") as File | null;
       if (imageFile) {
         const reader = new FileReader();
         reader.readAsArrayBuffer(imageFile);
-        
+
         await new Promise((resolve) => {
           reader.onloadend = async () => {
             formData.append("imageFile", reader.result as string);
@@ -103,7 +106,7 @@ const ArtistsDashboard: React.FC = () => {
         throw new Error("Échec de la création de l'artiste");
       }
       toast.success("Artiste créé avec succès !");
-      
+
       // Création des albums
       if (artist && albumForms.length > 0) {
         try {
@@ -120,7 +123,9 @@ const ArtistsDashboard: React.FC = () => {
           );
           toast.success("Albums créés avec succès !");
         } catch (error) {
-          toast.error("Erreur lors de la création des albums. Veuillez vérifier les informations saisies.");
+          toast.error(
+            "Erreur lors de la création des albums. Veuillez vérifier les informations saisies."
+          );
           console.error("Erreur création albums:", error);
         }
       }
@@ -130,17 +135,18 @@ const ArtistsDashboard: React.FC = () => {
       if (updatedArtists) {
         setArtists(updatedArtists as ArtistWithAlbums[]);
       }
-
     } catch (error) {
       console.error("Erreur lors de la création:", error);
-      toast.error("Une erreur est survenue lors de la création. Veuillez réessayer.");
+      toast.error(
+        "Une erreur est survenue lors de la création. Veuillez réessayer."
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDeleteClick = async (id: string) => {
-    const artist = artists.find(a => a.id === id);
+    const artist = artists.find((a) => a.id === id);
     if (artist) {
       setArtistToDelete(artist);
       setDeleteDialogOpen(true);
@@ -149,7 +155,7 @@ const ArtistsDashboard: React.FC = () => {
 
   const handleArtistDeletion = async (artistId: string) => {
     if (!artistId) return;
-    
+
     try {
       setIsLoading(true);
       await deleteArtist(artistId);
@@ -170,31 +176,33 @@ const ArtistsDashboard: React.FC = () => {
 
   const modalStyle = {
     overlay: {
-      position: 'fixed' as const,
+      position: "fixed" as const,
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      backgroundColor: "rgba(0, 0, 0, 0.75)",
       zIndex: 1000,
-      display: deleteDialogOpen ? 'flex' : 'none',
-      justifyContent: 'center',
-      alignItems: 'center',
+      display: deleteDialogOpen ? "flex" : "none",
+      justifyContent: "center",
+      alignItems: "center",
     },
     content: {
-      position: 'relative' as const,
-      backgroundColor: 'white',
-      padding: '20px',
-      borderRadius: '8px',
-      maxWidth: '500px',
-      width: '90%',
-    }
+      position: "relative" as const,
+      backgroundColor: "white",
+      padding: "20px",
+      borderRadius: "8px",
+      maxWidth: "500px",
+      width: "90%",
+    },
   };
 
   const DeleteConfirmationModal = () => (
     <div style={modalStyle.overlay}>
       <div style={modalStyle.content}>
-        <h2 className="text-lg text-black font-semibold mb-4">Confirmer la suppression</h2>
+        <h2 className="text-lg text-black font-semibold mb-4">
+          Confirmer la suppression
+        </h2>
         <p className="mb-4 text-black">
           {`Êtes-vous sûr de vouloir supprimer l'artiste ${artistToDelete?.name} ?
           Cette action est irréversible.`}
@@ -210,7 +218,9 @@ const ArtistsDashboard: React.FC = () => {
             Annuler
           </button>
           <button
-            onClick={() => artistToDelete && handleArtistDeletion(artistToDelete.id)}
+            onClick={() =>
+              artistToDelete && handleArtistDeletion(artistToDelete.id)
+            }
             className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
             disabled={isLoading}
           >

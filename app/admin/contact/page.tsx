@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteMessage, getMessages } from "@/app/api/action/message/message";
+import { deleteMessage, getMessages } from "@/app/api/message/message";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";

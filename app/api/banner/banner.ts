@@ -3,7 +3,18 @@
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 
-// import prisma from "@/lib/prisma"; // Assurez-vous que Prisma est importé si vous l'utilisez.
+export const getActiveBanners = async () => {
+  const banners = await prisma.banner.findMany({
+    where: { isActive: true },
+  });
+
+  return banners;
+};
+
+export const getBanners = async () => {
+  const banners = await prisma.banner.findMany();
+  return banners;
+};
 
 export const createBanner = async (formData: FormData) => {
   const title = formData.get("title") as string;
@@ -91,19 +102,6 @@ export const deleteBanner = async (formData: FormData) => {
   }
 
   return { message: "Banner deleted successfully" };
-};
-
-export const getActiveBanners = async () => {
-  const banners = await prisma.banner.findMany({
-    where: { isActive: true },
-  });
-
-  return banners;
-};
-
-export const getBanners = async () => {
-  const banners = await prisma.banner.findMany();
-  return banners;
 };
 
 export const updateBanner = async (formData: FormData) => {

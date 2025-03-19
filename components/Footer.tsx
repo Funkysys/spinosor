@@ -1,6 +1,6 @@
 "use client";
 
-import { getUser } from "@/app/api/action/user/user";
+import { getUser } from "@/app/api/user/user";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
