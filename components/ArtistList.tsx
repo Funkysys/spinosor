@@ -203,6 +203,9 @@ const ArtistList: React.FC<ArtistListProps> = ({
     const name = formData.get("title") as string;
     const genre = formData.get("genre") as string;
     const imageFile = formData.get("imageUrl") as File;
+    const videoUrl = formData.get("videoUrl") as string;
+    const codePlayer = formData.get("codePlayer") as string;
+    const urlPlayer = formData.get("urlPlayer") as string;
 
     if (!name?.trim()) {
       alert("Le nom de l'artiste est obligatoire");
@@ -231,6 +234,10 @@ const ArtistList: React.FC<ArtistListProps> = ({
       formData.append("name", name);
       formData.append("bio", artistState.bio);
       formData.append("socialLinks", JSON.stringify(artistState.links));
+      formData.append("genre", genre);
+      formData.append("videoUrl", videoUrl);
+      formData.append("codePlayer", codePlayer);
+      formData.append("urlPlayer", urlPlayer);
 
       // Update the artist first
       await updateArtist(artist.id, formData, artist.imageUrl);
