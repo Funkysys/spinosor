@@ -172,6 +172,8 @@ const ArtistsDashboard: React.FC = () => {
   const handleAlbumUpdate = async () => {
     try {
       setIsAlbumLoading(true);
+      setArtists([]);
+      console.log("Mise à jour des artistes...");
 
       toast.success("Artiste MAJ avec succès");
       const artistList = await fetch("/api/artists", {
