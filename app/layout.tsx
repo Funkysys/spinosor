@@ -3,11 +3,12 @@ import AuthProvider from "@/providers/auth-provider";
 import QueryProvider from "@/providers/query-provider";
 import ThemeProviders from "@/providers/ThemeProviders";
 import { Belleza, Ruda } from "@next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import "./globals.css";
 import "react-quill/dist/quill.snow.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default function RootLayout({
               className={`${belleza.variable} ${ruda.variable} ${inter.className} min-h-[100vh]`}
             >
               <ThemeProviders>
+                <Analytics />
                 {children}
                 <Toaster position="top-center" />
               </ThemeProviders>

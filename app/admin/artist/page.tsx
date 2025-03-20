@@ -28,11 +28,11 @@ const ArtistsDashboard: React.FC = () => {
     const fetchArtistsAndAlbums = async () => {
       try {
         setIsLoading(true);
-        const artistList = await fetch("/api/artists", {
+        const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
           cache: "no-store",
           next: { revalidate: 1 },
         }).then((res) => res.json());
-        const albumList = await fetch("/api/albums", {
+        const albumList = await fetch(`/api/album?t=${Date.now()}`, {
           cache: "no-store",
           next: { revalidate: 1 },
         }).then((res) => res.json());
@@ -124,7 +124,7 @@ const ArtistsDashboard: React.FC = () => {
         }
       }
 
-      const updatedArtists = await fetch("/api/artists", {
+      const updatedArtists = await fetch(`/api/artists?t=${Date.now()}`, {
         cache: "no-store",
         next: { revalidate: 1 },
       }).then((res) => res.json());
@@ -156,7 +156,7 @@ const ArtistsDashboard: React.FC = () => {
       setIsLoading(true);
       await deleteArtist(artistId);
       toast.success("Artiste supprimé avec succès");
-      const updatedArtists = await fetch("/api/artists", {
+      const updatedArtists = await fetch(`/api/artists?t=${Date.now()}`, {
         cache: "no-store",
         next: { revalidate: 1 },
       }).then((res) => res.json());
@@ -179,12 +179,12 @@ const ArtistsDashboard: React.FC = () => {
       console.log("Mise à jour des artistes...");
 
       toast.success("Artiste MAJ avec succès");
-      const artistList = await fetch("/api/artists", {
+      const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
         cache: "no-store",
         next: { revalidate: 1 },
       }).then((res) => res.json());
       console.log("Données artistes après mise à jour:", artistList);
-      const albumList = await fetch("/api/albums", {
+      const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
         cache: "no-store",
         next: { revalidate: 1 },
       }).then((res) => res.json());
