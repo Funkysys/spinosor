@@ -172,19 +172,24 @@ const ArtistsDashboard: React.FC = () => {
   const handleAlbumUpdate = async () => {
     try {
       setIsAlbumLoading(true);
-      setArtists([]);
       console.log("Mise à jour des artistes...");
 
       toast.success("Artiste MAJ avec succès");
       const artistList = await fetch("/api/artists", {
         cache: "no-store",
       }).then((res) => res.json());
+      console.log("Données artistes après mise à jour:", artistList);
       const albumList = await fetch("/api/albums", {
         cache: "no-store",
       }).then((res) => res.json());
-
+      console.log("Données albums après mise à jour:", albumList);
       if (!artistList) {
         console.error("La liste des artistes est vide ou null");
+        return;
+      }
+
+      if (!artistList || !albumList) {
+        console.error("Les listes d'artistes ou d'albums sont vides ou null");
         return;
       }
 

@@ -31,7 +31,6 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
   const serializedLinks = JSON.stringify(tempAlbumLinks);
 
   useEffect(() => {
-    console.log(typeof releaseDate);
     const currentData: Album = {
       id: albumData.id,
       title,
@@ -48,10 +47,6 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
       !previousDataRef.current ||
       JSON.stringify(currentData) !== JSON.stringify(previousDataRef.current)
     ) {
-      console.log(
-        JSON.stringify(currentData),
-        JSON.stringify(previousDataRef.current)
-      );
       onAlbumDataChange(currentData);
       previousDataRef.current = currentData;
     }
@@ -94,8 +89,6 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
       { id: tempAlbumLinks.length + 1, name: "", url: "" },
     ]);
   };
-
-  console.log(releaseDate);
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
