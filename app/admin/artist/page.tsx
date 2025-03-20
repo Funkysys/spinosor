@@ -17,6 +17,7 @@ interface ArtistWithAlbums extends Artist {
 const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAlbumLoading, setIsAlbumLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [artistToDelete, setArtistToDelete] = useState<{
     id: string;
@@ -170,6 +171,8 @@ const ArtistsDashboard: React.FC = () => {
 
   const handleAlbumUpdate = async () => {
     try {
+      setIsAlbumLoading(true);
+
       toast.success("Artiste MAJ avec succès");
       const artistList = await fetch("/api/artists", {
         cache: "no-store",
@@ -208,7 +211,7 @@ const ArtistsDashboard: React.FC = () => {
       console.error("Erreur lors de la Maj de l'artiste:", error);
       toast.error("Erreur lors de la Maj de l'artiste");
     } finally {
-      setIsLoading(false);
+      setIsAlbumLoading(false);
     }
   };
 
@@ -275,7 +278,6 @@ const ArtistsDashboard: React.FC = () => {
         Gestion des Artistes
       </h1>
 
-      {/* Formulaire de création d'artiste */}
       <div className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Créer un nouvel artiste</h2>
         <ButtonHome />
@@ -285,16 +287,21 @@ const ArtistsDashboard: React.FC = () => {
         />
       </div>
 
-      {/* Liste des artistes existants */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Artistes existants</h2>
-        <ArtistList
-          artists={artists}
-          onDelete={handleDeleteClick}
-          isLoading={isLoading}
-          onAlbumUpdate={handleAlbumUpdate}
-        />
-      </div>
+      {isAlbumLoading ? (
+        <div className="flex justify-center items-center h-48">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-perso-white-one"></div>
+        </div>
+      ) : (
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Artistes existants</h2>
+          <ArtistList
+            artists={artists}
+            onDelete={handleDeleteClick}
+            isLoading={isLoading}
+            onAlbumUpdate={handleAlbumUpdate}
+          />
+        </div>
+      )}
 
       <DeleteConfirmationModal />
     </div>

@@ -93,14 +93,28 @@ describe("ArtistList Component", () => {
   });
 
   it("renders artist information correctly", () => {
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
     expect(screen.getByText("Test Artist")).toBeInTheDocument();
     expect(screen.getByText("Genre : Rock")).toBeInTheDocument();
   });
 
   it("renders album information correctly when editing", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     const editButton = screen.getByTestId("edit-artist-button");
@@ -114,7 +128,14 @@ describe("ArtistList Component", () => {
 
   it("handles artist deletion", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     const deleteButton = screen.getByTestId("delete-artist-button");
     await user.click(deleteButton);
@@ -123,7 +144,14 @@ describe("ArtistList Component", () => {
 
   it("handles editing mode toggle", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Activer le mode édition
     const editButton = screen.getByTestId("edit-artist-button");
@@ -138,7 +166,14 @@ describe("ArtistList Component", () => {
 
   it("handles form submission", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Activer le mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -152,7 +187,14 @@ describe("ArtistList Component", () => {
 
   it("handles new album creation", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Activer le mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -168,7 +210,15 @@ describe("ArtistList Component", () => {
   });
 
   it("handles loading state correctly", () => {
-    render(<ArtistList {...mockProps} isLoading={true} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+        isLoading={true}
+      />
+    );
     expect(screen.getByTestId("loading-state")).toBeInTheDocument();
   });
 
@@ -187,6 +237,9 @@ describe("ArtistList Component", () => {
         artists={[artistWithLinks]}
         onDelete={mockProps.onDelete}
         isLoading={false}
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     );
 
@@ -209,7 +262,14 @@ describe("ArtistList Component", () => {
 
   it("handles bio editing with ReactQuill", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -222,7 +282,14 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     const consoleSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -242,7 +309,14 @@ describe("ArtistList Component", () => {
 
   it("handles album deletion", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -260,6 +334,9 @@ describe("ArtistList Component", () => {
         artists={[]}
         onDelete={mockProps.onDelete}
         isLoading={false}
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     );
     const emptyMessage = screen.getByTestId("empty-artists-message");
@@ -277,6 +354,9 @@ describe("ArtistList Component", () => {
         artists={[artistWithInvalidLinks]}
         onDelete={mockProps.onDelete}
         isLoading={false}
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     );
     expect(
@@ -288,14 +368,19 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     const alertMock = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
     await user.click(screen.getByTestId("edit-artist-button"));
 
-    // Vider le champ genre
     const genreInput = screen.getByLabelText(/genre/i);
     await user.clear(genreInput);
 
-    // Soumettre le formulaire
     await user.click(screen.getByText("Enregistrer"));
     expect(alertMock).toHaveBeenCalledWith("Le genre est obligatoire");
 
@@ -316,6 +401,9 @@ describe("ArtistList Component", () => {
         artists={[artistWithoutImage]}
         onDelete={mockProps.onDelete}
         isLoading={false}
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     );
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -329,7 +417,14 @@ describe("ArtistList Component", () => {
 
   it("handles album form validation", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -345,7 +440,14 @@ describe("ArtistList Component", () => {
 
   it("handles ReactQuill value change", async () => {
     const user = userEvent.setup();
-    render(<ArtistList {...mockProps} />);
+    render(
+      <ArtistList
+        onAlbumUpdate={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        {...mockProps}
+      />
+    );
 
     // Passer en mode édition
     await user.click(screen.getByTestId("edit-artist-button"));
