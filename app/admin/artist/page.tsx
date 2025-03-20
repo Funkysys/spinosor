@@ -32,7 +32,7 @@ const ArtistsDashboard: React.FC = () => {
           cache: "no-store",
           next: { revalidate: 1 },
         }).then((res) => res.json());
-        const albumList = await fetch(`/api/album?t=${Date.now()}`, {
+        const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
           cache: "no-store",
           next: { revalidate: 1 },
         }).then((res) => res.json());
