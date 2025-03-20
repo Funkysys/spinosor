@@ -14,7 +14,9 @@ const ArtistsPage = () => {
     const fetchArtists = async () => {
       try {
         setLoading(true);
-        const data = await fetch("/api/artists/with-events").then((res) => {
+        const data = await fetch("/api/artists/with-events", {
+          cache: "no-store",
+        }).then((res) => {
           return res.json();
         });
 

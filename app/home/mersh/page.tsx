@@ -1,5 +1,3 @@
-"use client";
-
 import Carousel from "@/components/Carousel";
 import MerchCard from "@/components/MerchCard";
 

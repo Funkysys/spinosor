@@ -19,23 +19,26 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
   albumData,
 }) => {
   const [title, setTitle] = useState(albumData.title);
-  const [imageUrl, setImageUrl] = useState<string>(albumData.imageUrl!);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [releaseDate, setReleaseDate] = useState<Date>(albumData.releaseDate);
+  const [releaseDate, setReleaseDate] = useState<Date>(
+    albumData.releaseDate ? new Date(albumData.releaseDate) : new Date()
+  );
   const [tempAlbumLinks, setTempAlbumLinks] = useState<Link[]>(
     albumData.links ? (albumData.links as unknown as Link[]) : []
   );
 
   const previousDataRef = useRef<Album | null>(null);
 
+  const serializedLinks = JSON.stringify(tempAlbumLinks);
+
   useEffect(() => {
+    console.log(typeof releaseDate);
     const currentData: Album = {
       id: albumData.id,
       title,
-      imageUrl,
+      imageUrl: albumData.imageUrl,
       releaseDate,
       createdAt: albumData.createdAt,
-      updatedAt: new Date(),
+      updatedAt: releaseDate,
       links: tempAlbumLinks.map((link) => ({ ...link })) as Prisma.JsonArray,
       artistId,
       slug: albumData.slug,
@@ -45,19 +48,24 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
       !previousDataRef.current ||
       JSON.stringify(currentData) !== JSON.stringify(previousDataRef.current)
     ) {
+      console.log(
+        JSON.stringify(currentData),
+        JSON.stringify(previousDataRef.current)
+      );
       onAlbumDataChange(currentData);
-      previousDataRef.current = currentData; // Met à jour la référence
+      previousDataRef.current = currentData;
     }
   }, [
     title,
-    imageUrl,
+    albumData.slug,
+    albumData.imageUrl,
     releaseDate,
     tempAlbumLinks,
     artistId,
     onAlbumDataChange,
     albumData.createdAt,
     albumData.id,
-    albumData.slug,
+    serializedLinks,
   ]);
 
   const handleOnChangeAlbumLinkName = (
@@ -87,11 +95,7 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
     ]);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
-    }
-  };
+  console.log(releaseDate);
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
@@ -116,7 +120,7 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
           id="imageFile"
           name="imageFile"
           accept="image/*"
-          onChange={handleImageChange}
+          // onChange={handleImageChange}
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
@@ -127,7 +131,11 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
         <input
           type="date"
           id="releaseDate"
-          value={releaseDate.toISOString().split("T")[0]}
+          value={
+            releaseDate instanceof Date
+              ? releaseDate.toISOString().split("T")[0]
+              : ""
+          }
           onChange={(e) => setReleaseDate(new Date(e.target.value))}
           className="w-full p-2 rounded bg-gray-700 border border-gray-600"
         />

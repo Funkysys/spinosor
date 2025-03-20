@@ -21,12 +21,16 @@ const EventsDashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const result = await fetch("/api/events").then((res) => res.json());
+      const result = await fetch("/api/events", { cache: "no-store" }).then(
+        (res) => res.json()
+      );
       setEvents(result);
     };
 
     const fetchArtists = async () => {
-      const artistList = await fetch("/api/artists").then((res) => res.json());
+      const artistList = await fetch("/api/artists/ids-and-names").then((res) =>
+        res.json()
+      );
       setArtists(artistList);
     };
 

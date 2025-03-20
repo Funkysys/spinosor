@@ -34,11 +34,12 @@ const ArtistsDashboard: React.FC = () => {
     const fetchArtistsAndAlbums = async () => {
       try {
         setIsLoading(true);
-        //fetch artistList and albumList
-        const artistList = await fetch("/api/artists").then((res) =>
-          res.json()
-        );
-        const albumList = await fetch("/api/albums").then((res) => res.json());
+        const artistList = await fetch("/api/artists", {
+          cache: "no-store",
+        }).then((res) => res.json());
+        const albumList = await fetch("/api/albums", {
+          cache: "no-store",
+        }).then((res) => res.json());
 
         if (!artistList) {
           console.error("La liste des artistes est vide ou null");
@@ -133,9 +134,9 @@ const ArtistsDashboard: React.FC = () => {
       }
 
       // Rafraîchir la liste des artistes
-      const updatedArtists = await fetch("/api/artists").then((res) =>
-        res.json()
-      );
+      const updatedArtists = await fetch("/api/artists", {
+        cache: "no-store",
+      }).then((res) => res.json());
       if (updatedArtists) {
         setArtists(updatedArtists as ArtistWithAlbums[]);
       }
@@ -164,9 +165,9 @@ const ArtistsDashboard: React.FC = () => {
       setIsLoading(true);
       await deleteArtist(artistId);
       toast.success("Artiste supprimé avec succès");
-      const updatedArtists = await fetch("/api/artists").then((res) =>
-        res.json()
-      );
+      const updatedArtists = await fetch("/api/artists", {
+        cache: "no-store",
+      }).then((res) => res.json());
       if (updatedArtists) {
         setArtists(updatedArtists as ArtistWithAlbums[]);
       }
