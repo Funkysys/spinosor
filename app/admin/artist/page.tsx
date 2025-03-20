@@ -7,7 +7,6 @@ import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
 import ButtonHome from "@/components/ButtonHome";
 import { Album, Artist, Prisma } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -15,10 +14,6 @@ interface ArtistWithAlbums extends Artist {
   albums: Album[];
 }
 
-/**
- * Tableau de bord d'administration des artistes
- * Permet de créer, modifier et supprimer des artistes et leurs albums
- */
 const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,9 +22,7 @@ const ArtistsDashboard: React.FC = () => {
     id: string;
     name: string;
   } | null>(null);
-  const router = useRouter();
 
-  // Chargement initial des artistes et albums
   useEffect(() => {
     const fetchArtistsAndAlbums = async () => {
       try {
@@ -77,9 +70,6 @@ const ArtistsDashboard: React.FC = () => {
     fetchArtistsAndAlbums();
   }, []);
 
-  /**
-   * Gère la création d'un nouvel artiste et de ses albums
-   */
   const handleArtistCreation = async (
     formData: FormData,
     links: Prisma.JsonArray,
@@ -103,14 +93,12 @@ const ArtistsDashboard: React.FC = () => {
         });
       }
 
-      // Création de l'artiste
       const artist = await createArtist(formData, links);
       if (!artist) {
         throw new Error("Échec de la création de l'artiste");
       }
       toast.success("Artiste créé avec succès !");
 
-      // Création des albums
       if (artist && albumForms.length > 0) {
         try {
           await Promise.all(
@@ -133,7 +121,6 @@ const ArtistsDashboard: React.FC = () => {
         }
       }
 
-      // Rafraîchir la liste des artistes
       const updatedArtists = await fetch("/api/artists", {
         cache: "no-store",
       }).then((res) => res.json());

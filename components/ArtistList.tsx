@@ -7,10 +7,10 @@ import { Album } from "@prisma/client";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import AlbumCreation, { AlbumData } from "./AlbumCreation";
 import AlbumUpdate from "./AlbumUpdate";
 
-// Import ReactQuill dynamiquement avec styles
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
@@ -19,7 +19,6 @@ const ReactQuill = dynamic(
   { ssr: false }
 );
 
-// Types
 interface ArtistListProps {
   artists: ArtistWithAlbums[];
   onDelete: (id: string) => Promise<void>;
@@ -37,7 +36,6 @@ interface EditStates {
   [key: string]: EditState;
 }
 
-// Components
 const LoadingState = () => (
   <div
     data-testid="loading-state"
@@ -119,7 +117,6 @@ const SocialLinks: React.FC<{
   </div>
 );
 
-// Main Component
 const ArtistList: React.FC<ArtistListProps> = ({
   artists,
   onDelete,
@@ -129,7 +126,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStates, setEditStates] = useState<EditStates>({});
 
-  // Initialize edit states for all artists
   useEffect(() => {
     const initialStates: EditStates = {};
     artists.forEach((artist) => {
@@ -137,7 +133,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
 
       if (artist.socialLinks) {
         try {
-          // S'assurer que socialLinks est une chaîne JSON valide
           const linksStr =
             typeof artist.socialLinks === "string"
               ? artist.socialLinks
@@ -186,7 +181,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
     );
   }
 
-  // Handlers
   const handleStartEditing = (artist: ArtistWithAlbums) => {
     setEditingId(artist.id);
   };
@@ -221,7 +215,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
     }
 
     try {
-      // Filter out incomplete albums
       const validUpdatedAlbums = artistState.albumFormsUpdate.filter(
         (album) => album.title?.trim() && album.releaseDate && album.imageUrl
       );
@@ -230,7 +223,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
         (album) => album.title?.trim() && album.releaseDate && album.imageUrl
       );
 
-      // Prepare form data for artist update
       formData.append("name", name);
       formData.append("bio", artistState.bio);
       formData.append("socialLinks", JSON.stringify(artistState.links));
@@ -239,21 +231,17 @@ const ArtistList: React.FC<ArtistListProps> = ({
       formData.append("codePlayer", codePlayer);
       formData.append("urlPlayer", urlPlayer);
 
-      // Update the artist first
       await updateArtist(artist.id, formData, artist.imageUrl);
 
-      // Handle album updates
       for (const album of validUpdatedAlbums) {
         const albumFormData = new FormData();
         albumFormData.append("title", album.title);
         albumFormData.append("releaseDate", album.releaseDate.toISOString());
         albumFormData.append("links", JSON.stringify(album.links || []));
 
-        // Update existing albums
         await updateAlbum(album.id, albumFormData, album.imageUrl);
       }
 
-      // Handle new albums
       for (const album of validNewAlbums) {
         const albumFormData = new FormData();
         albumFormData.append("title", album.title);
@@ -265,10 +253,8 @@ const ArtistList: React.FC<ArtistListProps> = ({
 
         if (album.imageUrl) {
           if (album.imageUrl instanceof File) {
-            // If it's already a File object, use it directly
             albumFormData.append("imageFile", album.imageUrl);
           } else {
-            // If it's a URL string, fetch it and convert to File
             const response = await fetch(album.imageUrl);
             const blob = await response.blob();
             const file = new File([blob], "album-image.jpg", {
@@ -278,14 +264,11 @@ const ArtistList: React.FC<ArtistListProps> = ({
           }
         }
 
-        // Create new albums
         await createAlbum(albumFormData, album.links || []);
       }
 
-      // Reset editing state
       setEditingId(null);
-
-      // Refresh the page to show updated data
+      toast.success("Artiste mis à jour avec succès !");
       window.location.reload();
     } catch (error) {
       console.error("Error updating artist:", error);
