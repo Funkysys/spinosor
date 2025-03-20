@@ -177,10 +177,12 @@ const ArtistsDashboard: React.FC = () => {
       toast.success("Artiste MAJ avec succès");
       const artistList = await fetch("/api/artists", {
         cache: "no-store",
+        next: { revalidate: 0 },
       }).then((res) => res.json());
       console.log("Données artistes après mise à jour:", artistList);
       const albumList = await fetch("/api/albums", {
         cache: "no-store",
+        next: { revalidate: 0 },
       }).then((res) => res.json());
       console.log("Données albums après mise à jour:", albumList);
       if (!artistList) {
