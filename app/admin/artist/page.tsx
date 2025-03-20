@@ -168,6 +168,50 @@ const ArtistsDashboard: React.FC = () => {
     }
   };
 
+  const handleAlbumUpdate = async () => {
+    try {
+      toast.success("Artiste MAJ avec succès");
+      const artistList = await fetch("/api/artists", {
+        cache: "no-store",
+      }).then((res) => res.json());
+      const albumList = await fetch("/api/albums", {
+        cache: "no-store",
+      }).then((res) => res.json());
+
+      if (!artistList) {
+        console.error("La liste des artistes est vide ou null");
+        return;
+      }
+
+      const formattedArtists: ArtistWithAlbums[] = artistList.map(
+        (artist: Artist) => ({
+          ...artist,
+          bio: artist.bio ?? null,
+          genre: artist.genre ?? null,
+          imageUrl: artist.imageUrl ?? null,
+          videoUrl: artist.videoUrl ?? null,
+          codePlayer: artist.codePlayer ?? null,
+          urlPlayer: artist.urlPlayer ?? null,
+          socialLinks: artist.socialLinks
+            ? typeof artist.socialLinks === "string"
+              ? artist.socialLinks
+              : JSON.stringify(artist.socialLinks)
+            : null,
+          albums: albumList.filter(
+            (album: Album) => album.artistId === artist.id
+          ),
+        })
+      );
+
+      setArtists(formattedArtists);
+    } catch (error) {
+      console.error("Erreur lors de la Maj de l'artiste:", error);
+      toast.error("Erreur lors de la Maj de l'artiste");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const modalStyle = {
     overlay: {
       position: "fixed" as const,
@@ -248,6 +292,7 @@ const ArtistsDashboard: React.FC = () => {
           artists={artists}
           onDelete={handleDeleteClick}
           isLoading={isLoading}
+          onAlbumUpdate={handleAlbumUpdate}
         />
       </div>
 

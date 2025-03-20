@@ -23,6 +23,7 @@ interface ArtistListProps {
   artists: ArtistWithAlbums[];
   onDelete: (id: string) => Promise<void>;
   isLoading: boolean;
+  onAlbumUpdate: () => void;
 }
 
 interface EditState {
@@ -121,6 +122,7 @@ const ArtistList: React.FC<ArtistListProps> = ({
   artists,
   onDelete,
   isLoading,
+  onAlbumUpdate,
 }) => {
   const [mounted, setMounted] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -269,10 +271,12 @@ const ArtistList: React.FC<ArtistListProps> = ({
 
       setEditingId(null);
       toast.success("Artiste mis à jour avec succès !");
-      window.location.reload();
+      onAlbumUpdate();
     } catch (error) {
       console.error("Error updating artist:", error);
-      alert("Une erreur est survenue lors de la mise à jour de l'artiste");
+      toast.error(
+        "Une erreur est survenue lors de la mise à jour de l'artiste"
+      );
     }
   };
 
@@ -336,7 +340,6 @@ const ArtistList: React.FC<ArtistListProps> = ({
     }));
   };
 
-  // Render
   return (
     <div className="space-y-8">
       {artists.map((artist) => {
