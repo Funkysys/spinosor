@@ -22,7 +22,11 @@ export default function MessagesListPage() {
   const { loading } = useProtectedRoute("ADMIN");
 
   if (loading) {
-    return <p>Chargement...</p>;
+    return (
+      <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
+        <p>Chargement...</p>
+      </div>
+    );
   }
 
   return (

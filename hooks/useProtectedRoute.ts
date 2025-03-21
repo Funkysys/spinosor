@@ -18,22 +18,19 @@ const useProtectedRoute = (requiredRole: "ADMIN") => {
 
         if (user?.role) {
           setRole(user.role);
-        } else {
-          router.push("/"); // Rediriger si l'utilisateur n'a pas de rôle
         }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération du rôle de l'utilisateur:",
           error
         );
-        router.push("/");
       }
     };
 
     if (status === "authenticated" && session?.user?.email) {
       fetchUserRole();
     }
-  }, [session, status, router, user]);
+  }, [session, status, router, user?.role]);
 
   useEffect(() => {
     if (role && role !== requiredRole) {

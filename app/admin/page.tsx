@@ -12,7 +12,11 @@ export default function AdminDashboard() {
   const { loading, user } = useProtectedRoute("ADMIN");
 
   if (loading) {
-    return <p>Chargement...</p>;
+    return (
+      <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
+        <p>Chargement...</p>
+      </div>
+    );
   }
 
   const handleCleanupImages = async () => {

@@ -16,15 +16,10 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session({ session, token, user }) {
-      if (!token || !user) {
-        console.error("Token or user is missing.");
-        return session; // Retourne la session sans la modifier si des données sont manquantes
-      }
       return {
         ...session,
         user: {
           ...session.user,
-          email: user.email,
         },
       };
     },
