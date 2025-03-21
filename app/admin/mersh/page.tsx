@@ -1,3 +1,4 @@
+"use client";
 import ButtonHome from "@/components/ButtonHome";
 import useProtectedRoute from "@/hooks/useProtectedRoute";
 import React from "react";
