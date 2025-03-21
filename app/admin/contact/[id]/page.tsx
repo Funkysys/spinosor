@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteMessage } from "@/app/api/message/message";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
@@ -29,6 +30,11 @@ export default function MessageDetailPage() {
     fetchMessage();
   }, [params.id]);
 
+  const { loading } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
   if (error) {
     return notFound(); // Gère le cas où le message n'existe pas
   }

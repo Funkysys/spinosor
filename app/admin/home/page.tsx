@@ -8,6 +8,7 @@ import {
 import BannerList from "@/components/BannerList";
 import ButtonHome from "@/components/ButtonHome";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { Banner as BannerType } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -40,6 +41,12 @@ const BannerDashboard: React.FC = () => {
     };
     fetchArtistAndEvents();
   }, []);
+
+  const { loading } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
   const handleImageSelection = (imageUrl: string) => {
     setSelectedImage(imageUrl);

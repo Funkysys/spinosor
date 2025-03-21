@@ -2,6 +2,7 @@
 
 import { deleteMessage } from "@/app/api/message/message";
 import ButtonHome from "@/components/ButtonHome";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { ContactMessage } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,6 +18,12 @@ export default function MessagesListPage() {
     };
     fetchMessages();
   }, []);
+
+  const { loading } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
   return (
     <div className="min-h-screen p-5 bg-gray-900 text-slate-200 mb-20">

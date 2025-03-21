@@ -4,6 +4,7 @@ import { createEvent, deleteEvent, updateEvent } from "@/app/api/events/events";
 import ButtonHome from "@/components/ButtonHome";
 import EventList from "@/components/EventList";
 import ModaleImageSelection from "@/components/ModaleImageSelection";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -37,6 +38,11 @@ const EventsDashboard: React.FC = () => {
     fetchEvents();
     fetchArtists();
   }, []);
+  const { loading } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
   const resetForm = () => {
     setSelectedImage(null);

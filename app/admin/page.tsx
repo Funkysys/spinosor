@@ -1,28 +1,19 @@
 "use client";
 
 import ButtonHome from "@/components/ButtonHome";
-import { User } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Utilisation de next/navigation pour router avec Next.js 13+
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState<User | null>();
   const [isCleaningImages, setIsCleaningImages] = useState(false);
-  const { data: session, status } = useSession();
-  const router = useRouter();
 
-  const fetchUser = async () => {
-    const response = await fetch(
-      `/api/user?email=${session?.user?.email as string}`
-    );
-    const data = await response.json();
-    setUser(data);
-    if (!data) return router.push("/"); // Redirection si l'utilisateur n'est pas trouvé
-    (await data.role) !== "ADMIN" && router.push("/"); // Redirection si l'utilisateur n'est pas ADMIN
-  };
+  const { loading, user } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
   const handleCleanupImages = async () => {
     try {
@@ -45,28 +36,12 @@ export default function AdminDashboard() {
     }
   };
 
-  if (status === "authenticated" && !user) {
-    fetchUser();
-  }
-  // Si la session est en cours de chargement
-  if (status === "loading") {
-    return (
-      <p className="text-center text-xl font-semibold mt-10">Chargement...</p>
-    );
-  }
-
-  // Si l'utilisateur n'est pas ADMIN ou non connecté
-  if (status === "unauthenticated") {
-    router.push("/"); // Redirection vers la page d'accueil
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-perso-white-two border-b-2 border-perso-yellow-one">
-            Tableau de Bord Admin
+            Tableau de Bord Admin {user?.name}
           </h1>
           <button
             onClick={handleCleanupImages}

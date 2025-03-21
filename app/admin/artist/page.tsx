@@ -6,6 +6,7 @@ import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
 import ArtistList from "@/components/ArtistList";
 import ButtonHome from "@/components/ButtonHome";
+import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { Album, Artist, Prisma } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -72,6 +73,12 @@ const ArtistsDashboard: React.FC = () => {
 
     fetchArtistsAndAlbums();
   }, []);
+
+  const { loading } = useProtectedRoute("ADMIN");
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
   const handleArtistCreation = async (
     formData: FormData,
