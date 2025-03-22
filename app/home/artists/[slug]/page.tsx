@@ -110,17 +110,17 @@ const ArtistPage = () => {
   }
 
   return (
-    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 md:py-6 bg-perso-bg2 border-x-2 border-sky-950">
-      <div className="flex justify-between items-center">
+    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 py-6 bg-perso-bg2 border-x-2 border-sky-950">
+      <div className="flex justify-between items-center mb-8 md:mx-6 ">
         <button
           onClick={() => changeArtistPage("-")}
-          className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
+          className=" md:w-auto  font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
         >
           Artiste précédent
         </button>
         <button
           onClick={() => changeArtistPage("+")}
-          className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
+          className=" md:w-auto font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
         >
           Artiste suivant
         </button>
