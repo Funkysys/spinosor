@@ -77,32 +77,23 @@ const ArtistPage = () => {
     fetchArtistsNames();
   }, []);
 
-  const goToNextArtist = () => {
-    if (artistesSlug && slug) {
+  const changeArtistPage = (string: string) => {
+    if (artistesSlug && artist?.slug) {
       const currentIndex = artistesSlug.findIndex(
-        (artist) => artist.slug === slug
+        (item) => item.slug === artist?.slug
       );
-      const nextIndex = (currentIndex + 1) % artistesSlug.length;
-      const nextArtistSlug = artistesSlug[nextIndex]?.slug;
+      const nextIndex =
+        string === "+"
+          ? (currentIndex + 1) % artistesSlug.length
+          : (currentIndex - 1) % artistesSlug.length;
+      nextIndex === -1 &&
+        router.push(
+          `/home/artists/${artistesSlug[artistesSlug.length - 1].slug}`
+        );
 
-      if (nextArtistSlug) {
-        router.push(`/home/artists/${nextArtistSlug}`);
-      }
-    }
-  };
+      const nextArtistSlug = artistesSlug[nextIndex].slug;
 
-  const goToPreviousArtist = () => {
-    if (artistesSlug && slug) {
-      const currentIndex = artistesSlug.findIndex(
-        (artist) => artist.slug === slug
-      );
-      const previousIndex =
-        (currentIndex - 1 + artistesSlug.length) % artistesSlug.length;
-      const previousArtistSlug = artistesSlug[previousIndex]?.slug;
-
-      if (previousArtistSlug) {
-        router.push(`/home/artists/${previousArtistSlug}`);
-      }
+      router.push(`/home/artists/${nextArtistSlug}`);
     }
   };
 
@@ -122,13 +113,13 @@ const ArtistPage = () => {
     <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 md:py-6 bg-perso-bg2 border-x-2 border-sky-950">
       <div className="flex justify-between items-center">
         <button
-          onClick={goToPreviousArtist}
+          onClick={() => changeArtistPage("-")}
           className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
         >
           Artiste précédent
         </button>
         <button
-          onClick={goToNextArtist}
+          onClick={() => changeArtistPage("+")}
           className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
         >
           Artiste suivant
