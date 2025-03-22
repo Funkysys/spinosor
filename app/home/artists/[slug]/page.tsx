@@ -91,6 +91,21 @@ const ArtistPage = () => {
     }
   };
 
+  const goToPreviousArtist = () => {
+    if (artistesSlug && slug) {
+      const currentIndex = artistesSlug.findIndex(
+        (artist) => artist.slug === slug
+      );
+      const previousIndex =
+        (currentIndex - 1 + artistesSlug.length) % artistesSlug.length;
+      const previousArtistSlug = artistesSlug[previousIndex]?.slug;
+
+      if (previousArtistSlug) {
+        router.push(`/home/artists/${previousArtistSlug}`);
+      }
+    }
+  };
+
   if (Loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -104,14 +119,22 @@ const ArtistPage = () => {
   }
 
   return (
-    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 bg-perso-bg2 border-x-2 border-sky-950">
-      <button
-        onClick={goToNextArtist}
-        className=" md:w-auto md:fixed text-sm mb-5 md:top-32 md:right-8 lg:right-12 xl:right-48 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
-      >
-        Artiste suivant
-      </button>
-      <div className="flex flex-col lg:flex-row items-center gap-8">
+    <div className="w-[100vw] md:w-[66vw] min-h-[100vh] md:mx-auto md:px-8 md:py-6 bg-perso-bg2 border-x-2 border-sky-950">
+      <div className="flex justify-between items-center">
+        <button
+          onClick={goToPreviousArtist}
+          className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
+        >
+          Artiste précédent
+        </button>
+        <button
+          onClick={goToNextArtist}
+          className=" md:w-auto my-6 mx-6 md:mx-0 font-ruda bg-perso-yellow-one text-perso-bg px-4 py-2 rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition"
+        >
+          Artiste suivant
+        </button>
+      </div>
+      <div className="flex flex-col xl:flex-row items-center gap-8">
         {artist.imageUrl && (
           <Image
             className="rounded"
@@ -129,7 +152,6 @@ const ArtistPage = () => {
           </div>
         </div>
       </div>
-
       {artist.codePlayer && artist.urlPlayer && (
         <Player codePlayer={artist.codePlayer} urlPlayer={artist.urlPlayer} />
       )}
