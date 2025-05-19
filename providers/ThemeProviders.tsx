@@ -11,12 +11,10 @@ const ThemeProviders = ({
 }: ThemeProviderProps) => {
   const [mounted, setMounted] = useState(false);
 
-  // Pour éviter les avertissements côté serveur, attendre que le client soit monté
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Si non monté, ne pas renvoyer de contenu (évite les écarts de rendu côté serveur et client)
   if (!mounted) {
     return <>{children}</>;
   }

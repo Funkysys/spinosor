@@ -40,13 +40,12 @@ const Events = () => {
     }
   }, [eventsData]);
 
-  // Fonction pour gérer le clic sur "En savoir plus"
   const handleLearnMore = (id: string) => {
     router.push(`/home/events/${id}`);
   };
 
   if (!isMounted) {
-    return null; // Attendre que le composant soit monté côté client
+    return null;
   }
 
   if (loading) {
@@ -57,7 +56,31 @@ const Events = () => {
     );
   }
 
-  return (
+  return eventsData.length === 0 ? (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-4xl font-bold text-perso-white-two tracking-wider mb-4">
+        <span className="text-5xl text-perso-green">À</span> venir
+      </h1>
+      <div className="relative mt-6">
+        <div className="w-32 h-1 bg-perso-green mb-8 relative">
+          <div
+            className={`absolute -top-1 left-0 w-3 h-3 bg-perso-green rounded-full ${
+              isMounted ? "animate-pulse" : ""
+            }`}
+          ></div>
+          <div className="absolute -top-1 right-0 w-3 h-3 bg-perso-green rounded-full"></div>
+        </div>
+      </div>
+      <p className="text-perso-white-two mt-2 text-lg opacity-80">
+        De nouveaux événements seront bientôt disponibles
+      </p>
+      <div className="mt-8 border border-perso-green/30 rounded-lg p-6 bg-black/20 backdrop-blur-sm">
+        <p className="text-perso-white-two/60 text-sm italic">
+          Revenez prochainement pour découvrir nos prochains concerts
+        </p>
+      </div>
+    </div>
+  ) : (
     <>
       <FuturEvents
         upcomingEvents={upcomingEvents}
