@@ -38,3 +38,12 @@ next-env.d.ts
 #env
 .env 
 .env/*
+
+# db/backups
+db_dump.bak
+postgres_only_utf8_nobom.sql
+postgres_only_utf8.sql
+postgres_only.sql
+
+# supabase
+/supabase
