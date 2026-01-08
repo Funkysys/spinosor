@@ -50,13 +50,13 @@ const Navbar = () => {
       animate={controls}
     >
       {/* Logo */}
-      <div className="md:hidden cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out">
+      <div className="md:hidden cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out rounded-md overflow-hidden">
         <Image
-          src="/assets/images/SPINOSOR.png"
+          src="/assets/images/spinosor_logo_light.jpeg"
           alt="Spinosor Records logo"
           onClick={() => router.push("/")}
-          width={135}
-          height={135}
+          width={185}
+          height={210}
         />
       </div>
 
@@ -72,13 +72,13 @@ const Navbar = () => {
 
       {/* Menu pour grands écrans */}
       <ul className="hidden md:flex items-center text-xl animate-fade-left animate-once animate-duration-[1000ms] animate-ease-in-out">
-        <div className="cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mr-5">
+        <div className="cursor-pointer animate-fade-right animate-once animate-duration-[1000ms] animate-ease-in-out mr-5 rounded-md overflow-hidden">
           <Image
-            src="/assets/images/SPINOSOR.png"
+            src="/assets/images/spinosor_logo_light.jpeg"
             alt="Spinosor Records logo"
             onClick={() => router.push("/")}
-            width={95}
-            height={80}
+            width={140}
+            height={150}
           />
         </div>
         <li

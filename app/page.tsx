@@ -8,11 +8,13 @@ export default function Home() {
         {/* Welcome to Spinosor Records */}
         Bienvenue chez Spinosor Records
       </h1>
-      <div className=" w-[50vh] h-[50vh] md:w-[80vh] md:h-[80vh]  relative animate-fade-up animate-once animate-duration-[3000ms] animate-ease-in-out">
+      <div className="w-[50vh] h-[50vh] md:w-[70vh] md:h-[70vh] mb-10 relative animate-fade-up animate-once animate-duration-[3000ms] animate-ease-in-out">
         <Image
-          src="/assets/images/spinosor_Logo.svg"
+          src="/assets/images/spinosor_logo.jpeg"
           alt="Spinosor Records logo"
-          fill
+          height={1000}
+          width={1000}
+          className="object-contain rounded-md "
         />
       </div>
       <HomeButton />

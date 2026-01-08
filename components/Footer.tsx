@@ -102,12 +102,12 @@ const Footer: React.FC = () => {
         <div className="hidden group-hover:flex flex-col justify-between items-center mt-2 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <div className="mr-3 cursor-pointer">
             <div className="flex items-center">
-              <Link href="/">
+              <Link href="/" className="rounded-md overflow-hidden block">
                 <Image
-                  src="/assets/images/SPINOSOR.png"
+                  src="/assets/images/spinosor_logo_light.jpeg"
                   alt="Spinosor Records logo"
-                  width={70}
-                  height={70}
+                  width={105}
+                  height={105}
                 />
               </Link>
               <Link href="/home/legal">
