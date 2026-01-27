@@ -76,6 +76,66 @@ const ArtistsDashboard: React.FC = () => {
 
   const { loading } = useProtectedRoute("ADMIN");
 
+  const handleAlbumUpdate = useCallback(async () => {
+    try {
+      setIsAlbumLoading(true);
+      console.log("Mise à jour des artistes...");
+
+      // Ajouter un petit délai pour s'assurer que la DB est synchronisée
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      }).then((res) => res.json());
+      console.log("Données artistes après mise à jour:", artistList);
+      const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      }).then((res) => res.json());
+      console.log("Données albums après mise à jour:", albumList);
+      if (!artistList) {
+        console.error("La liste des artistes est vide ou null");
+        toast.error("Erreur lors du rechargement des artistes");
+        return;
+      }
+
+      if (!artistList || !albumList) {
+        console.error("Les listes d'artistes ou d'albums sont vides ou null");
+        toast.error("Erreur lors du rechargement des données");
+        return;
+      }
+
+      const formattedArtists: ArtistWithAlbums[] = artistList.map(
+        (artist: Artist) => ({
+          ...artist,
+          bio: artist.bio ?? null,
+          genre: artist.genre ?? null,
+          imageUrl: artist.imageUrl ?? null,
+          videoUrl: artist.videoUrl ?? null,
+          codePlayer: artist.codePlayer ?? null,
+          urlPlayer: artist.urlPlayer ?? null,
+          socialLinks: artist.socialLinks
+            ? typeof artist.socialLinks === "string"
+              ? artist.socialLinks
+              : JSON.stringify(artist.socialLinks)
+            : null,
+          albums: albumList.filter(
+            (album: Album) => album.artistId === artist.id
+          ),
+        })
+      );
+
+      setArtists(formattedArtists);
+      toast.success("Artiste mis à jour avec succès !");
+    } catch (error) {
+      console.error("Erreur lors de la Maj de l'artiste:", error);
+      toast.error("Erreur lors de la Maj de l'artiste");
+    } finally {
+      setIsAlbumLoading(false);
+    }
+  }, []);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
@@ -182,66 +242,6 @@ const ArtistsDashboard: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  const handleAlbumUpdate = useCallback(async () => {
-    try {
-      setIsAlbumLoading(true);
-      console.log("Mise à jour des artistes...");
-
-      // Ajouter un petit délai pour s'assurer que la DB est synchronisée
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
-        cache: "no-store",
-        next: { revalidate: 0 },
-      }).then((res) => res.json());
-      console.log("Données artistes après mise à jour:", artistList);
-      const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
-        cache: "no-store",
-        next: { revalidate: 0 },
-      }).then((res) => res.json());
-      console.log("Données albums après mise à jour:", albumList);
-      if (!artistList) {
-        console.error("La liste des artistes est vide ou null");
-        toast.error("Erreur lors du rechargement des artistes");
-        return;
-      }
-
-      if (!artistList || !albumList) {
-        console.error("Les listes d'artistes ou d'albums sont vides ou null");
-        toast.error("Erreur lors du rechargement des données");
-        return;
-      }
-
-      const formattedArtists: ArtistWithAlbums[] = artistList.map(
-        (artist: Artist) => ({
-          ...artist,
-          bio: artist.bio ?? null,
-          genre: artist.genre ?? null,
-          imageUrl: artist.imageUrl ?? null,
-          videoUrl: artist.videoUrl ?? null,
-          codePlayer: artist.codePlayer ?? null,
-          urlPlayer: artist.urlPlayer ?? null,
-          socialLinks: artist.socialLinks
-            ? typeof artist.socialLinks === "string"
-              ? artist.socialLinks
-              : JSON.stringify(artist.socialLinks)
-            : null,
-          albums: albumList.filter(
-            (album: Album) => album.artistId === artist.id
-          ),
-        })
-      );
-
-      setArtists(formattedArtists);
-      toast.success("Artiste mis à jour avec succès !");
-    } catch (error) {
-      console.error("Erreur lors de la Maj de l'artiste:", error);
-      toast.error("Erreur lors de la Maj de l'artiste");
-    } finally {
-      setIsAlbumLoading(false);
-    }
-  }, []);
 
   const modalStyle = {
     overlay: {
