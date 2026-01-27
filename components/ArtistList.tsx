@@ -23,7 +23,7 @@ interface ArtistListProps {
   artists: ArtistWithAlbums[];
   onDelete: (id: string) => Promise<void>;
   isLoading: boolean;
-  onAlbumUpdate: () => void;
+  onAlbumUpdate: () => Promise<void>;
 }
 
 interface EditState {
@@ -269,9 +269,12 @@ const ArtistList: React.FC<ArtistListProps> = ({
         await createAlbum(albumFormData, album.links || []);
       }
 
+      // Mise à jour optimiste de l'état local avant de recharger
       setEditingId(null);
       toast.success("Artiste mis à jour avec succès !");
-      onAlbumUpdate();
+      
+      // Appel au callback pour recharger les données complètes
+      await onAlbumUpdate();
     } catch (error) {
       console.error("Error updating artist:", error);
       toast.error(

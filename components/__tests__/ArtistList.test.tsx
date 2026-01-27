@@ -88,6 +88,9 @@ describe("ArtistList Component", () => {
     isLoading: false,
   };
 
+  // Fonction mock pour onAlbumUpdate
+  const mockOnAlbumUpdate = jest.fn().mockResolvedValue(undefined);
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -95,9 +98,7 @@ describe("ArtistList Component", () => {
   it("renders artist information correctly", () => {
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -109,9 +110,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -130,9 +129,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -146,9 +143,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -168,9 +163,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -189,9 +182,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -212,9 +203,7 @@ describe("ArtistList Component", () => {
   it("handles loading state correctly", () => {
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
         isLoading={true}
       />
@@ -237,9 +226,7 @@ describe("ArtistList Component", () => {
         artists={[artistWithLinks]}
         onDelete={mockProps.onDelete}
         isLoading={false}
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
       />
     );
 
@@ -264,9 +251,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -284,9 +269,7 @@ describe("ArtistList Component", () => {
 
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -311,9 +294,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -334,9 +315,7 @@ describe("ArtistList Component", () => {
         artists={[]}
         onDelete={mockProps.onDelete}
         isLoading={false}
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
       />
     );
     const emptyMessage = screen.getByTestId("empty-artists-message");
@@ -354,9 +333,7 @@ describe("ArtistList Component", () => {
         artists={[artistWithInvalidLinks]}
         onDelete={mockProps.onDelete}
         isLoading={false}
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
       />
     );
     expect(
@@ -370,9 +347,7 @@ describe("ArtistList Component", () => {
 
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -401,9 +376,7 @@ describe("ArtistList Component", () => {
         artists={[artistWithoutImage]}
         onDelete={mockProps.onDelete}
         isLoading={false}
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
       />
     );
     await user.click(screen.getByTestId("edit-artist-button"));
@@ -419,9 +392,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
@@ -442,9 +413,7 @@ describe("ArtistList Component", () => {
     const user = userEvent.setup();
     render(
       <ArtistList
-        onAlbumUpdate={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onAlbumUpdate={mockOnAlbumUpdate}
         {...mockProps}
       />
     );
