@@ -57,9 +57,9 @@ const EventsDashboard: React.FC = () => {
     try {
       console.log("🚀 [handleEventCreation] Début de la création");
       console.log("📝 [handleEventCreation] FormData avant traitement:");
-      for (const [key, value] of formData.entries()) {
+      Array.from(formData.entries()).forEach(([key, value]) => {
         console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
-      }
+      });
       
       // Ajouter l'image sélectionnée depuis la galerie si elle existe
       if (selectedImage && !selectedImage.startsWith('blob:')) {

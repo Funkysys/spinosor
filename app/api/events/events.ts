@@ -4,9 +4,9 @@ import prisma from "@/lib/connect";
 
 export const createEvent = async (formData: FormData) => {
   console.log("🔧 [createEvent] FormData reçu:");
-  for (const [key, value] of formData.entries()) {
+  Array.from(formData.entries()).forEach(([key, value]) => {
     console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
-  }
+  });
   
   // Next.js peut préfixer les clés avec un numéro, on les nettoie
   const getFormValue = (key: string): string | File | null => {
@@ -15,7 +15,8 @@ export const createEvent = async (formData: FormData) => {
     if (direct) return direct as string | File;
     
     // Sinon chercher avec préfixe numérique (1_title, 2_title, etc.)
-    for (const [formKey, formValue] of formData.entries()) {
+    const entries = Array.from(formData.entries());
+    for (const [formKey, formValue] of entries) {
       if (formKey.endsWith(`_${key}`)) {
         return formValue as string | File;
       }
@@ -25,11 +26,11 @@ export const createEvent = async (formData: FormData) => {
   
   const getAllFormValues = (key: string): string[] => {
     const values: string[] = [];
-    for (const [formKey, formValue] of formData.entries()) {
+    Array.from(formData.entries()).forEach(([formKey, formValue]) => {
       if (formKey === key || formKey.endsWith(`_${key}`)) {
         values.push(formValue as string);
       }
-    }
+    });
     return values;
   };
   
