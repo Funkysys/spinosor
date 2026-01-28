@@ -66,6 +66,13 @@ export const updateArtist = async (
   formData: FormData,
   actualImage: string | null
 ) => {
+  console.log("🔧 [updateArtist] Début de la mise à jour pour l'artiste ID:", id);
+  console.log("📝 [updateArtist] FormData reçu:");
+  console.log("  - name:", formData.get("name"));
+  console.log("  - bio:", formData.get("bio")?.toString().substring(0, 50) + "...");
+  console.log("  - genre:", formData.get("genre"));
+  console.log("  - socialLinks:", formData.get("socialLinks"));
+  
   const updateData: {
     name?: string;
     bio?: string | null;
@@ -161,10 +168,12 @@ export const updateArtist = async (
 
   if (formData.has("socialLinks")) {
     const socialLinksString = formData.get("socialLinks") as string | null;
+    console.log("🔗 [updateArtist] socialLinks brut:", socialLinksString);
 
     if (socialLinksString) {
       try {
         const linksArray = JSON.parse(socialLinksString);
+        console.log("🔗 [updateArtist] socialLinks parsé:", linksArray);
 
         if (Array.isArray(linksArray)) {
           updateData.socialLinks = linksArray
@@ -175,6 +184,7 @@ export const updateArtist = async (
               return null;
             })
             .filter((item) => item !== null);
+          console.log("🔗 [updateArtist] socialLinks traité:", updateData.socialLinks);
         } else {
           console.error("Le format des liens sociaux n'est pas un tableau");
           updateData.socialLinks = []; // Valeur par défaut
@@ -188,7 +198,7 @@ export const updateArtist = async (
     }
   }
 
-  return await prisma.artist.update({
+  const updatedArtist = await prisma.artist.update({
     where: { id },
     data: {
       name: updateData.name,
@@ -202,6 +212,14 @@ export const updateArtist = async (
       slug: updateData.name?.toLowerCase().replace(" ", "-").toLowerCase(),
     },
   });
+
+  console.log("✅ [updateArtist] Artiste mis à jour dans la DB:");
+  console.log("  - ID:", updatedArtist.id);
+  console.log("  - name:", updatedArtist.name);
+  console.log("  - bio:", updatedArtist.bio?.substring(0, 50) + "...");
+  console.log("  - socialLinks:", updatedArtist.socialLinks);
+
+  return updatedArtist;
 };
 
 export const deleteArtist = async (artistId: string) => {

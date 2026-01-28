@@ -41,6 +41,8 @@ const ArtistEditPage: React.FC = () => {
   const fetchArtist = async () => {
     try {
       setIsLoading(true);
+      console.log("🔄 [fetchArtist] Début du chargement pour artistId:", artistId);
+      
       // Force le rechargement en ajoutant un timestamp
       const timestamp = Date.now();
       const response = await fetch(`/api/artists?t=${timestamp}`, {
@@ -56,7 +58,12 @@ const ArtistEditPage: React.FC = () => {
       }
 
       const artists = await response.json();
+      console.log("📦 [fetchArtist] Artistes récupérés:", artists.length, "artistes");
+      
       const foundArtist = artists.find((a: Artist) => a.id === artistId);
+      console.log("🎯 [fetchArtist] Artiste trouvé:", foundArtist?.name);
+      console.log("📝 [fetchArtist] Bio:", foundArtist?.bio?.substring(0, 50) + "...");
+      console.log("🔗 [fetchArtist] SocialLinks:", foundArtist?.socialLinks);
       
       if (!foundArtist) {
         throw new Error("Artiste non trouvé");
@@ -65,7 +72,9 @@ const ArtistEditPage: React.FC = () => {
       setArtist(foundArtist);
       
       // Important: mettre à jour les états locaux avec les nouvelles données
-      setBio(foundArtist.bio || "");
+      const newBio = foundArtist.bio || "";
+      setBio(newBio);
+      console.log("✏️ [fetchArtist] Bio mis à jour dans l'état local");
       
       const parsedLinks = foundArtist.socialLinks
         ? typeof foundArtist.socialLinks === "string"
@@ -73,13 +82,17 @@ const ArtistEditPage: React.FC = () => {
           : foundArtist.socialLinks
         : [];
       setLinks(parsedLinks);
+      console.log("🔗 [fetchArtist] Links mis à jour dans l'état local:", parsedLinks);
+      
       setAlbumFormsUpdate(foundArtist.albums || []);
+      console.log("💿 [fetchArtist] Albums mis à jour:", foundArtist.albums?.length || 0);
     } catch (error) {
-      console.error("Erreur lors de la récupération de l'artiste:", error);
+      console.error("❌ [fetchArtist] Erreur lors de la récupération de l'artiste:", error);
       toast.error("Impossible de charger l'artiste");
       router.push("/admin/artist");
     } finally {
       setIsLoading(false);
+      console.log("✅ [fetchArtist] Chargement terminé");
     }
   };
 
@@ -92,6 +105,10 @@ const ArtistEditPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!artist) return;
+
+    console.log("💾 [handleSubmit] Début de la sauvegarde");
+    console.log("📝 [handleSubmit] Bio actuelle dans l'état:", bio.substring(0, 50) + "...");
+    console.log("🔗 [handleSubmit] Links actuels dans l'état:", links);
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
@@ -129,7 +146,12 @@ const ArtistEditPage: React.FC = () => {
       formData.append("codePlayer", codePlayer);
       formData.append("urlPlayer", urlPlayer);
 
-      await updateArtist(artist.id, formData, artist.imageUrl);
+      console.log("📤 [handleSubmit] Envoi à updateArtist avec:");
+      console.log("  - bio:", bio.substring(0, 50) + "...");
+      console.log("  - socialLinks:", JSON.stringify(links));
+
+      const updatedArtist = await updateArtist(artist.id, formData, artist.imageUrl);
+      console.log("✅ [handleSubmit] Réponse de updateArtist:", updatedArtist);
 
       // Mise à jour des albums existants
       for (const album of validUpdatedAlbums) {
@@ -169,16 +191,19 @@ const ArtistEditPage: React.FC = () => {
 
       toast.success("Artiste mis à jour avec succès !");
       
+      console.log("⏳ [handleSubmit] Attente de 500ms avant refetch...");
       // Petit délai pour s'assurer que la DB est synchronisée
       await new Promise((resolve) => setTimeout(resolve, 500));
       
+      console.log("🔄 [handleSubmit] Lancement du refetch...");
       // Recharger les données avec invalidation du cache
       await fetchArtist();
       
       // Réinitialiser les formulaires de création
       setAlbumFormsCreation([]);
+      console.log("✅ [handleSubmit] Sauvegarde terminée avec succès");
     } catch (error) {
-      console.error("Erreur lors de la mise à jour:", error);
+      console.error("❌ [handleSubmit] Erreur lors de la mise à jour:", error);
       toast.error("Une erreur est survenue lors de la mise à jour");
     } finally {
       setIsSaving(false);
