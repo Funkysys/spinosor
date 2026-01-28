@@ -23,6 +23,7 @@ export const ArtistBioEditor: React.FC<ArtistBioEditorProps> = ({
     <div className="bg-gray-800 p-6 rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Biographie</h2>
       <ReactQuill
+        key={bio} // Force re-render when bio changes
         theme="snow"
         value={bio}
         onChange={onBioChange}

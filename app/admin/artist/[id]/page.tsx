@@ -280,7 +280,7 @@ const ArtistEditPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6">Éditer : {artist.name}</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <ArtistBasicInfoForm artist={artist} />
+          <ArtistBasicInfoForm key={artist.id + artist.updatedAt.toString()} artist={artist} />
 
           <ArtistBioEditor bio={bio} onBioChange={setBio} />
 
