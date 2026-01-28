@@ -160,6 +160,27 @@ const EventsDashboard: React.FC = () => {
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
+          
+          // Validation manuelle des champs requis
+          const title = formData.get("title") as string;
+          const location = formData.get("location") as string;
+          const date = formData.get("date") as string;
+          
+          if (!title?.trim()) {
+            alert("Le titre est obligatoire");
+            return;
+          }
+          
+          if (!location?.trim()) {
+            alert("Le lieu est obligatoire");
+            return;
+          }
+          
+          if (!date) {
+            alert("La date est obligatoire");
+            return;
+          }
+          
           handleEventCreation(formData);
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
@@ -172,7 +193,6 @@ const EventsDashboard: React.FC = () => {
           type="text"
           name="title"
           placeholder="Titre"
-          required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="description" className="text-sm text-slate-400">
@@ -190,7 +210,6 @@ const EventsDashboard: React.FC = () => {
           type="text"
           name="location"
           placeholder="Lieu"
-          required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="date" className="text-sm text-slate-400">
@@ -199,7 +218,6 @@ const EventsDashboard: React.FC = () => {
         <input
           type="datetime-local"
           name="date"
-          required
           className="w-full p-2 mb-4 bg-gray-700 border border-gray-600 rounded"
         />
         <label htmlFor="ticketLink" className="text-sm text-slate-400">
