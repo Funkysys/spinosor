@@ -7,10 +7,12 @@ import ModaleImageSelection from "@/components/ModaleImageSelection";
 import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { EventType } from "@/types"; // Assurez-vous que le chemin est correct
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 
 const EventsDashboard: React.FC = () => {
+  const router = useRouter();
   const [events, setEvents] = useState<EventType[]>([]);
   const [artists, setArtists] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -111,10 +113,25 @@ const EventsDashboard: React.FC = () => {
 
   const handleEventDeletion = async (id: string) => {
     setIsLoading(true);
-    await deleteEvent(id);
-    const result = await fetch("/api/events").then((res) => res.json());
-    setEvents(result);
-    setIsLoading(false);
+    try {
+      await deleteEvent(id);
+      
+      // Forcer le rafraîchissement du router pour invalider le cache
+      router.refresh();
+      
+      // Attendre un peu pour que le cache soit invalidé
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      
+      // Recharger la liste des événements
+      const result = await fetch("/api/events", { cache: "no-store" }).then(
+        (res) => res.json(),
+      );
+      setEvents(result);
+    } catch (error) {
+      console.error("❌ Erreur lors de la suppression:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleArtistChange = (selectedOptions: any) => {
