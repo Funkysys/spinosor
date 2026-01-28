@@ -31,20 +31,16 @@ const ArtistsDashboard: React.FC = () => {
         setIsLoading(true);
         const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
           cache: "no-store",
-          next: { revalidate: 1 },
-        }).then((res) => res.json());
-        const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
-          cache: "no-store",
-          next: { revalidate: 1 },
+          next: { revalidate: 0 },
         }).then((res) => res.json());
 
-        if (!artistList) {
+        if (!artistList || !Array.isArray(artistList)) {
           console.error("La liste des artistes est vide ou null");
           return;
         }
 
         const formattedArtists: ArtistWithAlbums[] = artistList.map(
-          (artist: Artist) => ({
+          (artist: Artist & { albums?: Album[] }) => ({
             ...artist,
             bio: artist.bio ?? null,
             genre: artist.genre ?? null,
@@ -57,9 +53,7 @@ const ArtistsDashboard: React.FC = () => {
                 ? artist.socialLinks
                 : JSON.stringify(artist.socialLinks)
               : null,
-            albums: albumList.filter(
-              (album: Album) => album.artistId === artist.id
-            ),
+            albums: artist.albums || [],
           })
         );
 
@@ -79,35 +73,30 @@ const ArtistsDashboard: React.FC = () => {
   const handleAlbumUpdate = useCallback(async () => {
     try {
       setIsAlbumLoading(true);
-      console.log("Mise à jour des artistes...");
+      console.log("Rechargement des artistes...");
 
       // Ajouter un petit délai pour s'assurer que la DB est synchronisée
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
+      const timestamp = Date.now();
+      const artistList = await fetch(`/api/artists?t=${timestamp}`, {
         cache: "no-store",
         next: { revalidate: 0 },
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
       }).then((res) => res.json());
+
       console.log("Données artistes après mise à jour:", artistList);
-      const albumList = await fetch(`/api/albums?t=${Date.now()}`, {
-        cache: "no-store",
-        next: { revalidate: 0 },
-      }).then((res) => res.json());
-      console.log("Données albums après mise à jour:", albumList);
-      if (!artistList) {
+
+      if (!artistList || !Array.isArray(artistList)) {
         console.error("La liste des artistes est vide ou null");
         toast.error("Erreur lors du rechargement des artistes");
         return;
       }
 
-      if (!artistList || !albumList) {
-        console.error("Les listes d'artistes ou d'albums sont vides ou null");
-        toast.error("Erreur lors du rechargement des données");
-        return;
-      }
-
       const formattedArtists: ArtistWithAlbums[] = artistList.map(
-        (artist: Artist) => ({
+        (artist: Artist & { albums?: Album[] }) => ({
           ...artist,
           bio: artist.bio ?? null,
           genre: artist.genre ?? null,
@@ -120,17 +109,15 @@ const ArtistsDashboard: React.FC = () => {
               ? artist.socialLinks
               : JSON.stringify(artist.socialLinks)
             : null,
-          albums: albumList.filter(
-            (album: Album) => album.artistId === artist.id
-          ),
+          albums: artist.albums || [],
         })
       );
 
       setArtists(formattedArtists);
       toast.success("Artiste mis à jour avec succès !");
     } catch (error) {
-      console.error("Erreur lors de la Maj de l'artiste:", error);
-      toast.error("Erreur lors de la Maj de l'artiste");
+      console.error("Erreur lors de la maj de l'artiste:", error);
+      toast.error("Erreur lors de la mise à jour");
     } finally {
       setIsAlbumLoading(false);
     }
