@@ -4,7 +4,7 @@ const FuturEvents = ({
   handleLearnMore,
 }: {
   upcomingEvents: Event[];
-  handleLearnMore: (id: string) => void;
+  handleLearnMore: (slug: string) => void;
 }) => {
   return (
     <div className="mb-12">
@@ -31,11 +31,17 @@ const FuturEvents = ({
               <tr key={event.id}>
                 <td className="py-2 px-4 border-b">{event.title}</td>
                 <td className="py-2 px-4 border-b">
-                  {new Date(event.date).toLocaleString()}
+                  {new Date(event.date).toLocaleString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    onClick={() => handleLearnMore(event.id)}
+                    onClick={() => handleLearnMore(event.slug)}
                     className="bg-perso-yellow-one text-perso-bg px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
                   >
                     En savoir +

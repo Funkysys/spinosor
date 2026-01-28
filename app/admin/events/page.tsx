@@ -115,13 +115,13 @@ const EventsDashboard: React.FC = () => {
     setIsLoading(true);
     try {
       await deleteEvent(id);
-      
+
       // Forcer le rafraîchissement du router pour invalider le cache
       router.refresh();
-      
+
       // Attendre un peu pour que le cache soit invalidé
       await new Promise((resolve) => setTimeout(resolve, 300));
-      
+
       // Recharger la liste des événements
       const result = await fetch("/api/events", { cache: "no-store" }).then(
         (res) => res.json(),
@@ -141,8 +141,13 @@ const EventsDashboard: React.FC = () => {
     setShowModal(value);
     if (string === "events") {
       const fetchGalerie = async () => {
-        const images = await fetch("/api/services/events-img").then((res) =>
+        // Récupérer les images des artistes pour les événements
+        const images = await fetch("/api/services/artists-img").then((res) =>
           res.json(),
+        );
+        console.log(
+          "🖼️ [showModalFunc] Images d'artistes récupérées:",
+          images.length,
         );
         setGalerie(images);
       };
@@ -160,17 +165,17 @@ const EventsDashboard: React.FC = () => {
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
-          
+
           console.log("📋 [Form] Validation - Toutes les clés FormData:");
           Array.from(formData.entries()).forEach(([key, value]) => {
             console.log(`  ${key}:`, value);
           });
-          
+
           // Helper pour récupérer les valeurs même si elles sont préfixées
           const getFormValue = (key: string): string => {
             const direct = formData.get(key);
             if (direct) return direct as string;
-            
+
             // Chercher avec préfixe numérique
             const entries = Array.from(formData.entries());
             for (const [formKey, formValue] of entries) {
@@ -180,29 +185,36 @@ const EventsDashboard: React.FC = () => {
             }
             return "";
           };
-          
+
           // Validation manuelle des champs requis
           const title = getFormValue("title");
           const location = getFormValue("location");
           const date = getFormValue("date");
-          
-          console.log("✅ [Form] Valeurs extraites:", { title, location, date });
-          
+
+          console.log("✅ [Form] Valeurs extraites:", {
+            title,
+            location,
+            date,
+          });
+          console.log("📅 [Form] Date brute:", date);
+          console.log("📅 [Form] Date valide?", date && date.length > 0);
+          console.log("📅 [Form] Format datetime-local attendu: YYYY-MM-DDTHH:mm");
+
           if (!title?.trim()) {
             alert("Le titre est obligatoire");
             return;
           }
-          
+
           if (!location?.trim()) {
             alert("Le lieu est obligatoire");
             return;
           }
-          
-          if (!date) {
+
+          if (!date || date.trim() === "") {
             alert("La date est obligatoire");
             return;
           }
-          
+
           handleEventCreation(formData);
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"

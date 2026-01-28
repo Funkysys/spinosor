@@ -40,8 +40,8 @@ const Events = () => {
     }
   }, [eventsData]);
 
-  const handleLearnMore = (id: string) => {
-    router.push(`/home/events/${id}`);
+  const handleLearnMore = (slug: string) => {
+    router.push(`/home/events/${slug}`);
   };
 
   if (!isMounted) {
