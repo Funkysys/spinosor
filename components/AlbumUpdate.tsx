@@ -20,10 +20,10 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
 }) => {
   const [title, setTitle] = useState(albumData.title);
   const [releaseDate, setReleaseDate] = useState<Date>(
-    albumData.releaseDate ? new Date(albumData.releaseDate) : new Date()
+    albumData.releaseDate ? new Date(albumData.releaseDate) : new Date(),
   );
   const [tempAlbumLinks, setTempAlbumLinks] = useState<Link[]>(
-    albumData.links ? (albumData.links as unknown as Link[]) : []
+    albumData.links ? (albumData.links as unknown as Link[]) : [],
   );
 
   const previousDataRef = useRef<Album | null>(null);
@@ -65,20 +65,20 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
 
   const handleOnChangeAlbumLinkName = (
     data: React.ChangeEvent<HTMLInputElement>,
-    el: Link
+    el: Link,
   ) => {
     const updatedLinks = tempAlbumLinks.map((item) =>
-      item.id === el.id ? { ...item, name: data.target.value } : item
+      item.id === el.id ? { ...item, name: data.target.value } : item,
     );
     setTempAlbumLinks(updatedLinks);
   };
 
   const handleOnChangeAlbumLinkUrl = (
     data: React.ChangeEvent<HTMLInputElement>,
-    el: Link
+    el: Link,
   ) => {
     const updatedLinks = tempAlbumLinks.map((item) =>
-      item.id === el.id ? { ...item, url: data.target.value } : item
+      item.id === el.id ? { ...item, url: data.target.value } : item,
     );
     setTempAlbumLinks(updatedLinks);
   };

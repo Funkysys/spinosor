@@ -23,14 +23,14 @@ const EventsDashboard: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       const result = await fetch("/api/events", { cache: "no-store" }).then(
-        (res) => res.json()
+        (res) => res.json(),
       );
       setEvents(result);
     };
 
     const fetchArtists = async () => {
       const artistList = await fetch("/api/artists/ids-and-names").then((res) =>
-        res.json()
+        res.json(),
       );
       setArtists(artistList);
     };
@@ -58,31 +58,42 @@ const EventsDashboard: React.FC = () => {
       console.log("🚀 [handleEventCreation] Début de la création");
       console.log("📝 [handleEventCreation] FormData avant traitement:");
       Array.from(formData.entries()).forEach(([key, value]) => {
-        console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
+        console.log(
+          `  ${key}:`,
+          value instanceof File ? `File(${value.name})` : value,
+        );
       });
-      
+
       // Ajouter l'image sélectionnée depuis la galerie si elle existe
-      if (selectedImage && !selectedImage.startsWith('blob:')) {
+      if (selectedImage && !selectedImage.startsWith("blob:")) {
         formData.append("url", selectedImage);
-        console.log("🖼️ [handleEventCreation] Image de galerie ajoutée:", selectedImage);
+        console.log(
+          "🖼️ [handleEventCreation] Image de galerie ajoutée:",
+          selectedImage,
+        );
       }
-      
+
       // Ajouter les artistes sélectionnés
       formData.delete("artists"); // Supprimer d'abord
       selectedArtists.forEach((artist) => {
         formData.append("artists", artist.value);
       });
-      console.log("👥 [handleEventCreation] Artistes:", selectedArtists.map(a => a.value));
-      
+      console.log(
+        "👥 [handleEventCreation] Artistes:",
+        selectedArtists.map((a) => a.value),
+      );
+
       console.log("📤 [handleEventCreation] Appel de createEvent...");
       await createEvent(formData);
-      
+
       console.log("✅ [handleEventCreation] Événement créé avec succès");
-      
+
       // Rafraîchir la liste
-      const result = await fetch("/api/events", { cache: "no-store" }).then((res) => res.json());
+      const result = await fetch("/api/events", { cache: "no-store" }).then(
+        (res) => res.json(),
+      );
       setEvents(result);
-      
+
       // Réinitialiser le formulaire
       resetForm();
       setSelectedArtists([]);
@@ -114,7 +125,7 @@ const EventsDashboard: React.FC = () => {
     if (string === "events") {
       const fetchGalerie = async () => {
         const images = await fetch("/api/services/events-img").then((res) =>
-          res.json()
+          res.json(),
         );
         setGalerie(images);
       };
@@ -269,7 +280,7 @@ const EventsDashboard: React.FC = () => {
               onUpdate={async (id: string, formData: FormData) => {
                 await updateEvent(id, formData);
                 const result = await fetch("/api/events").then((res) =>
-                  res.json()
+                  res.json(),
                 );
                 setEvents(result);
               }}

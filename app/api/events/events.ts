@@ -1,6 +1,7 @@
 "use server";
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
+import { revalidatePath } from "next/cache";
 
 export const createEvent = async (formData: FormData) => {
   console.log("🔧 [createEvent] FormData reçu:");
@@ -99,6 +100,13 @@ export const createEvent = async (formData: FormData) => {
     },
   });
   
+  // Invalider le cache Next.js
+  revalidatePath('/api/events');
+  revalidatePath('/admin/events');
+  revalidatePath('/home/events');
+  revalidatePath(`/home/events/${event.id}`);
+  console.log("🔄 [createEvent] Cache invalidé");
+  
   console.log("✅ [createEvent] Événement créé:", event.id);
   return event;
 };
@@ -136,10 +144,18 @@ export const updateEvent = async (id: string, formData: FormData) => {
     updateData.ticketLink = formData.get("ticketLink") as string | null;
   }
 
-  return await prisma.event.update({
+  const updatedEvent = await prisma.event.update({
     where: { id },
     data: updateData,
   });
+  
+  // Invalider le cache
+  revalidatePath('/api/events');
+  revalidatePath('/admin/events');
+  revalidatePath('/home/events');
+  revalidatePath(`/home/events/${id}`);
+  
+  return updatedEvent;
 };
 
 export const deleteEvent = async (eventId: string) => {
@@ -165,5 +181,10 @@ export const deleteEvent = async (eventId: string) => {
     console.error("Erreur lors de la suppression sur Cloudinary :", error);
   }
 
+  // Invalider le cache
+  revalidatePath('/api/events');
+  revalidatePath('/admin/events');
+  revalidatePath('/home/events');
+  
   return event;
 };

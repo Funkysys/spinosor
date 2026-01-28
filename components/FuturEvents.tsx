@@ -31,7 +31,7 @@ const FuturEvents = ({
               <tr key={event.id}>
                 <td className="py-2 px-4 border-b">{event.title}</td>
                 <td className="py-2 px-4 border-b">
-                  {event.date.toLocaleString()}
+                  {new Date(event.date).toLocaleString()}
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button

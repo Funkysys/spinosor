@@ -21,6 +21,9 @@ const PastEvents = ({
             <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
               Date
             </th>
+            <th className="py-2 px-4 border-b-2 border-perso-yellow-one">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -29,19 +32,21 @@ const PastEvents = ({
               <tr key={event.id}>
                 <td className="py-2 px-4 border-b">{event.title}</td>
                 <td className="py-2 px-4 border-b">
-                  {event.date.toLocaleString()}
+                  {new Date(event.date).toLocaleString()}
                 </td>
-                <button
-                  onClick={() => handleLearnMore(event.id)}
-                  className="bg-perso-yellow-one text-perso-bg px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
-                >
-                  En savoir +
-                </button>
+                <td className="py-2 px-4 border-b">
+                  <button
+                    onClick={() => handleLearnMore(event.id)}
+                    className="bg-perso-yellow-one text-perso-bg px-4 py-2 rounded hover:bg-red-400 hover:text-perso-bg transition"
+                  >
+                    En savoir +
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={2} className="py-2 px-4 text-center">
+              <td colSpan={3} className="py-2 px-4 text-center">
                 {`Pas d'événements passés.`}
               </td>
             </tr>
