@@ -161,10 +161,32 @@ const EventsDashboard: React.FC = () => {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
           
+          console.log("📋 [Form] Validation - Toutes les clés FormData:");
+          Array.from(formData.entries()).forEach(([key, value]) => {
+            console.log(`  ${key}:`, value);
+          });
+          
+          // Helper pour récupérer les valeurs même si elles sont préfixées
+          const getFormValue = (key: string): string => {
+            const direct = formData.get(key);
+            if (direct) return direct as string;
+            
+            // Chercher avec préfixe numérique
+            const entries = Array.from(formData.entries());
+            for (const [formKey, formValue] of entries) {
+              if (formKey.endsWith(`_${key}`)) {
+                return formValue as string;
+              }
+            }
+            return "";
+          };
+          
           // Validation manuelle des champs requis
-          const title = formData.get("title") as string;
-          const location = formData.get("location") as string;
-          const date = formData.get("date") as string;
+          const title = getFormValue("title");
+          const location = getFormValue("location");
+          const date = getFormValue("date");
+          
+          console.log("✅ [Form] Valeurs extraites:", { title, location, date });
           
           if (!title?.trim()) {
             alert("Le titre est obligatoire");
