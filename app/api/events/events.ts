@@ -3,19 +3,58 @@ import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 
 export const createEvent = async (formData: FormData) => {
-  const title = formData.get("title") as string;
-  const description = formData.get("description") as string | null;
-  const location = formData.get("location") as string;
-  const date = new Date(formData.get("date") as string);
-  const ticketLink = formData.get("ticketLink") as string | null;
-  const artistIds = formData.getAll("artists") as string[];
-  const imageFile = formData.get("imageFile") as File;
-  const url = formData.get("url") as string | null;
+  console.log("🔧 [createEvent] FormData reçu:");
+  for (const [key, value] of formData.entries()) {
+    console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
+  }
+  
+  // Next.js peut préfixer les clés avec un numéro, on les nettoie
+  const getFormValue = (key: string): string | File | null => {
+    // Essayer d'abord la clé normale
+    const direct = formData.get(key);
+    if (direct) return direct as string | File;
+    
+    // Sinon chercher avec préfixe numérique (1_title, 2_title, etc.)
+    for (const [formKey, formValue] of formData.entries()) {
+      if (formKey.endsWith(`_${key}`)) {
+        return formValue as string | File;
+      }
+    }
+    return null;
+  };
+  
+  const getAllFormValues = (key: string): string[] => {
+    const values: string[] = [];
+    for (const [formKey, formValue] of formData.entries()) {
+      if (formKey === key || formKey.endsWith(`_${key}`)) {
+        values.push(formValue as string);
+      }
+    }
+    return values;
+  };
+  
+  const title = getFormValue("title") as string;
+  const description = getFormValue("description") as string | null;
+  const location = getFormValue("location") as string;
+  const dateStr = getFormValue("date") as string;
+  const date = new Date(dateStr);
+  const ticketLink = getFormValue("ticketLink") as string | null;
+  const artistIds = getAllFormValues("artists");
+  const imageFile = getFormValue("imageFile") as File;
+  const url = getFormValue("url") as string | null;
+  
+  console.log("📋 [createEvent] Données extraites:");
+  console.log("  title:", title);
+  console.log("  location:", location);
+  console.log("  date:", date);
+  console.log("  artistIds:", artistIds);
 
   let imageUrl = "";
-  if (url && imageFile.size === 0) {
+  if (url && (!imageFile || imageFile.size === 0)) {
     imageUrl = url;
-  } else if (imageFile) {
+    console.log("🖼️ [createEvent] Utilisation de l'image depuis URL:", url);
+  } else if (imageFile && imageFile.size > 0) {
+    console.log("📤 [createEvent] Upload de l'image vers Cloudinary...");
     const base64Data = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Data);
 
@@ -43,7 +82,8 @@ export const createEvent = async (formData: FormData) => {
     }
   }
 
-  return await prisma.event.create({
+  console.log("💾 [createEvent] Création de l'événement dans la DB...");
+  const event = await prisma.event.create({
     data: {
       title,
       description,
@@ -57,6 +97,9 @@ export const createEvent = async (formData: FormData) => {
       },
     },
   });
+  
+  console.log("✅ [createEvent] Événement créé:", event.id);
+  return event;
 };
 
 export const updateEvent = async (id: string, formData: FormData) => {

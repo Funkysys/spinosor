@@ -55,9 +55,16 @@ const EventsDashboard: React.FC = () => {
   const handleEventCreation = async (formData: FormData) => {
     setIsLoading(true);
     try {
+      console.log("🚀 [handleEventCreation] Début de la création");
+      console.log("📝 [handleEventCreation] FormData avant traitement:");
+      for (const [key, value] of formData.entries()) {
+        console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
+      }
+      
       // Ajouter l'image sélectionnée depuis la galerie si elle existe
       if (selectedImage && !selectedImage.startsWith('blob:')) {
         formData.append("url", selectedImage);
+        console.log("🖼️ [handleEventCreation] Image de galerie ajoutée:", selectedImage);
       }
       
       // Ajouter les artistes sélectionnés
@@ -65,8 +72,12 @@ const EventsDashboard: React.FC = () => {
       selectedArtists.forEach((artist) => {
         formData.append("artists", artist.value);
       });
+      console.log("👥 [handleEventCreation] Artistes:", selectedArtists.map(a => a.value));
       
+      console.log("📤 [handleEventCreation] Appel de createEvent...");
       await createEvent(formData);
+      
+      console.log("✅ [handleEventCreation] Événement créé avec succès");
       
       // Rafraîchir la liste
       const result = await fetch("/api/events", { cache: "no-store" }).then((res) => res.json());
@@ -75,8 +86,9 @@ const EventsDashboard: React.FC = () => {
       // Réinitialiser le formulaire
       resetForm();
       setSelectedArtists([]);
+      console.log("🔄 [handleEventCreation] Formulaire réinitialisé");
     } catch (error) {
-      console.error("Erreur lors de la création de l'événement:", error);
+      console.error("❌ [handleEventCreation] Erreur:", error);
     } finally {
       setIsLoading(false);
     }
