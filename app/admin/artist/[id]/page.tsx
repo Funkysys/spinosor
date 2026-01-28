@@ -41,8 +41,14 @@ const ArtistEditPage: React.FC = () => {
   const fetchArtist = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/artists?t=${Date.now()}`, {
+      // Force le rechargement en ajoutant un timestamp
+      const timestamp = Date.now();
+      const response = await fetch(`/api/artists?t=${timestamp}`, {
         cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+        },
       });
       
       if (!response.ok) {
@@ -57,6 +63,8 @@ const ArtistEditPage: React.FC = () => {
       }
 
       setArtist(foundArtist);
+      
+      // Important: mettre à jour les états locaux avec les nouvelles données
       setBio(foundArtist.bio || "");
       
       const parsedLinks = foundArtist.socialLinks
@@ -161,7 +169,10 @@ const ArtistEditPage: React.FC = () => {
 
       toast.success("Artiste mis à jour avec succès !");
       
-      // Recharger les données
+      // Petit délai pour s'assurer que la DB est synchronisée
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      
+      // Recharger les données avec invalidation du cache
       await fetchArtist();
       
       // Réinitialiser les formulaires de création
