@@ -2,6 +2,7 @@
 import cloudinary from "@/lib/cloudinary";
 import prisma from "@/lib/connect";
 import { JsonArray } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
 export const createArtist = async (formData: FormData, link: JsonArray) => {
   const name = formData.get("name") as string;
@@ -218,6 +219,12 @@ export const updateArtist = async (
   console.log("  - name:", updatedArtist.name);
   console.log("  - bio:", updatedArtist.bio?.substring(0, 50) + "...");
   console.log("  - socialLinks:", updatedArtist.socialLinks);
+
+  // Invalider le cache Next.js pour les routes concernées
+  revalidatePath('/api/artists');
+  revalidatePath(`/admin/artist/${id}`);
+  revalidatePath(`/home/artists/${updatedArtist.slug}`);
+  console.log("🔄 [updateArtist] Cache invalidé pour les routes");
 
   return updatedArtist;
 };

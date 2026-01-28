@@ -220,13 +220,16 @@ const ArtistEditPage: React.FC = () => {
 
       toast.success("Artiste mis à jour avec succès !");
       
-      console.log("⏳ [handleSubmit] Attente de 500ms avant refetch...");
-      // Petit délai pour s'assurer que la DB est synchronisée
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.log("🔄 [handleSubmit] Invalidation du cache et rechargement...");
+      // Forcer le rafraîchissement du router pour invalider le cache côté client
+      router.refresh();
       
-      console.log("🔄 [handleSubmit] Lancement du refetch...");
-      // Recharger les données avec invalidation du cache
+      // Petit délai pour s'assurer que le cache est invalidé
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      
+      // Recharger les données
       await fetchArtist();
+      console.log("✅ [handleSubmit] Données rafraîchies");
       
       // Réinitialiser les formulaires de création
       setAlbumFormsCreation([]);
