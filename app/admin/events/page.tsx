@@ -54,29 +54,32 @@ const EventsDashboard: React.FC = () => {
 
   const handleEventCreation = async (formData: FormData) => {
     setIsLoading(true);
-    if (selectedImage) {
-      formData.append("url", selectedImage);
-    } else {
-      const imageFile = formData.get("imageFile") as File | null;
-
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(imageFile); // Lire le fichier en tant que tableau de bytes
-        reader.onloadend = async () => {
-          formData.append("imageFile", reader.result as string);
-          await createEvent(formData);
-          resetForm();
-          const result = await fetch("/api/events").then((res) => res.json());
-          setEvents(result as EventType[]);
-          setIsLoading(false);
-        };
+    try {
+      // Ajouter l'image sélectionnée depuis la galerie si elle existe
+      if (selectedImage && !selectedImage.startsWith('blob:')) {
+        formData.append("url", selectedImage);
       }
+      
+      // Ajouter les artistes sélectionnés
+      formData.delete("artists"); // Supprimer d'abord
+      selectedArtists.forEach((artist) => {
+        formData.append("artists", artist.value);
+      });
+      
+      await createEvent(formData);
+      
+      // Rafraîchir la liste
+      const result = await fetch("/api/events", { cache: "no-store" }).then((res) => res.json());
+      setEvents(result);
+      
+      // Réinitialiser le formulaire
+      resetForm();
+      setSelectedArtists([]);
+    } catch (error) {
+      console.error("Erreur lors de la création de l'événement:", error);
+    } finally {
+      setIsLoading(false);
     }
-    await createEvent(formData);
-    resetForm();
-    const result = await fetch("/api/events").then((res) => res.json());
-    setEvents(result as EventType[]);
-    setIsLoading(false);
   };
 
   const handleImageSelection = (imageUrl: string) => {
@@ -96,9 +99,9 @@ const EventsDashboard: React.FC = () => {
   };
   const showModalFunc = (value: boolean, string: string) => {
     setShowModal(value);
-    if (string === "artistes") {
+    if (string === "events") {
       const fetchGalerie = async () => {
-        const images = await fetch("/api/artists-img").then((res) =>
+        const images = await fetch("/api/services/events-img").then((res) =>
           res.json()
         );
         setGalerie(images);
@@ -117,15 +120,6 @@ const EventsDashboard: React.FC = () => {
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.target as HTMLFormElement);
-          // Obtenir les artistes sélectionnés à partir du menu déroulant
-          const selectedArtists = formData.getAll("artists") as string[];
-
-          // S'assurer qu'ils sont bien ajoutés dans le FormData sous forme de tableau JSON
-          formData.set("artists", JSON.stringify(selectedArtists));
-          formData.delete("artists"); // Supprimer l'ancienne valeur
-          selectedArtists.forEach((artistId) =>
-            formData.append("artists", artistId)
-          );
           handleEventCreation(formData);
         }}
         className="bg-gray-800 p-5 rounded-lg shadow-lg mb-10"
@@ -181,7 +175,7 @@ const EventsDashboard: React.FC = () => {
           <h2 className="text-lg mb-2">Sélectionner une image</h2>
           <button
             type="button"
-            onClick={() => showModalFunc(true, "artistes")}
+            onClick={() => showModalFunc(true, "events")}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 mr-2"
             disabled={isLoading}
           >
