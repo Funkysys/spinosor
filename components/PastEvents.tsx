@@ -32,12 +32,12 @@ const PastEvents = ({
               <tr key={event.id}>
                 <td className="py-2 px-4 border-b">{event.title}</td>
                 <td className="py-2 px-4 border-b">
-                  {new Date(event.date).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
+                  {new Date(event.date).toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
                   })}
                 </td>
                 <td className="py-2 px-4 border-b">

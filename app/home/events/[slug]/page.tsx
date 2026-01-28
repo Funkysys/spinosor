@@ -18,8 +18,12 @@ const EventPage = () => {
     const fetchEvent = async () => {
       try {
         const eventData = await fetch(`/api/events/by-slug?slug=${slug}`).then(
-          (res) => res.json()
+          (res) => res.json(),
         );
+
+        console.log("📅 [EventPage] Event reçu:", eventData);
+        console.log("📅 [EventPage] Date brute:", eventData?.date);
+        console.log("📅 [EventPage] Type de date:", typeof eventData?.date);
 
         if (eventData) {
           setEvent(eventData as EventWithArtists);
@@ -39,10 +43,16 @@ const EventPage = () => {
     if (!event) {
       return;
     }
+    console.log("📅 [EventPage] Formatage de la date pour:", event.date);
     const eventDate = new Date(event.date);
-    setFormattedDate(eventDate.toLocaleDateString());
+    console.log("📅 [EventPage] Date parsée:", eventDate);
+    console.log("📅 [EventPage] Date valide?", !isNaN(eventDate.getTime()));
+    setFormattedDate(eventDate.toLocaleDateString("fr-FR"));
     setFormattedTime(
-      eventDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      eventDate.toLocaleTimeString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     );
   }, [event]);
 
@@ -105,7 +115,7 @@ const EventPage = () => {
           </div>
           {event.ticketLink && (
             <div className="w-full text-center">
-              <Link href={event.ticketLink}>
+              <Link href={event.ticketLink} target="_blank">
                 <button className="mt-6 bg-perso-yellow-one px-6 py-3 rounded-lg hover:bg-perso-yellow-two hover:text-perso-white-two transition">
                   Achetez vos billets ici !
                 </button>

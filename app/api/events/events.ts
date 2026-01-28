@@ -100,14 +100,19 @@ export const createEvent = async (formData: FormData) => {
     },
   });
   
+  console.log("✅ [Événement créé:", {
+    id: event.id,
+    slug: event.slug,
+    title: event.title,
+    artistsCount: artistIds.length,
+  });
+  
   // Invalider le cache Next.js
   revalidatePath('/api/events');
   revalidatePath('/admin/events');
   revalidatePath('/home/events');
-  revalidatePath(`/home/events/${event.id}`);
-  console.log("🔄 [createEvent] Cache invalidé");
-  
-  console.log("✅ [createEvent] Événement créé:", event.id);
+  revalidatePath(`/home/events/${event.slug}`);
+  console.log("🔄 [createEvent] Cache invalidé pour slug:", event.slug);
   return event;
 };
 
@@ -153,7 +158,7 @@ export const updateEvent = async (id: string, formData: FormData) => {
   revalidatePath('/api/events');
   revalidatePath('/admin/events');
   revalidatePath('/home/events');
-  revalidatePath(`/home/events/${id}`);
+  revalidatePath(`/home/events/${updatedEvent.slug}`);
   
   return updatedEvent;
 };

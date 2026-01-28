@@ -50,14 +50,19 @@ const EventsDashboard: React.FC = () => {
     );
   }
 
-  const resetForm = () => {
+  const resetForm = (formElement?: HTMLFormElement) => {
     setSelectedImage(null);
+    setSelectedArtists([]);
+    if (formElement) {
+      formElement.reset();
+    }
   };
 
   const handleEventCreation = async (formData: FormData) => {
     setIsLoading(true);
     try {
       console.log("🚀 [handleEventCreation] Début de la création");
+      console.log("🎯 [handleEventCreation] selectedArtists:", selectedArtists);
       console.log("📝 [handleEventCreation] FormData avant traitement:");
       Array.from(formData.entries()).forEach(([key, value]) => {
         console.log(
@@ -77,12 +82,17 @@ const EventsDashboard: React.FC = () => {
 
       // Ajouter les artistes sélectionnés
       formData.delete("artists"); // Supprimer d'abord
+      console.log(
+        "👥 [handleEventCreation] Artistes sélectionnés (avant append):",
+        selectedArtists,
+      );
       selectedArtists.forEach((artist) => {
+        console.log("  ➕ Ajout artiste ID:", artist.value);
         formData.append("artists", artist.value);
       });
       console.log(
-        "👥 [handleEventCreation] Artistes:",
-        selectedArtists.map((a) => a.value),
+        "👥 [handleEventCreation] Total artistes ajoutés:",
+        selectedArtists.length,
       );
 
       console.log("📤 [handleEventCreation] Appel de createEvent...");
@@ -97,8 +107,8 @@ const EventsDashboard: React.FC = () => {
       setEvents(result);
 
       // Réinitialiser le formulaire
-      resetForm();
-      setSelectedArtists([]);
+      const form = document.querySelector("form") as HTMLFormElement;
+      resetForm(form);
       console.log("🔄 [handleEventCreation] Formulaire réinitialisé");
     } catch (error) {
       console.error("❌ [handleEventCreation] Erreur:", error);
@@ -198,7 +208,9 @@ const EventsDashboard: React.FC = () => {
           });
           console.log("📅 [Form] Date brute:", date);
           console.log("📅 [Form] Date valide?", date && date.length > 0);
-          console.log("📅 [Form] Format datetime-local attendu: YYYY-MM-DDTHH:mm");
+          console.log(
+            "📅 [Form] Format datetime-local attendu: YYYY-MM-DDTHH:mm",
+          );
 
           if (!title?.trim()) {
             alert("Le titre est obligatoire");
@@ -317,6 +329,7 @@ const EventsDashboard: React.FC = () => {
           <Select
             isMulti
             name="artists"
+            value={selectedArtists}
             options={artists.map((artist) => ({
               value: artist.id, // La valeur de chaque artiste sera son ID
               label: artist.name, // Ce qui sera affiché dans la liste

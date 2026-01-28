@@ -64,11 +64,11 @@ export interface EventWithArtists {
   slug: string;
   description: string | null;
   location: string;
-  date: Date;
+  date: string | Date; // Peut être string quand vient de l'API JSON
   ticketLink: string | null;
   imageUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string | Date;
+  updatedAt: string | Date;
   artists: Artist[];
 }
 

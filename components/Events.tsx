@@ -15,7 +15,7 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       const data = await fetch("/api/events", { cache: "no-store" }).then(
-        (res) => res.json()
+        (res) => res.json(),
       );
       setEventsData(data);
       setLoading(false);
@@ -31,7 +31,7 @@ const Events = () => {
     if (eventsData.length > 0) {
       const today = new Date();
       const upcoming = eventsData.filter(
-        (event) => new Date(event.date) >= today
+        (event) => new Date(event.date) >= today,
       );
       const past = eventsData.filter((event) => new Date(event.date) < today);
 

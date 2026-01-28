@@ -9,10 +9,10 @@ const SlideModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="absolute h-screen w-screen">
+    <div className="absolute h-screen w-screen pointer-events-none">
       {/* Icône déclencheur */}
       <div
-        className="fixed top-1/2 left-0 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transform-translate-y-1/2 hover:bg-gray-600"
+        className="fixed top-1/2 left-0 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white transform-translate-y-1/2 hover:bg-gray-600 pointer-events-auto"
         onMouseEnter={() => setIsOpen(!isOpen)}
       >
         <FaMusic className="text-2xl text-perso-yellow-two" />{" "}
@@ -22,8 +22,8 @@ const SlideModal = () => {
       {/* Modale */}
       <div
         className={clsx(
-          "fixed top-0 left-0 z-20 h-full transition-transform duration-300 ease-in-out",
-          isOpen ? "translate-x-0 " : "-translate-x-full"
+          "fixed top-0 left-0 z-20 h-full transition-transform duration-300 ease-in-out pointer-events-auto",
+          isOpen ? "translate-x-0 " : "-translate-x-full",
         )}
         onMouseLeave={() => setIsOpen(false)}
         style={{ minWidth: "10%" }} // Assurez-vous que la largeur minimale est respectée
