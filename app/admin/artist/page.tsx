@@ -1,14 +1,15 @@
 "use client";
 
-import { createAlbum } from "@/app/api/albums/albums";
-import { createArtist, deleteArtist } from "@/app/api/artists/artists";
+import { createArtist } from "@/app/api/artists/artists";
 import { AlbumData } from "@/components/AlbumCreation";
 import ArtistCreationForm from "@/components/ArtistCreationForm";
-import ArtistList from "@/components/ArtistList";
 import ButtonHome from "@/components/ButtonHome";
 import useProtectedRoute from "@/hooks/useProtectedRoute";
 import { Album, Artist, Prisma } from "@prisma/client";
-import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface ArtistWithAlbums extends Artist {
@@ -18,80 +19,19 @@ interface ArtistWithAlbums extends Artist {
 const ArtistsDashboard: React.FC = () => {
   const [artists, setArtists] = useState<ArtistWithAlbums[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAlbumLoading, setIsAlbumLoading] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [artistToDelete, setArtistToDelete] = useState<{
-    id: string;
-    name: string;
-  } | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    const fetchArtistsAndAlbums = async () => {
-      try {
-        setIsLoading(true);
-        const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
-          cache: "no-store",
-          next: { revalidate: 0 },
-        }).then((res) => res.json());
-
-        if (!artistList || !Array.isArray(artistList)) {
-          console.error("La liste des artistes est vide ou null");
-          return;
-        }
-
-        const formattedArtists: ArtistWithAlbums[] = artistList.map(
-          (artist: Artist & { albums?: Album[] }) => ({
-            ...artist,
-            bio: artist.bio ?? null,
-            genre: artist.genre ?? null,
-            imageUrl: artist.imageUrl ?? null,
-            videoUrl: artist.videoUrl ?? null,
-            codePlayer: artist.codePlayer ?? null,
-            urlPlayer: artist.urlPlayer ?? null,
-            socialLinks: artist.socialLinks
-              ? typeof artist.socialLinks === "string"
-                ? artist.socialLinks
-                : JSON.stringify(artist.socialLinks)
-              : null,
-            albums: artist.albums || [],
-          })
-        );
-
-        setArtists(formattedArtists);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des artistes:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchArtistsAndAlbums();
-  }, []);
-
-  const { loading } = useProtectedRoute("ADMIN");
-
-  const handleAlbumUpdate = useCallback(async () => {
+  const fetchArtists = async () => {
     try {
-      setIsAlbumLoading(true);
-      console.log("Rechargement des artistes...");
-
-      // Ajouter un petit délai pour s'assurer que la DB est synchronisée
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      const timestamp = Date.now();
-      const artistList = await fetch(`/api/artists?t=${timestamp}`, {
+      setIsLoading(true);
+      const artistList = await fetch(`/api/artists?t=${Date.now()}`, {
         cache: "no-store",
         next: { revalidate: 0 },
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-        },
       }).then((res) => res.json());
-
-      console.log("Données artistes après mise à jour:", artistList);
 
       if (!artistList || !Array.isArray(artistList)) {
         console.error("La liste des artistes est vide ou null");
-        toast.error("Erreur lors du rechargement des artistes");
         return;
       }
 
@@ -114,22 +54,20 @@ const ArtistsDashboard: React.FC = () => {
       );
 
       setArtists(formattedArtists);
-      toast.success("Artiste mis à jour avec succès !");
     } catch (error) {
-      console.error("Erreur lors de la maj de l'artiste:", error);
-      toast.error("Erreur lors de la mise à jour");
+      console.error("Erreur lors de la récupération des artistes:", error);
+      toast.error("Erreur lors du chargement des artistes");
     } finally {
-      setIsAlbumLoading(false);
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchArtists();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
-        <p>Chargement...</p>
-      </div>
-    );
-  }
+  const { loading } = useProtectedRoute("ADMIN");
+
   const handleArtistCreation = async (
     formData: FormData,
     links: Prisma.JsonArray,
@@ -159,35 +97,8 @@ const ArtistsDashboard: React.FC = () => {
       }
       toast.success("Artiste créé avec succès !");
 
-      if (artist && albumForms.length > 0) {
-        try {
-          await Promise.all(
-            albumForms.map(async (album) => {
-              const albumFormData = new FormData();
-              albumFormData.append("artistId", artist.id);
-              albumFormData.append("title", album.title);
-              if (album.imageUrl) {
-                albumFormData.append("imageFile", album.imageUrl);
-              }
-              return createAlbum(albumFormData, album.links);
-            })
-          );
-          toast.success("Albums créés avec succès !");
-        } catch (error) {
-          toast.error(
-            "Erreur lors de la création des albums. Veuillez vérifier les informations saisies."
-          );
-          console.error("Erreur création albums:", error);
-        }
-      }
-
-      const updatedArtists = await fetch(`/api/artists?t=${Date.now()}`, {
-        cache: "no-store",
-        next: { revalidate: 1 },
-      }).then((res) => res.json());
-      if (updatedArtists) {
-        setArtists(updatedArtists as ArtistWithAlbums[]);
-      }
+      // Redirection vers la page d'édition pour ajouter les albums
+      router.push(`/admin/artist/${artist.id}`);
     } catch (error) {
       console.error("Erreur lors de la création:", error);
       toast.error(
@@ -198,127 +109,92 @@ const ArtistsDashboard: React.FC = () => {
     }
   };
 
-  const handleDeleteClick = async (id: string) => {
-    const artist = artists.find((a) => a.id === id);
-    if (artist) {
-      setArtistToDelete(artist);
-      setDeleteDialogOpen(true);
-    }
-  };
-
-  const handleArtistDeletion = async (artistId: string) => {
-    if (!artistId) return;
-
-    try {
-      setIsLoading(true);
-      await deleteArtist(artistId);
-      toast.success("Artiste supprimé avec succès");
-      const updatedArtists = await fetch(`/api/artists?t=${Date.now()}`, {
-        cache: "no-store",
-        next: { revalidate: 1 },
-      }).then((res) => res.json());
-      if (updatedArtists) {
-        setArtists(updatedArtists as ArtistWithAlbums[]);
-      }
-      setDeleteDialogOpen(false);
-      setArtistToDelete(null);
-    } catch (error) {
-      console.error("Erreur lors de la suppression de l'artiste:", error);
-      toast.error("Erreur lors de la suppression de l'artiste");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const modalStyle = {
-    overlay: {
-      position: "fixed" as const,
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.75)",
-      zIndex: 1000,
-      display: deleteDialogOpen ? "flex" : "none",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      position: "relative" as const,
-      backgroundColor: "white",
-      padding: "20px",
-      borderRadius: "8px",
-      maxWidth: "500px",
-      width: "90%",
-    },
-  };
-
-  const DeleteConfirmationModal = () => (
-    <div style={modalStyle.overlay}>
-      <div style={modalStyle.content}>
-        <h2 className="text-lg text-black font-semibold mb-4">
-          Confirmer la suppression
-        </h2>
-        <p className="mb-4 text-black">
-          {`Êtes-vous sûr de vouloir supprimer l'artiste ${artistToDelete?.name} ?
-          Cette action est irréversible.`}
-        </p>
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={() => {
-              setDeleteDialogOpen(false);
-              setArtistToDelete(null);
-            }}
-            className="px-4 py-2 text-gray-600 bg-gray-200 border rounded hover:bg-gray-100"
-          >
-            Annuler
-          </button>
-          <button
-            onClick={() =>
-              artistToDelete && handleArtistDeletion(artistToDelete.id)
-            }
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-            disabled={isLoading}
-          >
-            {isLoading ? "Suppression..." : "Supprimer"}
-          </button>
-        </div>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-perso-bg text-perso-white-one p-6">
+        <p>Chargement...</p>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="min-h-screen p-5 bg-perso-bg text-perso-white-one">
-      <h1 className="text-3xl font-bold mb-5 text-center">
-        Gestion des Artistes
-      </h1>
-
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-4">Créer un nouvel artiste</h2>
-        <ButtonHome />
-        <ArtistCreationForm
-          onSubmit={handleArtistCreation}
-          isLoading={isLoading}
-        />
-      </div>
-
-      {isAlbumLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-perso-white-one"></div>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Gestion des Artistes</h1>
+          <ButtonHome />
         </div>
-      ) : (
+
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="mb-6 px-6 py-3 bg-perso-green hover:bg-perso-green/80 text-white rounded-lg transition-colors"
+        >
+          {showCreateForm ? "Masquer le formulaire" : "Créer un nouvel artiste"}
+        </button>
+
+        {showCreateForm && (
+          <div className="mb-10 bg-gray-800 p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4">
+              Créer un nouvel artiste
+            </h2>
+            <ArtistCreationForm
+              onSubmit={handleArtistCreation}
+              isLoading={isLoading}
+            />
+          </div>
+        )}
+
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Artistes existants</h2>
-          <ArtistList
-            artists={artists}
-            onDelete={handleDeleteClick}
-            isLoading={isLoading}
-            onAlbumUpdate={handleAlbumUpdate}
-          />
-        </div>
-      )}
+          <h2 className="text-2xl font-semibold mb-6">Liste des artistes</h2>
 
-      <DeleteConfirmationModal />
+          {isLoading ? (
+            <div className="flex justify-center items-center h-48">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-perso-white-one"></div>
+            </div>
+          ) : artists.length === 0 ? (
+            <p className="text-center text-gray-400 py-8">
+              Aucun artiste pour le moment
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {artists.map((artist) => (
+                <Link
+                  key={artist.id}
+                  href={`/admin/artist/${artist.id}`}
+                  className="group bg-gray-800 rounded-lg overflow-hidden hover:bg-gray-700 transition-all hover:scale-105 cursor-pointer"
+                >
+                  <div className="aspect-square relative bg-gray-900">
+                    {artist.imageUrl ? (
+                      <Image
+                        src={artist.imageUrl}
+                        alt={artist.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-500">
+                        <span className="text-6xl">🎵</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-xl font-semibold mb-1 group-hover:text-perso-green transition-colors">
+                      {artist.name}
+                    </h3>
+                    {artist.genre && (
+                      <p className="text-sm text-gray-400">{artist.genre}</p>
+                    )}
+                    <p className="text-xs text-gray-500 mt-2">
+                      {artist.albums?.length || 0} album(s)
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

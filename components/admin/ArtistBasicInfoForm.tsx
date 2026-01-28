@@ -1,0 +1,94 @@
+"use client";
+
+import { Artist } from "@prisma/client";
+import Image from "next/image";
+
+interface ArtistBasicInfoFormProps {
+  artist: Artist;
+}
+
+export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
+  artist,
+}) => {
+  return (
+    <div className="bg-gray-800 p-6 rounded-lg space-y-4">
+      <h2 className="text-2xl font-semibold mb-4">Informations de base</h2>
+
+      {artist.imageUrl && (
+        <div className="mb-6">
+          <label className="block mb-2 font-semibold">Image actuelle</label>
+          <div className="relative w-48 h-48">
+            <Image
+              src={artist.imageUrl}
+              alt={artist.name}
+              fill
+              className="object-cover rounded-lg"
+            />
+          </div>
+        </div>
+      )}
+
+      <div>
+        <label className="block mb-2 font-semibold">Nom *</label>
+        <input
+          type="text"
+          name="name"
+          defaultValue={artist.name}
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">Genre *</label>
+        <input
+          type="text"
+          name="genre"
+          defaultValue={artist.genre || ""}
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">Nouvelle image</label>
+        <input
+          type="file"
+          name="imageUrl"
+          accept="image/*"
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+        />
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">URL Vidéo</label>
+        <input
+          type="text"
+          name="videoUrl"
+          defaultValue={artist.videoUrl || ""}
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+        />
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">Code Player</label>
+        <input
+          type="text"
+          name="codePlayer"
+          defaultValue={artist.codePlayer || ""}
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+        />
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">URL Player</label>
+        <input
+          type="text"
+          name="urlPlayer"
+          defaultValue={artist.urlPlayer || ""}
+          className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
+        />
+      </div>
+    </div>
+  );
+};
