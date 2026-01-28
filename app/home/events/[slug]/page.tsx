@@ -57,79 +57,134 @@ const EventPage = () => {
   }, [event]);
 
   if (!event) {
-    return <div className="text-center text-2xl">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-16 h-16 border-4 border-t-transparent border-perso-yellow-one rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen p-5 bg-perso-bg text-perso-bg">
-      <h1 className="text-4xl font-bold text-center mb-8 text-perso-white-one">
-        {event.title}
-      </h1>
+    <div className="min-h-screen p-5 bg-perso-bg">
+      {/* Hero section */}
+      <div className="max-w-6xl mx-auto">
+        {/* Titre et infos */}
+        <div className="mb-8">
+          <h1 className="text-5xl font-bold text-perso-white-one mb-4">
+            {event.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-4 text-perso-white-two/90 text-lg">
+            <span className="flex items-center gap-2">
+              📅 {formattedDate}
+            </span>
+            <span className="flex items-center gap-2">
+              🕐 {formattedTime}
+            </span>
+            <span className="flex items-center gap-2">
+              📍 {event.location}
+            </span>
+          </div>
+        </div>
 
-      <div className="max-w-4xl mx-auto bg-perso-white-two p-8 shadow-md rounded-lg mb-20">
-        <div className="mb-6">
-          {event.imageUrl && (
+        {/* Image de l'événement */}
+        {event.imageUrl && (
+          <div className="mb-8 rounded-xl overflow-hidden shadow-2xl">
             <Image
               src={event.imageUrl}
               alt={event.title}
-              width={800}
-              height={450}
-              className="rounded-lg mx-auto"
+              width={1200}
+              height={600}
+              className="w-full h-auto"
+              priority
             />
-          )}
-        </div>
-        <div className="text-lg mb-4">
-          <p>
-            <strong>Date:</strong> {formattedDate}
-          </p>
-          <p>
-            <strong>Heure:</strong> {formattedTime}
-          </p>
-          <p>
-            <strong>Lieu:</strong> {event.location}{" "}
-          </p>
-          <p className="mt-4">
-            {event.description || "Pas de description disponible."}
-          </p>
+          </div>
+        )}
 
-          <div className="mt-3 flex items-center ">
-            <strong>Artistes:</strong>{" "}
-            {(event.artists && event.artists.length) > 0 ? (
-              <>
-                {event.artists.map((artist: Artist) => {
-                  return (
+        {/* Contenu principal */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Colonne principale */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Description */}
+            <div className="bg-perso-white-two p-6 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-perso-bg flex items-center gap-2">
+                📝 Description
+              </h2>
+              <p className="text-lg text-perso-bg/80 leading-relaxed">
+                {event.description || "Pas de description disponible."}
+              </p>
+            </div>
+
+            {/* Artistes */}
+            {event.artists && event.artists.length > 0 && (
+              <div className="bg-perso-white-two p-6 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold mb-4 text-perso-bg flex items-center gap-2">
+                  🎵 Artistes
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  {event.artists.map((artist: Artist) => (
                     <Link
                       key={artist.id}
-                      href={`/home/artists/slug=${artist.slug}`}
+                      href={`/home/artists/${artist.slug}`}
                     >
-                      <button className="ml-3 bg-blue-300 px-3 py-2 text-sm rounded-lg hover:bg-blue-800 hover:text-perso-white-two transition">
+                      <button className="bg-perso-yellow-one text-perso-bg px-6 py-3 text-base font-semibold rounded-lg hover:bg-perso-yellow-two hover:scale-105 transition-all duration-200 shadow-md">
                         {artist.name}
                       </button>
                     </Link>
-                  );
-                })}
-              </>
-            ) : (
-              "Aucun artiste associé"
+                  ))}
+                </div>
+              </div>
             )}
           </div>
-          {event.ticketLink && (
-            <div className="w-full text-center">
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Informations pratiques */}
+            <div className="bg-perso-white-two p-6 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-perso-bg">
+                ℹ️ Infos pratiques
+              </h2>
+              <div className="space-y-3 text-perso-bg">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">📅</span>
+                  <div>
+                    <p className="font-semibold">Date</p>
+                    <p className="text-sm text-perso-bg/70">{formattedDate}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">🕐</span>
+                  <div>
+                    <p className="font-semibold">Heure</p>
+                    <p className="text-sm text-perso-bg/70">{formattedTime}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">📍</span>
+                  <div>
+                    <p className="font-semibold">Lieu</p>
+                    <p className="text-sm text-perso-bg/70">{event.location}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Billetterie */}
+            {event.ticketLink && (
               <Link href={event.ticketLink} target="_blank">
-                <button className="mt-6 bg-perso-yellow-one px-6 py-3 rounded-lg hover:bg-perso-yellow-two hover:text-perso-white-two transition">
-                  Achetez vos billets ici !
+                <button className="w-full bg-perso-yellow-one text-perso-bg px-6 py-4 text-lg font-bold rounded-lg hover:bg-perso-yellow-two hover:scale-105 transition-all duration-200 shadow-lg">
+                  🎟️ Acheter des billets
                 </button>
               </Link>
-            </div>
-          )}
-        </div>
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => router.push("/home/events")}
-            className="bg-perso-yellow-one text-perso-white-two px-6 py-3 rounded-lg hover:bg-perso-yellow-two transition"
-          >
-            Retour aux événements
-          </button>
+            )}
+
+            {/* Retour */}
+            <button
+              onClick={() => router.push("/home/events")}
+              className="w-full bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-all duration-200"
+            >
+              ← Retour aux événements
+            </button>
+          </div>
         </div>
       </div>
     </div>

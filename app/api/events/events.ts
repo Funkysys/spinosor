@@ -117,6 +117,12 @@ export const createEvent = async (formData: FormData) => {
 };
 
 export const updateEvent = async (id: string, formData: FormData) => {
+  console.log("🔄 [updateEvent] Mise à jour événement ID:", id);
+  console.log("📝 [updateEvent] FormData reçu:");
+  Array.from(formData.entries()).forEach(([key, value]) => {
+    console.log(`  ${key}:`, value);
+  });
+
   const updateData: {
     title?: string;
     description?: string;
@@ -149,9 +155,25 @@ export const updateEvent = async (id: string, formData: FormData) => {
     updateData.ticketLink = formData.get("ticketLink") as string | null;
   }
 
+  // Récupérer les IDs des artistes
+  const artistIds: string[] = [];
+  formData.forEach((value, key) => {
+    if (key === "artists") {
+      artistIds.push(value as string);
+    }
+  });
+  
+  console.log("👥 [updateEvent] Artistes à connecter:", artistIds);
+
   const updatedEvent = await prisma.event.update({
     where: { id },
-    data: updateData,
+    data: {
+      ...updateData,
+      artists: {
+        set: [], // Déconnecter tous les artistes d'abord
+        connect: artistIds.map((artistId) => ({ id: artistId })),
+      },
+    },
   });
   
   // Invalider le cache
