@@ -90,6 +90,10 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
     ]);
   };
 
+  const removeAlbumLink = (id: number) => {
+    setTempAlbumLinks(tempAlbumLinks.filter((link) => link.id !== id));
+  };
+
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
       <div className="mb-4">
@@ -146,14 +150,21 @@ const AlbumUpdate: React.FC<AlbumCreationProps> = ({
                 className="w-full p-2 rounded bg-gray-700 border border-gray-600"
               />
             </div>
-            <div>
+            <div className="flex gap-2">
               <input
                 type="text"
                 placeholder="URL du lien"
                 value={el.url}
                 onChange={(e) => handleOnChangeAlbumLinkUrl(e, el)}
-                className="w-full p-2 rounded bg-gray-700 border border-gray-600"
+                className="flex-1 p-2 rounded bg-gray-700 border border-gray-600"
               />
+              <button
+                type="button"
+                onClick={() => removeAlbumLink(el.id)}
+                className="text-red-500 hover:text-red-400 px-2"
+              >
+                ✕
+              </button>
             </div>
           </div>
         ))}

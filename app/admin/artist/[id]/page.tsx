@@ -36,7 +36,7 @@ const ArtistEditPage: React.FC = () => {
   const [links, setLinks] = useState<LinkType[]>([]);
   const [albumFormsUpdate, setAlbumFormsUpdate] = useState<Album[]>([]);
   const [albumFormsCreation, setAlbumFormsCreation] = useState<AlbumData[]>([]);
-  
+
   // États pour les champs du formulaire de base
   const [formData, setFormData] = useState({
     name: "",
@@ -51,36 +51,46 @@ const ArtistEditPage: React.FC = () => {
   const fetchArtist = async () => {
     try {
       setIsLoading(true);
-      console.log("🔄 [fetchArtist] Début du chargement pour artistId:", artistId);
-      
+      console.log(
+        "🔄 [fetchArtist] Début du chargement pour artistId:",
+        artistId,
+      );
+
       // Force le rechargement en ajoutant un timestamp
       const timestamp = Date.now();
       const response = await fetch(`/api/artists?t=${timestamp}`, {
         cache: "no-store",
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
-          "Pragma": "no-cache",
+          Pragma: "no-cache",
         },
       });
-      
+
       if (!response.ok) {
         throw new Error("Impossible de charger les artistes");
       }
 
       const artists = await response.json();
-      console.log("📦 [fetchArtist] Artistes récupérés:", artists.length, "artistes");
-      
+      console.log(
+        "📦 [fetchArtist] Artistes récupérés:",
+        artists.length,
+        "artistes",
+      );
+
       const foundArtist = artists.find((a: Artist) => a.id === artistId);
       console.log("🎯 [fetchArtist] Artiste trouvé:", foundArtist?.name);
-      console.log("📝 [fetchArtist] Bio:", foundArtist?.bio?.substring(0, 50) + "...");
+      console.log(
+        "📝 [fetchArtist] Bio:",
+        foundArtist?.bio?.substring(0, 50) + "...",
+      );
       console.log("🔗 [fetchArtist] SocialLinks:", foundArtist?.socialLinks);
-      
+
       if (!foundArtist) {
         throw new Error("Artiste non trouvé");
       }
 
       setArtist(foundArtist);
-      
+
       // Important: mettre à jour les états locaux avec les nouvelles données
       setFormData({
         name: foundArtist.name,
@@ -90,27 +100,38 @@ const ArtistEditPage: React.FC = () => {
         urlPlayer: foundArtist.urlPlayer || "",
       });
       console.log("📋 [fetchArtist] FormData mis à jour:", foundArtist.name);
-      
+
       const newBio = foundArtist.bio || "";
       setBio(newBio);
       console.log("✏️ [fetchArtist] Bio mis à jour dans l'état local");
-      
+
       const parsedLinks = foundArtist.socialLinks
         ? typeof foundArtist.socialLinks === "string"
           ? JSON.parse(foundArtist.socialLinks)
           : foundArtist.socialLinks
         : [];
       setLinks(parsedLinks);
-      console.log("🔗 [fetchArtist] Links mis à jour dans l'état local:", parsedLinks);
-      
+      console.log(
+        "🔗 [fetchArtist] Links mis à jour dans l'état local:",
+        parsedLinks,
+      );
+
       setAlbumFormsUpdate(foundArtist.albums || []);
-      console.log("💿 [fetchArtist] Albums mis à jour:", foundArtist.albums?.length || 0);
-      
+      console.log(
+        "💿 [fetchArtist] Albums mis à jour:",
+        foundArtist.albums?.length || 0,
+      );
+
       // Incrémenter la clé pour forcer le re-render du formulaire
-      setFormKey(prev => prev + 1);
-      console.log("🔑 [fetchArtist] FormKey incrémenté pour forcer le re-render");
+      setFormKey((prev) => prev + 1);
+      console.log(
+        "🔑 [fetchArtist] FormKey incrémenté pour forcer le re-render",
+      );
     } catch (error) {
-      console.error("❌ [fetchArtist] Erreur lors de la récupération de l'artiste:", error);
+      console.error(
+        "❌ [fetchArtist] Erreur lors de la récupération de l'artiste:",
+        error,
+      );
       toast.error("Impossible de charger l'artiste");
       router.push("/admin/artist");
     } finally {
@@ -130,7 +151,10 @@ const ArtistEditPage: React.FC = () => {
     if (!artist) return;
 
     console.log("💾 [handleSubmit] Début de la sauvegarde");
-    console.log("📝 [handleSubmit] Bio actuelle dans l'état:", bio.substring(0, 50) + "...");
+    console.log(
+      "📝 [handleSubmit] Bio actuelle dans l'état:",
+      bio.substring(0, 50) + "...",
+    );
     console.log("🔗 [handleSubmit] Links actuels dans l'état:", links);
 
     const formElement = new FormData(e.currentTarget);
@@ -154,11 +178,11 @@ const ArtistEditPage: React.FC = () => {
       setIsSaving(true);
 
       const validUpdatedAlbums = albumFormsUpdate.filter(
-        (album) => album.title?.trim() && album.releaseDate && album.imageUrl
+        (album) => album.title?.trim() && album.releaseDate && album.imageUrl,
       );
 
       const validNewAlbums = albumFormsCreation.filter(
-        (album) => album.title?.trim() && album.releaseDate && album.imageUrl
+        (album) => album.title?.trim() && album.releaseDate && album.imageUrl,
       );
 
       const submitFormData = new FormData();
@@ -169,7 +193,7 @@ const ArtistEditPage: React.FC = () => {
       submitFormData.append("videoUrl", videoUrl);
       submitFormData.append("codePlayer", codePlayer);
       submitFormData.append("urlPlayer", urlPlayer);
-      
+
       // Ajouter le fichier image si présent
       if (imageFile && imageFile.size > 0) {
         submitFormData.append("imageUrl", imageFile);
@@ -179,7 +203,11 @@ const ArtistEditPage: React.FC = () => {
       console.log("  - bio:", bio.substring(0, 50) + "...");
       console.log("  - socialLinks:", JSON.stringify(links));
 
-      const updatedArtist = await updateArtist(artist.id, submitFormData, artist.imageUrl);
+      const updatedArtist = await updateArtist(
+        artist.id,
+        submitFormData,
+        artist.imageUrl,
+      );
       console.log("✅ [handleSubmit] Réponse de updateArtist:", updatedArtist);
 
       // Mise à jour des albums existants
@@ -199,7 +227,7 @@ const ArtistEditPage: React.FC = () => {
         albumFormData.append("artistId", artist.id);
         albumFormData.append(
           "releaseDate",
-          new Date(album.releaseDate).toISOString()
+          new Date(album.releaseDate).toISOString(),
         );
 
         if (album.imageUrl) {
@@ -219,18 +247,18 @@ const ArtistEditPage: React.FC = () => {
       }
 
       toast.success("Artiste mis à jour avec succès !");
-      
+
       console.log("🔄 [handleSubmit] Invalidation du cache et rechargement...");
       // Forcer le rafraîchissement du router pour invalider le cache côté client
       router.refresh();
-      
+
       // Petit délai pour s'assurer que le cache est invalidé
       await new Promise((resolve) => setTimeout(resolve, 300));
-      
+
       // Recharger les données
       await fetchArtist();
       console.log("✅ [handleSubmit] Données rafraîchies");
-      
+
       // Réinitialiser les formulaires de création
       setAlbumFormsCreation([]);
       console.log("✅ [handleSubmit] Sauvegarde terminée avec succès");
@@ -271,7 +299,7 @@ const ArtistEditPage: React.FC = () => {
 
   const handleUpdateAlbum = (album: Album, index: number) => {
     setAlbumFormsUpdate((prev) =>
-      prev.map((a, i) => (i === index ? album : a))
+      prev.map((a, i) => (i === index ? album : a)),
     );
   };
 
@@ -312,10 +340,12 @@ const ArtistEditPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6">Éditer : {artist.name}</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <ArtistBasicInfoForm 
-            artist={artist} 
+          <ArtistBasicInfoForm
+            artist={artist}
             formData={formData}
-            onChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+            onChange={(field, value) =>
+              setFormData((prev) => ({ ...prev, [field]: value }))
+            }
           />
 
           <ArtistBioEditor bio={bio} onBioChange={setBio} />

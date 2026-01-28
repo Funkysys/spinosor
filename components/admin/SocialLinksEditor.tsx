@@ -12,7 +12,8 @@ export const SocialLinksEditor: React.FC<SocialLinksEditorProps> = ({
   onLinksChange,
 }) => {
   const addLink = () => {
-    const newId = links.length > 0 ? Math.max(...links.map((l) => l.id)) + 1 : 1;
+    const newId =
+      links.length > 0 ? Math.max(...links.map((l) => l.id)) + 1 : 1;
     onLinksChange([...links, { id: newId, name: "", url: "" }]);
   };
 
@@ -20,15 +21,21 @@ export const SocialLinksEditor: React.FC<SocialLinksEditorProps> = ({
     onLinksChange(links.filter((link) => link.id !== id));
   };
 
-  const updateLinkName = (e: React.ChangeEvent<HTMLInputElement>, link: LinkType) => {
+  const updateLinkName = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    link: LinkType,
+  ) => {
     onLinksChange(
-      links.map((l) => (l.id === link.id ? { ...l, name: e.target.value } : l))
+      links.map((l) => (l.id === link.id ? { ...l, name: e.target.value } : l)),
     );
   };
 
-  const updateLinkUrl = (e: React.ChangeEvent<HTMLInputElement>, link: LinkType) => {
+  const updateLinkUrl = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    link: LinkType,
+  ) => {
     onLinksChange(
-      links.map((l) => (l.id === link.id ? { ...l, url: e.target.value } : l))
+      links.map((l) => (l.id === link.id ? { ...l, url: e.target.value } : l)),
     );
   };
 

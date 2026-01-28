@@ -50,7 +50,7 @@ const ArtistsDashboard: React.FC = () => {
               : JSON.stringify(artist.socialLinks)
             : null,
           albums: artist.albums || [],
-        })
+        }),
       );
 
       setArtists(formattedArtists);
@@ -72,7 +72,7 @@ const ArtistsDashboard: React.FC = () => {
     formData: FormData,
     links: Prisma.JsonArray,
     bio: string,
-    albumForms: AlbumData[]
+    albumForms: AlbumData[],
   ) => {
     try {
       setIsLoading(true);
@@ -102,7 +102,7 @@ const ArtistsDashboard: React.FC = () => {
     } catch (error) {
       console.error("Erreur lors de la création:", error);
       toast.error(
-        "Une erreur est survenue lors de la création. Veuillez réessayer."
+        "Une erreur est survenue lors de la création. Veuillez réessayer.",
       );
     } finally {
       setIsLoading(false);

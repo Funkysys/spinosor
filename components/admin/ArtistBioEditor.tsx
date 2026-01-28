@@ -7,7 +7,7 @@ const ReactQuill = dynamic(
     const { default: RQ } = await import("react-quill");
     return RQ;
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 interface ArtistBioEditorProps {

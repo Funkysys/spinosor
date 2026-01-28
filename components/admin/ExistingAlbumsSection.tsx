@@ -2,7 +2,6 @@
 
 import { Album } from "@prisma/client";
 import AlbumUpdate from "../AlbumUpdate";
-import { useState } from "react";
 
 interface ExistingAlbumsSectionProps {
   albums: Album[];

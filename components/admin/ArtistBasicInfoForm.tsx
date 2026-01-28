@@ -44,7 +44,7 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
           type="text"
           name="name"
           value={formData.name}
-          onChange={(e) => onChange('name', e.target.value)}
+          onChange={(e) => onChange("name", e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
           required
         />
@@ -56,7 +56,7 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
           type="text"
           name="genre"
           value={formData.genre}
-          onChange={(e) => onChange('genre', e.target.value)}
+          onChange={(e) => onChange("genre", e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
           required
         />
@@ -78,7 +78,7 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
           type="text"
           name="videoUrl"
           value={formData.videoUrl}
-          onChange={(e) => onChange('videoUrl', e.target.value)}
+          onChange={(e) => onChange("videoUrl", e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
@@ -89,7 +89,7 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
           type="text"
           name="codePlayer"
           value={formData.codePlayer}
-          onChange={(e) => onChange('codePlayer', e.target.value)}
+          onChange={(e) => onChange("codePlayer", e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
@@ -100,7 +100,7 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
           type="text"
           name="urlPlayer"
           value={formData.urlPlayer}
-          onChange={(e) => onChange('urlPlayer', e.target.value)}
+          onChange={(e) => onChange("urlPlayer", e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
