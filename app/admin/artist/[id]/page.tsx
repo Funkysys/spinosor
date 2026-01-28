@@ -29,12 +29,22 @@ const ArtistEditPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0); // Compteur pour forcer le re-render
 
   // États d'édition
   const [bio, setBio] = useState("");
   const [links, setLinks] = useState<LinkType[]>([]);
   const [albumFormsUpdate, setAlbumFormsUpdate] = useState<Album[]>([]);
   const [albumFormsCreation, setAlbumFormsCreation] = useState<AlbumData[]>([]);
+  
+  // États pour les champs du formulaire de base
+  const [formData, setFormData] = useState({
+    name: "",
+    genre: "",
+    videoUrl: "",
+    codePlayer: "",
+    urlPlayer: "",
+  });
 
   const { loading } = useProtectedRoute("ADMIN");
 
@@ -72,6 +82,15 @@ const ArtistEditPage: React.FC = () => {
       setArtist(foundArtist);
       
       // Important: mettre à jour les états locaux avec les nouvelles données
+      setFormData({
+        name: foundArtist.name,
+        genre: foundArtist.genre || "",
+        videoUrl: foundArtist.videoUrl || "",
+        codePlayer: foundArtist.codePlayer || "",
+        urlPlayer: foundArtist.urlPlayer || "",
+      });
+      console.log("📋 [fetchArtist] FormData mis à jour:", foundArtist.name);
+      
       const newBio = foundArtist.bio || "";
       setBio(newBio);
       console.log("✏️ [fetchArtist] Bio mis à jour dans l'état local");
@@ -86,6 +105,10 @@ const ArtistEditPage: React.FC = () => {
       
       setAlbumFormsUpdate(foundArtist.albums || []);
       console.log("💿 [fetchArtist] Albums mis à jour:", foundArtist.albums?.length || 0);
+      
+      // Incrémenter la clé pour forcer le re-render du formulaire
+      setFormKey(prev => prev + 1);
+      console.log("🔑 [fetchArtist] FormKey incrémenté pour forcer le re-render");
     } catch (error) {
       console.error("❌ [fetchArtist] Erreur lors de la récupération de l'artiste:", error);
       toast.error("Impossible de charger l'artiste");
@@ -110,13 +133,13 @@ const ArtistEditPage: React.FC = () => {
     console.log("📝 [handleSubmit] Bio actuelle dans l'état:", bio.substring(0, 50) + "...");
     console.log("🔗 [handleSubmit] Links actuels dans l'état:", links);
 
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const genre = formData.get("genre") as string;
-    const imageFile = formData.get("imageUrl") as File;
-    const videoUrl = formData.get("videoUrl") as string;
-    const codePlayer = formData.get("codePlayer") as string;
-    const urlPlayer = formData.get("urlPlayer") as string;
+    const formElement = new FormData(e.currentTarget);
+    const name = formData.name;
+    const genre = formData.genre;
+    const imageFile = formElement.get("imageUrl") as File;
+    const videoUrl = formData.videoUrl;
+    const codePlayer = formData.codePlayer;
+    const urlPlayer = formData.urlPlayer;
 
     if (!name?.trim()) {
       toast.error("Le nom de l'artiste est obligatoire");
@@ -138,19 +161,25 @@ const ArtistEditPage: React.FC = () => {
         (album) => album.title?.trim() && album.releaseDate && album.imageUrl
       );
 
-      formData.append("name", name);
-      formData.append("bio", bio);
-      formData.append("socialLinks", JSON.stringify(links));
-      formData.append("genre", genre);
-      formData.append("videoUrl", videoUrl);
-      formData.append("codePlayer", codePlayer);
-      formData.append("urlPlayer", urlPlayer);
+      const submitFormData = new FormData();
+      submitFormData.append("name", name);
+      submitFormData.append("bio", bio);
+      submitFormData.append("socialLinks", JSON.stringify(links));
+      submitFormData.append("genre", genre);
+      submitFormData.append("videoUrl", videoUrl);
+      submitFormData.append("codePlayer", codePlayer);
+      submitFormData.append("urlPlayer", urlPlayer);
+      
+      // Ajouter le fichier image si présent
+      if (imageFile && imageFile.size > 0) {
+        submitFormData.append("imageUrl", imageFile);
+      }
 
       console.log("📤 [handleSubmit] Envoi à updateArtist avec:");
       console.log("  - bio:", bio.substring(0, 50) + "...");
       console.log("  - socialLinks:", JSON.stringify(links));
 
-      const updatedArtist = await updateArtist(artist.id, formData, artist.imageUrl);
+      const updatedArtist = await updateArtist(artist.id, submitFormData, artist.imageUrl);
       console.log("✅ [handleSubmit] Réponse de updateArtist:", updatedArtist);
 
       // Mise à jour des albums existants
@@ -280,7 +309,11 @@ const ArtistEditPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6">Éditer : {artist.name}</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <ArtistBasicInfoForm key={artist.id + artist.updatedAt.toString()} artist={artist} />
+          <ArtistBasicInfoForm 
+            artist={artist} 
+            formData={formData}
+            onChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+          />
 
           <ArtistBioEditor bio={bio} onBioChange={setBio} />
 

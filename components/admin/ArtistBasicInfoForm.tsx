@@ -5,10 +5,20 @@ import Image from "next/image";
 
 interface ArtistBasicInfoFormProps {
   artist: Artist;
+  formData: {
+    name: string;
+    genre: string;
+    videoUrl: string;
+    codePlayer: string;
+    urlPlayer: string;
+  };
+  onChange: (field: string, value: string) => void;
 }
 
 export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
   artist,
+  formData,
+  onChange,
 }) => {
   return (
     <div className="bg-gray-800 p-6 rounded-lg space-y-4">
@@ -33,7 +43,8 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
         <input
           type="text"
           name="name"
-          defaultValue={artist.name}
+          value={formData.name}
+          onChange={(e) => onChange('name', e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
           required
         />
@@ -44,7 +55,8 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
         <input
           type="text"
           name="genre"
-          defaultValue={artist.genre || ""}
+          value={formData.genre}
+          onChange={(e) => onChange('genre', e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
           required
         />
@@ -65,7 +77,8 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
         <input
           type="text"
           name="videoUrl"
-          defaultValue={artist.videoUrl || ""}
+          value={formData.videoUrl}
+          onChange={(e) => onChange('videoUrl', e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
@@ -75,7 +88,8 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
         <input
           type="text"
           name="codePlayer"
-          defaultValue={artist.codePlayer || ""}
+          value={formData.codePlayer}
+          onChange={(e) => onChange('codePlayer', e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
@@ -85,7 +99,8 @@ export const ArtistBasicInfoForm: React.FC<ArtistBasicInfoFormProps> = ({
         <input
           type="text"
           name="urlPlayer"
-          defaultValue={artist.urlPlayer || ""}
+          value={formData.urlPlayer}
+          onChange={(e) => onChange('urlPlayer', e.target.value)}
           className="w-full p-3 bg-gray-700 border border-gray-600 rounded"
         />
       </div>
