@@ -46,17 +46,17 @@ const EventList: React.FC<EventListProps> = ({
   const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    
+
     // Supprimer d'abord les artistes existants
     formData.delete("artists");
-    
+
     // Ajouter les IDs des artistes sélectionnés
     console.log("🎯 [EventList] Artistes sélectionnés:", selectedArtists);
     selectedArtists.forEach((artist) => {
       console.log("  ➕ Ajout artiste:", artist.value);
       formData.append("artists", artist.value);
     });
-    
+
     onUpdate(event.id, formData);
     setIsEditing(false);
   };

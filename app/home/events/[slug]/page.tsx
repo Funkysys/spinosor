@@ -74,15 +74,9 @@ const EventPage = () => {
             {event.title}
           </h1>
           <div className="flex flex-wrap items-center gap-4 text-perso-white-two/90 text-lg">
-            <span className="flex items-center gap-2">
-              📅 {formattedDate}
-            </span>
-            <span className="flex items-center gap-2">
-              🕐 {formattedTime}
-            </span>
-            <span className="flex items-center gap-2">
-              📍 {event.location}
-            </span>
+            <span className="flex items-center gap-2">📅 {formattedDate}</span>
+            <span className="flex items-center gap-2">🕐 {formattedTime}</span>
+            <span className="flex items-center gap-2">📍 {event.location}</span>
           </div>
         </div>
 
@@ -122,10 +116,7 @@ const EventPage = () => {
                 </h2>
                 <div className="flex flex-wrap gap-3">
                   {event.artists.map((artist: Artist) => (
-                    <Link
-                      key={artist.id}
-                      href={`/home/artists/${artist.slug}`}
-                    >
+                    <Link key={artist.id} href={`/home/artists/${artist.slug}`}>
                       <button className="bg-perso-yellow-one text-perso-bg px-6 py-3 text-base font-semibold rounded-lg hover:bg-perso-yellow-two hover:scale-105 transition-all duration-200 shadow-md">
                         {artist.name}
                       </button>

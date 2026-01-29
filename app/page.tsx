@@ -10,7 +10,7 @@ export default function Home() {
       </h1>
       <div className="w-[50vh] h-[50vh] md:w-[70vh] md:h-[70vh] mb-10 relative animate-fade-up animate-once animate-duration-[3000ms] animate-ease-in-out">
         <Image
-          src="/assets/images/spinosor_logo.jpeg"
+          src="/assets/images/spin_cercle_sombre.png"
           alt="Spinosor Records logo"
           height={1000}
           width={1000}
