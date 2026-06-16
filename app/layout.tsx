@@ -2,7 +2,7 @@ import { CartProvider } from "@/context/CartContext";
 import AuthProvider from "@/providers/auth-provider";
 import QueryProvider from "@/providers/query-provider";
 import ThemeProviders from "@/providers/ThemeProviders";
-import { Belleza, Ruda } from "@next/font/google";
+import { Belleza, Ruda } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

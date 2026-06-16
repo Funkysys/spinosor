@@ -73,11 +73,26 @@ const ArtistCreationForm: React.FC<ArtistCreationFormProps> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    await onSubmit(formData, tempLink as Prisma.JsonArray, bio, albumForms);
-    // Reset form
-    setBio("");
-    setTempLink([{ id: 1, name: "", url: "" }]);
-    setAlbumForms([]);
+    
+    // Validation côté client
+    const name = formData.get("name") as string;
+    if (!name || name.trim().length === 0) {
+      alert("Le nom de l'artiste est requis");
+      return;
+    }
+    
+    try {
+      await onSubmit(formData, tempLink as Prisma.JsonArray, bio, albumForms);
+      
+      // Reset form après succès
+      e.currentTarget.reset();
+      setBio("");
+      setTempLink([{ id: 1, name: "", url: "" }]);
+      setAlbumForms([]);
+    } catch (error) {
+      // Les erreurs sont gérées par le parent
+      console.error("Erreur lors de la soumission du formulaire:", error);
+    }
   };
 
   return (

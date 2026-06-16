@@ -78,31 +78,29 @@ const ArtistsDashboard: React.FC = () => {
       setIsLoading(true);
       formData.append("bio", bio);
 
-      const imageFile = formData.get("imageFile") as File | null;
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(imageFile);
-
-        await new Promise((resolve) => {
-          reader.onloadend = async () => {
-            formData.append("imageFile", reader.result as string);
-            resolve(null);
-          };
-        });
-      }
+      // L'image est déjà dans formData en tant que File
+      // Pas besoin de conversion, l'API la gérera directement
 
       const artist = await createArtist(formData, links);
       if (!artist) {
         throw new Error("Échec de la création de l'artiste");
       }
+      
       toast.success("Artiste créé avec succès !");
+      
+      // Rafraîchir la liste des artistes
+      await fetchArtists();
+      
+      // Masquer le formulaire
+      setShowCreateForm(false);
 
       // Redirection vers la page d'édition pour ajouter les albums
       router.push(`/admin/artist/${artist.id}`);
     } catch (error) {
       console.error("Erreur lors de la création:", error);
+      const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
       toast.error(
-        "Une erreur est survenue lors de la création. Veuillez réessayer.",
+        `Erreur lors de la création: ${errorMessage}`,
       );
     } finally {
       setIsLoading(false);

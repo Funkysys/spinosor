@@ -5,61 +5,97 @@ import { JsonArray } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 
 export const createArtist = async (formData: FormData, link: JsonArray) => {
-  const name = formData.get("name") as string;
-  const bio = formData.get("bio") as string | null;
-  const genre = formData.get("genre") as string | null;
-  const videoUrl = formData.get("videoUrl") as string | null;
-  const socialLinks = link;
-  const imageFile = formData.get("imageFile") as File | null;
-  const codePlayer = formData.get("codePlayer") as string | null;
-  const urlPlayer = formData.get("urlPlayer") as string | null;
+  try {
+    const name = formData.get("name") as string;
+    
+    // Validation du nom
+    if (!name || name.trim().length === 0) {
+      throw new Error("Le nom de l'artiste est requis");
+    }
 
-  let imageUrl = "";
+    const bio = formData.get("bio") as string | null;
+    const genre = formData.get("genre") as string | null;
+    const videoUrl = formData.get("videoUrl") as string | null;
+    const socialLinks = link;
+    const imageFile = formData.get("imageFile") as File | null;
+    const codePlayer = formData.get("codePlayer") as string | null;
+    const urlPlayer = formData.get("urlPlayer") as string | null;
 
-  // Uploader l'image sur Cloudinary
-  if (imageFile) {
-    const base64Data = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(base64Data);
+    let imageUrl = "";
 
-    // Utilisation d'une promesse pour l'upload
-    const uploadResult = await new Promise<any>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: "artists" },
-        (error, result) => {
-          if (error) {
-            reject(new Error(`Cloudinary Upload Error: ${error.message}`));
-          } else {
-            resolve(result); // On résout le résultat ici
-          }
+    // Uploader l'image sur Cloudinary
+    if (imageFile && imageFile.size > 0) {
+      try {
+        const base64Data = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(base64Data);
+
+        // Utilisation d'une promesse pour l'upload
+        const uploadResult = await new Promise<any>((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: "artists" },
+            (error, result) => {
+              if (error) {
+                console.error("Erreur Cloudinary:", error);
+                reject(new Error(`Cloudinary Upload Error: ${error.message}`));
+              } else {
+                resolve(result);
+              }
+            }
+          );
+
+          uploadStream.end(buffer);
+        });
+
+        // Vérifiez si le résultat a un secure_url
+        if (uploadResult && "secure_url" in uploadResult) {
+          imageUrl = uploadResult.secure_url;
+        } else {
+          throw new Error("Upload to Cloudinary failed: No secure_url returned");
         }
-      );
+      } catch (error) {
+        console.error("Erreur lors de l'upload de l'image:", error);
+        throw error;
+      }
+    }
 
-      uploadStream.end(buffer); // Fin de l'envoi du buffer
+    // Créer un slug unique
+    const baseSlug = name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Retirer les accents
+      .replace(/[^a-z0-9]+/g, "-") // Remplacer les caractères spéciaux par des tirets
+      .replace(/^-+|-+$/g, ""); // Retirer les tirets au début et à la fin
+
+    // Vérifier si le slug existe déjà
+    let slug = baseSlug;
+    let counter = 1;
+    while (await prisma.artist.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    const artist = await prisma.artist.create({
+      data: {
+        name,
+        bio,
+        genre,
+        imageUrl: imageUrl || null,
+        videoUrl,
+        codePlayer,
+        urlPlayer,
+        socialLinks: socialLinks,
+        slug,
+      },
     });
 
-    // Vérifiez si le résultat a un secure_url
-    if (uploadResult && "secure_url" in uploadResult) {
-      imageUrl = uploadResult.secure_url;
-    } else {
-      throw new Error("Upload to Cloudinary failed.");
-    }
+    revalidatePath("/admin/artist");
+    revalidatePath("/home/artists");
+    
+    return artist;
+  } catch (error) {
+    console.error("Erreur lors de la création de l'artiste:", error);
+    throw error;
   }
-
-  const artist = await prisma.artist.create({
-    data: {
-      name,
-      bio,
-      genre,
-      imageUrl,
-      videoUrl,
-      codePlayer,
-      urlPlayer,
-      socialLinks: socialLinks,
-      slug: name.toLowerCase().replace(" ", "-").toLowerCase(),
-    },
-  });
-
-  return artist;
 };
 
 export const updateArtist = async (
